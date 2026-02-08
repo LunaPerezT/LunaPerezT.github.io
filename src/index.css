@@ -1,0 +1,267 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Professional Portfolio Design System
+   Clean, modern, recruiter-friendly aesthetic
+   Colors in HSL format */
+
+@layer base {
+  :root {
+    /* Base colors - Light, airy, professional */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
+
+    /* Card surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    /* Popovers and overlays */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary - Professional teal accent */
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Subtle gray for secondary actions */
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Muted - For subtle text and backgrounds */
+    --muted: 210 16% 93%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent - Warm accent for highlights */
+    --accent: 199 89% 96%;
+    --accent-foreground: 199 89% 32%;
+
+    /* Semantic colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 199 89% 48%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar (keeping for compatibility) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 199 89% 48%;
+
+    /* Custom portfolio tokens */
+    --hero-gradient-start: 199 89% 48%;
+    --hero-gradient-end: 187 92% 42%;
+    --card-shadow: 215 25% 85%;
+    --card-hover-shadow: 199 40% 80%;
+    --skill-tag-bg: 199 89% 96%;
+    --skill-tag-text: 199 89% 32%;
+    --section-divider: 214 32% 96%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 199 89% 16%;
+    --accent-foreground: 199 89% 80%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 199 89% 48%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 199 89% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 199 89% 48%;
+
+    --hero-gradient-start: 199 89% 48%;
+    --hero-gradient-end: 187 92% 42%;
+    --card-shadow: 222 47% 4%;
+    --card-hover-shadow: 199 60% 20%;
+    --skill-tag-bg: 199 89% 16%;
+    --skill-tag-text: 199 89% 80%;
+    --section-divider: 217 33% 12%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-foreground;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+}
+
+@layer components {
+  /* Hero gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--hero-gradient-start)) 0%,
+      hsl(var(--hero-gradient-end)) 100%
+    );
+  }
+
+  /* Project card styling */
+  .project-card {
+    @apply bg-card rounded-xl border border-border p-6 transition-all duration-300;
+    box-shadow: 0 4px 20px -4px hsl(var(--card-shadow) / 0.15);
+  }
+
+  .project-card:hover {
+    @apply border-primary/20;
+    box-shadow: 0 8px 30px -4px hsl(var(--card-hover-shadow) / 0.25);
+    transform: translateY(-2px);
+  }
+
+  /* Skill tag styling */
+  .skill-tag {
+    @apply inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors;
+    background-color: hsl(var(--skill-tag-bg));
+    color: hsl(var(--skill-tag-text));
+  }
+
+  .skill-tag:hover {
+    background-color: hsl(var(--primary) / 0.15);
+  }
+
+  /* Section styling */
+  .section-container {
+    @apply py-16 md:py-24 px-4 md:px-8;
+  }
+
+  .section-divider {
+    @apply border-t;
+    border-color: hsl(var(--section-divider));
+  }
+
+  /* Smooth focus styles */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Navigation link */
+  .nav-link {
+    @apply relative text-muted-foreground hover:text-foreground transition-colors duration-200;
+  }
+
+  .nav-link::after {
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-200;
+    content: '';
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Tab underline animation */
+  .tab-underline {
+    @apply relative;
+  }
+
+  .tab-underline::after {
+    @apply absolute left-0 bottom-0 w-full h-0.5 bg-primary scale-x-0 transition-transform duration-200 origin-left;
+    content: '';
+  }
+
+  .tab-underline[data-state="active"]::after {
+    @apply scale-x-100;
+  }
+}
+
+/* Custom animations */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.4s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
