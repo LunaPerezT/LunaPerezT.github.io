@@ -23,7 +23,8 @@ export type ConceptMarkId =
   | "nixtla"
   | "timegpt"
   | "azure-data-factory"
-  | "unity-catalog";
+  | "unity-catalog"
+  | "graphpad-prism";
 
 const MARKS: Record<ConceptMarkId, React.ReactNode> = {
   // The language, not any one vendor's product.
@@ -138,6 +139,14 @@ const MARKS: Record<ConceptMarkId, React.ReactNode> = {
       <circle cx="12" cy="12" r="2.4" />
       <path d="M8.4 12h1.1M14.6 12h1.2" />
       <path d="M12 9.6V6.4M12 14.4v3.2" />
+    </>
+  ),
+  // The name is the drawing: a beam entering a prism and coming out spread.
+  "graphpad-prism": (
+    <>
+      <path d="M12 3.5 2.5 20h19L12 3.5Z" />
+      <path d="M2.5 12h5.2" />
+      <path d="M15 13.4h6.6M15.6 15.8h6M16.2 18.2h5.4" />
     </>
   ),
   // Catalogued layers, and the governance over them.

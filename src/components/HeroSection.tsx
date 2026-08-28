@@ -1,8 +1,9 @@
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { socialLinks } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedNumber } from "./AnimatedNumber";
 
 /**
  * Three numbers taken from wiki facts.json, each linking to the case study it
@@ -32,6 +33,7 @@ const PROOF = [
 
 export function HeroSection() {
   const { language, t } = useLanguage();
+  const reduced = useReducedMotion();
 
   return (
     <section className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pb-24 md:pt-32">
@@ -113,6 +115,29 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="mt-14 md:mt-20"
         >
+          {/* A trace drawing itself in, immediately above the numbers it
+              introduces. In flow rather than absolutely positioned, so it can
+              never end up crossing a line of text. */}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 1200 90"
+            preserveAspectRatio="none"
+            className="mb-8 h-14 w-full text-primary/30 md:h-16"
+          >
+            <motion.path
+              d="M0 45 H210 l12-15 9 30 12-69 14 102 12-45 9 14 h30 q11 0 14-20 t14 20 H540 M540 45 H750 l12-15 9 30 12-69 14 102 12-45 9 14 h30 q11 0 14-20 t14 20 H1080 M1080 45 H1200"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              pathLength={1}
+              initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2.4, delay: 0.6, ease: [0.25, 0.6, 0.3, 1] }}
+            />
+          </svg>
+
           <p className="eyebrow mb-4">{t("hero.proof.label")}</p>
           <ul className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
             {PROOF.map((item) => (
@@ -121,9 +146,10 @@ export function HeroSection() {
                   to={`/project/${item.id}`}
                   className="group block h-full p-5 transition-colors hover:bg-background-alt"
                 >
-                  <span className="metric-value block text-3xl leading-none text-primary md:text-4xl">
-                    {item.value}
-                  </span>
+                  <AnimatedNumber
+                    value={item.value}
+                    className="metric-value block text-3xl leading-none text-primary md:text-4xl"
+                  />
                   <span className="mt-2.5 block text-sm font-medium leading-snug text-foreground">
                     {item.label[language]}
                   </span>

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Github, Linkedin, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { LanguageSelector } from "./LanguageSelector";
 import { ThemeToggle } from "./ThemeToggle";
+import { ScrollProgress } from "./ScrollProgress";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { socialLinks } from "@/data/portfolio-data";
 import { cn } from "@/lib/utils";
@@ -91,15 +93,25 @@ export function Header() {
 
         <ul className="hidden items-center gap-6 lg:flex xl:gap-7">
           {navItems.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} className="relative">
               <a
                 href={onHome ? `#${item.id}` : `/#${item.id}`}
                 data-active={active === item.id}
                 aria-current={active === item.id ? "true" : undefined}
-                className="nav-link"
+                className="nav-link nav-link--indicated"
               >
                 {item.label}
               </a>
+              {/* One indicator shared across items, so it slides between them
+                  as you scroll rather than fading out and in. */}
+              {active === item.id && (
+                <motion.span
+                  layoutId="nav-indicator"
+                  aria-hidden="true"
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute -bottom-0.5 left-0 right-0 h-px bg-primary"
+                />
+              )}
             </li>
           ))}
         </ul>
@@ -143,6 +155,7 @@ export function Header() {
             )}
           </button>
         </div>
+        <ScrollProgress />
       </nav>
 
       {mobileOpen && (

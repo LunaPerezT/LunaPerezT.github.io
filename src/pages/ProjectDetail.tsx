@@ -10,6 +10,7 @@ import {
 import { projectImages } from "@/data/project-images";
 import { Layout } from "@/components/Layout";
 import { ProjectGlyph } from "@/components/ProjectGlyph";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -102,7 +103,7 @@ export default function ProjectDetail() {
       <header className="relative overflow-hidden border-b border-border section-band px-5 pb-12 pt-24 sm:px-8 md:pb-16 md:pt-32">
         <ProjectGlyph
           kind={project.glyph}
-          className="pointer-events-none absolute -right-10 top-24 hidden h-40 w-80 text-primary/10 lg:block"
+          className="glyph-trace pointer-events-none absolute -right-10 top-24 hidden h-40 w-80 text-primary/15 lg:block"
         />
         <div className="container">
           <Link
@@ -185,8 +186,11 @@ export default function ProjectDetail() {
           <dl className="grid gap-8 sm:grid-cols-3">
             {project.metrics.map((metric) => (
               <div key={metric.value + metric.label.en}>
-                <dd className="metric-value text-4xl leading-none text-primary md:text-5xl">
-                  {metric.value}
+                <dd>
+                  <AnimatedNumber
+                    value={metric.value}
+                    className="metric-value block text-4xl leading-none text-primary md:text-5xl"
+                  />
                 </dd>
                 <dt className="mt-3 text-sm font-medium leading-snug">
                   {metric.label[language]}

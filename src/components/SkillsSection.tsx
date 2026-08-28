@@ -2,6 +2,7 @@ import { skills } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
+import { Stagger } from "./Stagger";
 
 export function SkillsSection() {
   const { language, t } = useLanguage();
@@ -23,13 +24,13 @@ export function SkillsSection() {
                 <h3 className="font-display text-lg font-semibold leading-snug">
                   {group[language]}
                 </h3>
-                <ul className="mt-4 flex flex-wrap gap-1.5">
+                <Stagger.List className="mt-4 flex flex-wrap gap-1.5">
                   {group.items[language].map((item) => (
-                    <li key={item} className="tag">
+                    <Stagger.Item key={item} className="tag">
                       {item}
-                    </li>
+                    </Stagger.Item>
                   ))}
-                </ul>
+                </Stagger.List>
               </div>
             </Reveal>
           ))}

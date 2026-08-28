@@ -9,6 +9,7 @@ import {
 } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ProjectGlyph } from "@/components/ProjectGlyph";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { cn } from "@/lib/utils";
 
 /**
@@ -53,10 +54,17 @@ function Root({ project, className, children }: RootProps) {
   return (
     <ProjectCardContext.Provider value={value}>
       <motion.article
+        layout
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.97 }}
         viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        transition={{
+          duration: 0.4,
+          ease: [0.22, 1, 0.36, 1],
+          layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+        }}
+        whileHover={{ y: -3 }}
         className={cn(
           "group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card",
           "shadow-sm transition-[box-shadow,border-color] duration-200",
@@ -185,7 +193,10 @@ function Metrics({ count = 3, layout = "row" }: MetricsProps) {
         >
           <dt className="sr-only">{metric.label[language]}</dt>
           <dd>
-            <span className="metric-value block text-2xl leading-none">{metric.value}</span>
+            <AnimatedNumber
+              value={metric.value}
+              className="metric-value block text-2xl leading-none"
+            />
             <span className="mt-1.5 block text-xs font-medium leading-snug text-foreground/80">
               {metric.label[language]}
             </span>
@@ -305,7 +316,8 @@ function Glyph({ className }: { className?: string }) {
     <ProjectGlyph
       kind={project.glyph}
       className={cn(
-        "pointer-events-none absolute text-primary/15 transition-colors duration-300 group-hover:text-primary/25",
+        "glyph-trace-hover pointer-events-none absolute text-primary/15",
+        "transition-colors duration-300 group-hover:text-primary/30",
         className
       )}
     />

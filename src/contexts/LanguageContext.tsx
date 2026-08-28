@@ -155,6 +155,7 @@ const translations: Record<Language, Record<string, string>> = {
     "certifications.credentialId": "Credential ID",
     "skills.footnote": "Most of these are demonstrated by a project on this page. The exceptions come from training rather than from a repository, and they are: Delta Lake and Lakehouse architecture, pipeline orchestration, SNOMED CT, healthcare data standards, and NLP fundamentals.",
     "tools.footnote": "Marks without an official icon in any reliable set — the boosting libraries, the Nixtla family, Delta Lake, Azure Data Factory, Unity Catalog — are drawn here rather than copied, so nothing is passed off as a logo it is not.",
+    "nav.backToTop": "Back to top",
   },
   es: {
     // Header
@@ -299,6 +300,7 @@ const translations: Record<Language, Record<string, string>> = {
     "certifications.credentialId": "ID de credencial",
     "skills.footnote": "La mayoría están demostradas por alguno de los proyectos de esta página. Las excepciones vienen de la formación y no de un repositorio, y son: Delta Lake y arquitectura Lakehouse, orquestación de pipelines, SNOMED CT, estándares de datos sanitarios y fundamentos de NLP.",
     "tools.footnote": "Las marcas sin icono oficial en ningún set fiable —las librerías de boosting, la familia Nixtla, Delta Lake, Azure Data Factory, Unity Catalog— están dibujadas aquí en vez de copiadas, para no hacer pasar nada por un logo que no es.",
+    "nav.backToTop": "Volver arriba",
   },
 };
 

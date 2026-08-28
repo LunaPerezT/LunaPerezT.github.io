@@ -333,6 +333,45 @@
     @apply w-full;
   }
 
+  /* Items that get the shared sliding indicator do not also draw their own. */
+  .nav-link--indicated[data-active="true"]::after {
+    @apply w-0;
+  }
+
+  /* Glyph tracing. Every geometry element carries pathLength="1", so one set of
+     keyframes works whatever the real path length is. The resting state has no
+     dash at all — the dash only exists while the animation runs. */
+  @keyframes glyph-trace {
+    from {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .glyph-trace > *,
+  .group:hover .glyph-trace-hover > * {
+    animation: glyph-trace 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .glyph-trace > *:nth-child(2),
+  .group:hover .glyph-trace-hover > *:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+
+  .glyph-trace > *:nth-child(3),
+  .group:hover .glyph-trace-hover > *:nth-child(3) {
+    animation-delay: 0.24s;
+  }
+
+  .glyph-trace > *:nth-child(n + 4),
+  .group:hover .glyph-trace-hover > *:nth-child(n + 4) {
+    animation-delay: 0.36s;
+  }
+
   /* Skip link — visible the moment it takes focus. */
   .skip-link {
     @apply absolute left-4 top-3 z-[100] -translate-y-16 rounded-md px-4 py-2 text-sm font-medium opacity-0 transition-transform;
@@ -346,6 +385,20 @@
 }
 
 @layer utilities {
+  /* Underline that grows out of the link rather than fading in. */
+  .link-underline {
+    background-image: linear-gradient(hsl(var(--primary)), hsl(var(--primary)));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
   /* Chip rows scroll sideways on phones; the page itself never does. */
   .scroll-row {
     scrollbar-width: none;

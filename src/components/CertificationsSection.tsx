@@ -5,6 +5,7 @@ import { certifications, education } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
+import { Stagger } from "./Stagger";
 import { cn } from "@/lib/utils";
 
 /** Education first — it is the frame the certifications hang on. */
@@ -32,13 +33,13 @@ function EducationTimeline() {
               </p>
 
               {item.topics && (
-                <ul className="mt-4 flex flex-wrap gap-1.5">
+                <Stagger.List className="mt-4 flex flex-wrap gap-1.5">
                   {item.topics[language].map((topic) => (
-                    <li key={topic} className="tag">
+                    <Stagger.Item key={topic} className="tag">
                       {topic}
-                    </li>
+                    </Stagger.Item>
                   ))}
-                </ul>
+                </Stagger.List>
               )}
 
               {item.url && (
@@ -46,7 +47,7 @@ function EducationTimeline() {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                  className="mt-4 inline-flex min-h-11 items-center gap-1.5 link-underline text-xs font-medium text-primary"
                 >
                   {t("certifications.view")}
                   <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -148,7 +149,7 @@ export function CertificationsSection() {
                             href={cert.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                            className="mt-3 inline-flex min-h-11 items-center gap-1.5 link-underline text-xs font-medium text-primary"
                           >
                             {t("certifications.view")}
                             <ExternalLink className="h-3 w-3" aria-hidden="true" />

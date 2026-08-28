@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { orderedProjects } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
@@ -7,7 +8,7 @@ import { ProjectTile } from "./project/ProjectCardVariants";
 
 function ProjectGrid() {
   const { t } = useLanguage();
-  const { state, meta } = useProjectFilter();
+  const { meta } = useProjectFilter();
 
   return (
     <>
@@ -19,14 +20,17 @@ function ProjectGrid() {
         </p>
       </div>
 
+      {/* `popLayout` lets the cards that stay slide into their new places while
+          the filtered-out ones are still leaving, instead of the grid jumping. */}
       <div
-        key={state.active}
         className="grid auto-rows-auto grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-6"
         style={{ gridAutoFlow: "dense" }}
       >
-        {meta.visible.map((project) => (
-          <ProjectTile key={project.id} project={project} />
-        ))}
+        <AnimatePresence mode="popLayout" initial={false}>
+          {meta.visible.map((project) => (
+            <ProjectTile key={project.id} project={project} />
+          ))}
+        </AnimatePresence>
       </div>
     </>
   );

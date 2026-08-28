@@ -1,5 +1,6 @@
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { BackToTop } from "./BackToTop";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LayoutProps {
@@ -19,6 +20,7 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 }

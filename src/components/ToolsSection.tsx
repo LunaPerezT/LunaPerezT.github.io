@@ -1,6 +1,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
+import { Stagger } from "./Stagger";
 import { ToolIcon, type ToolIconSpec } from "./tool-icons/ToolIcon";
 
 type Tool = ToolIconSpec & { name: string };
@@ -171,10 +172,7 @@ const toolCategories: Record<string, { en: string; es: string; tools: Tool[] }> 
     es: "Software Científico",
     tools: [
       { name: "OriginLab", image: "https://www.originlab.com/images/header_logo.png" },
-      {
-        name: "GraphPad Prism",
-        image: "https://cdn.worldvectorlogo.com/logos/graphpad-prism.svg",
-      },
+      { name: "GraphPad Prism", mark: "graphpad-prism" },
       { name: "SPSS Statistics", image: "https://www.vectorlogo.zone/logos/ibm/ibm-icon.svg" },
       { name: "Fiji ImageJ", image: "https://imagej.net/media/icons/imagej.png" },
       {
@@ -194,7 +192,7 @@ const toolCategories: Record<string, { en: string; es: string; tools: Tool[] }> 
 function ToolTile({ tool }: { tool: Tool }) {
   return (
     <div className="group flex flex-col items-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-card p-3 shadow-xs transition-[border-color,transform] duration-200 group-hover:-translate-y-0.5 group-hover:border-border-strong md:h-16 md:w-16">
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-card p-3 shadow-xs transition-[border-color,transform,box-shadow] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-md md:h-16 md:w-16">
         <ToolIcon {...tool} className="h-full w-full" />
       </div>
       <span className="mt-2 max-w-[84px] text-center text-xs leading-tight text-muted-foreground transition-colors group-hover:text-foreground">
@@ -222,13 +220,13 @@ export function ToolsSection() {
               <h3 className="eyebrow mb-5 border-b border-border pb-3">
                 {category[language]}
               </h3>
-              <ul className="flex flex-wrap gap-x-5 gap-y-6">
+              <Stagger.List className="flex flex-wrap gap-x-5 gap-y-6">
                 {category.tools.map((tool) => (
-                  <li key={tool.name}>
+                  <Stagger.Item key={tool.name}>
                     <ToolTile tool={tool} />
-                  </li>
+                  </Stagger.Item>
                 ))}
-              </ul>
+              </Stagger.List>
             </Reveal>
           ))}
         </div>
