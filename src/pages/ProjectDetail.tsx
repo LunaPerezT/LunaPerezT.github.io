@@ -1,203 +1,330 @@
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
-import { Link, useParams, Navigate } from "react-router-dom";
-import { projects } from "@/data/portfolio-data";
+import { useEffect } from "react";
+import { ArrowLeft, ArrowRight, ExternalLink, Github, Info } from "lucide-react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import {
+  CATEGORY_LABELS,
+  STATUS_LABELS,
+  orderedProjects,
+  type Project,
+} from "@/data/portfolio-data";
 import { projectImages } from "@/data/project-images";
 import { Layout } from "@/components/Layout";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProjectGlyph } from "@/components/ProjectGlyph";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { cn } from "@/lib/utils";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
   const { language, t } = useLanguage();
-  const project = projects.find((p) => p.id === id);
 
-  if (!project) {
-    return <Navigate to="/" replace />;
-  }
+  const index = orderedProjects.findIndex((project) => project.id === id);
+  const project = index >= 0 ? orderedProjects[index] : undefined;
 
-  const images = id ? projectImages[id] ?? [] : [];
+  // Arriving from a card should start at the top, not mid-page.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [id]);
+
+  useEffect(() => {
+    if (!project) return;
+    const previous = document.title;
+    document.title = `${project.title[language]} · Luna Pérez Troncoso`;
+    return () => {
+      document.title = previous;
+    };
+  }, [project, language]);
+
+  if (!project) return <Navigate to="/" replace />;
+
+  const images = id ? (projectImages[id] ?? []) : [];
+  const next = orderedProjects[(index + 1) % orderedProjects.length];
+
+  const sections: { key: string; title: string; blocks: [string, string][] }[] = [
+    {
+      key: "overview",
+      title: t("project.tab.overview"),
+      blocks: [
+        [t("project.context"), project.overview.context[language]],
+        [t("project.problem"), project.overview.problem[language]],
+        [t("project.objective"), project.overview.objective[language]],
+      ],
+    },
+    {
+      key: "data",
+      title: t("project.tab.data"),
+      blocks: [
+        [t("project.dataSources"), project.dataArchitecture.dataSources[language]],
+        [t("project.pipeline"), project.dataArchitecture.pipeline[language]],
+        ...(project.dataArchitecture.diagrams
+          ? ([[t("project.architecture"), project.dataArchitecture.diagrams[language]]] as [
+              string,
+              string,
+            ][])
+          : []),
+      ],
+    },
+    {
+      key: "modeling",
+      title: t("project.tab.modeling"),
+      blocks: [
+        [t("project.algorithms"), project.modeling.algorithms[language]],
+        [t("project.decisions"), project.modeling.decisions[language]],
+      ],
+    },
+    {
+      key: "results",
+      title: t("project.tab.results"),
+      blocks: [
+        [t("project.metrics"), project.results.metrics[language]],
+        [t("project.outcomes"), project.results.outcomes[language]],
+        ...(project.results.visualizations
+          ? ([[t("project.visualizations"), project.results.visualizations[language]]] as [
+              string,
+              string,
+            ][])
+          : []),
+      ],
+    },
+    {
+      key: "learnings",
+      title: t("project.tab.learnings"),
+      blocks: [
+        [t("project.challenges"), project.learnings.challenges[language]],
+        [t("project.learned"), project.learnings.learned[language]],
+        [t("project.improvements"), project.learnings.improvements[language]],
+      ],
+    },
+  ];
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 md:px-8 py-8 max-w-4xl">
-        {/* Back Button */}
-        <Link
-          to="/#projects"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t("projects.backToProjects")}
-        </Link>
+      {/* ------------------------------------------------------------ Head */}
+      <header className="relative overflow-hidden border-b border-border section-band px-5 pb-12 pt-24 sm:px-8 md:pb-16 md:pt-32">
+        <ProjectGlyph
+          kind={project.glyph}
+          className="pointer-events-none absolute -right-10 top-24 hidden h-40 w-80 text-primary/10 lg:block"
+        />
+        <div className="container">
+          <Link
+            to="/#projects"
+            className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            {t("projects.backToProjects")}
+          </Link>
 
-        {/* Project Header */}
-        <div className="mb-8 animate-slide-up">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {project.title[language]}
-          </h1>
-          <p className="text-lg text-muted-foreground mb-6">
-            {project.shortDescription[language]}
-          </p>
-
-          {/* Tech Stack */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {project.techStack.map((tech) => (
-              <span key={tech} className="skill-tag">
-                {tech}
+          <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-2">
+            {project.categories.map((category, position) => (
+              <span key={category} className="flex items-center gap-x-2">
+                {position > 0 && (
+                  <span className="eyebrow text-border-strong" aria-hidden="true">
+                    /
+                  </span>
+                )}
+                <span className="eyebrow eyebrow-accent">
+                  {CATEGORY_LABELS[category][language]}
+                </span>
               </span>
             ))}
+            <span className="eyebrow text-border-strong" aria-hidden="true">
+              ·
+            </span>
+            <span className="eyebrow">{project.role[language]}</span>
+            <span className="eyebrow text-border-strong" aria-hidden="true">
+              ·
+            </span>
+            <span className="eyebrow">{project.period}</span>
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[0.625rem] font-medium uppercase tracking-[0.12em]",
+                project.status === "deployed"
+                  ? "bg-deployed-soft text-deployed"
+                  : "bg-neutral-status-soft text-neutral-status"
+              )}
+            >
+              {STATUS_LABELS[project.status][language]}
+            </span>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap gap-3">
-            <Button variant="hero" asChild>
-              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github className="h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
+          <h1 className="mt-5 max-w-4xl text-[clamp(2rem,1.4rem+2.6vw,3.25rem)]">
+            {project.title[language]}
+          </h1>
+
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-foreground/85 md:text-xl">
+            {project.headline[language]}
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-strong"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+              {t("project.repository")}
+            </a>
             {project.demoUrl && (
-              <Button variant="hero-outline" asChild>
-                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="h-4 w-4" />
-                  Live Demo
-                </a>
-              </Button>
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-5 text-sm font-medium transition-colors hover:border-border-strong"
+              >
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                {t("project.liveDemo")}
+              </a>
             )}
           </div>
         </div>
+      </header>
 
-        {/* Project Images Gallery */}
-        {images.length > 0 && (
-          <div className="mb-10 animate-slide-up" style={{ animationDelay: "0.05s" }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {images.map((img, i) => (
-                <div
-                  key={i}
-                  className="rounded-xl overflow-hidden border border-border shadow-sm bg-card"
-                >
-                  <img
-                    src={img}
-                    alt={`${project.title[language]} - ${i + 1}`}
-                    className="w-full h-auto object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
+      {/* --------------------------------------------------------- Metrics */}
+      <section className="border-b border-border px-5 py-10 sm:px-8" aria-label={t("project.metrics")}>
+        <div className="container">
+          <dl className="grid gap-8 sm:grid-cols-3">
+            {project.metrics.map((metric) => (
+              <div key={metric.value + metric.label.en}>
+                <dd className="metric-value text-4xl leading-none text-primary md:text-5xl">
+                  {metric.value}
+                </dd>
+                <dt className="mt-3 text-sm font-medium leading-snug">
+                  {metric.label[language]}
+                </dt>
+                {metric.note && (
+                  <p className="metric-label mt-1.5">{metric.note[language]}</p>
+                )}
+              </div>
+            ))}
+          </dl>
+
+          {/* The limitation sits next to the numbers, not in an appendix. */}
+          <div className="mt-8 flex gap-3 rounded-xl border border-border bg-card p-5">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+            <div>
+              <p className="eyebrow">{t("project.limitations")}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {project.caveat[language]}
+              </p>
             </div>
           </div>
-        )}
-
-        {/* Tabbed Content */}
-        <div className="animate-slide-up" style={{ animationDelay: "0.1s" }}>
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="w-full justify-start flex-wrap h-auto gap-2 bg-transparent p-0 mb-8">
-              {[
-                { value: "overview", label: t("project.tab.overview") },
-                { value: "data", label: t("project.tab.data") },
-                { value: "modeling", label: t("project.tab.modeling") },
-                { value: "results", label: t("project.tab.results") },
-                { value: "learnings", label: t("project.tab.learnings") },
-              ].map((tab) => (
-                <TabsTrigger
-                  key={tab.value}
-                  value={tab.value}
-                  className="tab-underline data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg px-4 py-2 text-sm font-medium transition-all"
-                >
-                  {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {/* Overview Tab */}
-            <TabsContent value="overview" className="animate-fade-in">
-              <div className="space-y-8">
-                <ContentBlock title={t("project.context")} content={project.overview.context[language]} />
-                <ContentBlock title={t("project.problem")} content={project.overview.problem[language]} />
-                <ContentBlock title={t("project.objective")} content={project.overview.objective[language]} />
-              </div>
-            </TabsContent>
-
-            {/* Data / Architecture Tab */}
-            <TabsContent value="data" className="animate-fade-in">
-              <div className="space-y-8">
-                <ContentBlock title={t("project.dataSources")} content={project.dataArchitecture.dataSources[language]} />
-                <ContentBlock title={t("project.pipeline")} content={project.dataArchitecture.pipeline[language]} />
-                {project.dataArchitecture.diagrams && (
-                  <ContentBlock title={t("project.architecture")} content={project.dataArchitecture.diagrams[language]} />
-                )}
-              </div>
-            </TabsContent>
-
-            {/* Modeling Tab */}
-            <TabsContent value="modeling" className="animate-fade-in">
-              <div className="space-y-8">
-                <ContentBlock title={t("project.algorithms")} content={project.modeling.algorithms[language]} />
-                <ContentBlock title={t("project.decisions")} content={project.modeling.decisions[language]} />
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-3">
-                    {t("project.libraries")}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {project.modeling.libraries.map((lib) => (
-                      <span key={lib} className="skill-tag">
-                        {lib}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-
-            {/* Results Tab */}
-            <TabsContent value="results" className="animate-fade-in">
-              <div className="space-y-8">
-                <ContentBlock title={t("project.metrics")} content={project.results.metrics[language]} />
-                <ContentBlock title={t("project.outcomes")} content={project.results.outcomes[language]} />
-                {project.results.visualizations && (
-                  <ContentBlock title={t("project.visualizations")} content={project.results.visualizations[language]} />
-                )}
-              </div>
-            </TabsContent>
-
-            {/* Learnings Tab */}
-            <TabsContent value="learnings" className="animate-fade-in">
-              <div className="space-y-8">
-                <ContentBlock title={t("project.challenges")} content={project.learnings.challenges[language]} />
-                <ContentBlock title={t("project.learned")} content={project.learnings.learned[language]} />
-                <ContentBlock title={t("project.improvements")} content={project.learnings.improvements[language]} />
-              </div>
-            </TabsContent>
-          </Tabs>
         </div>
+      </section>
 
-        {/* Bottom CTA */}
-        <div className="mt-12 pt-8 border-t border-border flex flex-wrap gap-3">
-          <Button variant="hero" asChild>
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4" />
-              GitHub
-            </a>
-          </Button>
-          {project.demoUrl && (
-            <Button variant="hero-outline" asChild>
-              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="h-4 w-4" />
-                Live Demo
-              </a>
-            </Button>
+      {/* ------------------------------------------------------------ Body */}
+      <div className="px-5 py-14 sm:px-8 md:py-20">
+        <div className="container">
+          {images.length > 0 && (
+            <div className="mb-14 grid gap-4 md:grid-cols-2">
+              {images.map((image, position) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt={`${project.title[language]} — ${position + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full rounded-xl border border-border bg-card object-cover"
+                />
+              ))}
+            </div>
           )}
+
+          <div className="grid min-w-0 grid-cols-1 gap-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] lg:gap-16">
+            <article className="prose-case min-w-0 max-w-3xl">
+              {sections.map((section) => (
+                <section
+                  key={section.key}
+                  id={section.key}
+                  className="mb-12 scroll-mt-24 last:mb-0"
+                >
+                  <h2 className="border-b border-border pb-3 text-[1.75rem]">
+                    {section.title}
+                  </h2>
+                  {section.blocks.map(([heading, body]) => (
+                    <div key={heading} className="mt-6">
+                      <h3 className="font-display text-lg font-semibold">{heading}</h3>
+                      <p className="mt-2">{body}</p>
+                    </div>
+                  ))}
+                  {section.key === "modeling" && (
+                    <div className="mt-6">
+                      <h3 className="font-display text-lg font-semibold">
+                        {t("project.libraries")}
+                      </h3>
+                      <ul className="mt-3 flex flex-wrap gap-1.5">
+                        {project.modeling.libraries.map((library) => (
+                          <li key={library} className="tag">
+                            {library}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
+              ))}
+            </article>
+
+            {/* Sticky contents + stack */}
+            <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+              <nav aria-label={t("project.contents")}>
+                <p className="eyebrow">{t("project.contents")}</p>
+                <ol className="divide-hairline mt-3 rounded-xl border border-border bg-card">
+                  {sections.map((section) => (
+                    <li key={section.key}>
+                      <a
+                        href={`#${section.key}`}
+                        className="flex min-h-11 items-center px-4 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        {section.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+
+              <div className="mt-8">
+                <p className="eyebrow">{t("project.stack")}</p>
+                <ul className="mt-3 flex flex-wrap gap-1.5">
+                  {project.techStack.map((tech) => (
+                    <li key={tech} className="tag">
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
+          </div>
         </div>
       </div>
+
+      {/* ------------------------------------------------------- Next case */}
+      <NextProject project={next} />
     </Layout>
   );
 }
 
-function ContentBlock({ title, content }: { title: string; content: string }) {
+function NextProject({ project }: { project: Project }) {
+  const { language, t } = useLanguage();
+
   return (
-    <div>
-      <h3 className="text-lg font-semibold text-foreground mb-3">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{content}</p>
-    </div>
+    <section className="rule-top section-band px-5 py-12 sm:px-8">
+      <div className="container">
+        <Link
+          to={`/project/${project.id}`}
+          className="group flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
+        >
+          <div>
+            <p className="eyebrow">{t("project.next")}</p>
+            <p className="mt-2 font-display text-2xl font-semibold transition-colors group-hover:text-primary">
+              {project.title[language]}
+            </p>
+          </div>
+          <ArrowRight
+            className="h-6 w-6 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-primary"
+            aria-hidden="true"
+          />
+        </Link>
+      </div>
+    </section>
   );
 }

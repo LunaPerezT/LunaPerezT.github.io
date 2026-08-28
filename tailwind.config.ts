@@ -12,21 +12,23 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: { DEFAULT: "1.25rem", sm: "2rem" },
+      screens: { "2xl": "1240px" },
     },
     extend: {
       colors: {
         border: "hsl(var(--border))",
+        "border-strong": "hsl(var(--border-strong))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        "background-alt": "hsl(var(--background-alt))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          soft: "hsl(var(--primary-soft))",
+          strong: "hsl(var(--primary-strong))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -52,6 +54,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        deployed: {
+          DEFAULT: "hsl(var(--deployed))",
+          soft: "hsl(var(--deployed-soft))",
+        },
+        "neutral-status": {
+          DEFAULT: "hsl(var(--neutral-status))",
+          soft: "hsl(var(--neutral-status-soft))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -62,18 +72,16 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Custom portfolio colors
-        skill: {
-          DEFAULT: "hsl(var(--skill-tag-bg))",
-          foreground: "hsl(var(--skill-tag-text))",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 10px)",
       },
       fontFamily: {
+        display: ["Fraunces", "Iowan Old Style", "Georgia", "serif"],
         sans: [
           "Inter",
           "system-ui",
@@ -83,6 +91,20 @@ export default {
           "Roboto",
           "sans-serif",
         ],
+        mono: [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
+      },
+      boxShadow: {
+        xs: "var(--shadow-xs)",
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        lg: "var(--shadow-lg)",
       },
       keyframes: {
         "accordion-down": {
@@ -97,20 +119,23 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
-        "slide-up": {
-          from: { opacity: "0", transform: "translateY(20px)" },
+        "rise-in": {
+          from: { opacity: "0", transform: "translateY(12px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        trace: {
+          from: { strokeDashoffset: "1" },
+          to: { strokeDashoffset: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.5s ease-out forwards",
-        "slide-up": "slide-up 0.5s ease-out forwards",
+        "fade-in": "fade-in 0.4s ease-out forwards",
+        "rise-in": "rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards",
       },
-      boxShadow: {
-        card: "0 4px 20px -4px hsl(var(--card-shadow) / 0.15)",
-        "card-hover": "0 8px 30px -4px hsl(var(--card-hover-shadow) / 0.25)",
+      transitionTimingFunction: {
+        "out-expo": "cubic-bezier(0.22, 1, 0.36, 1)",
       },
     },
   },

@@ -1,200 +1,146 @@
-import { ArrowRight, Github, Mail, ChevronDown } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "./ui/button";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { Link } from "react-router-dom";
 import { socialLinks } from "@/data/portfolio-data";
-import { AnimatedText } from "./AnimatedText";
-import { AnimatedCounter } from "./AnimatedCounter";
-import { FloatingParticles } from "./FloatingParticles";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
+/**
+ * Three numbers taken from wiki facts.json, each linking to the case study it
+ * came from. They replaced "5 projects / 100% focus / 45+ tools" — a stat is
+ * only worth the space if a reader can go and check it.
+ */
+const PROOF = [
+  {
+    id: "ecg-heartbeat-categorization",
+    value: "0.917",
+    label: { en: "macro-F1 over 124k heartbeats", es: "macro-F1 sobre 124.000 latidos" },
+    note: { en: "MIT-BIH test · Spark + PyTorch", es: "test MIT-BIH · Spark + PyTorch" },
   },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut" as const,
-    },
+  {
+    id: "cabify-route-divergence",
+    value: "75.5%",
+    label: { en: "of journeys automated", es: "de trayectos automatizados" },
+    note: { en: "at 97.9% accuracy", es: "con un 97,9 % de acierto" },
   },
-};
+  {
+    id: "brain-tumor-detection",
+    value: "0.846",
+    label: { en: "Dice, tumour segmentation", es: "Dice, segmentación de tumores" },
+    note: { en: "deployed on AWS App Runner", es: "desplegado en AWS App Runner" },
+  },
+] as const;
 
 export function HeroSection() {
   const { language, t } = useLanguage();
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const roles = language === "es" 
-    ? ["Data Scientist", "AI Engineer", "Data Analyst"]
-    : ["Data Scientist", "AI Engineer", "Data Analyst"];
-
   return (
-    <section className="section-container relative overflow-hidden min-h-[90vh] flex items-center">
-      {/* Animated background */}
-      <div className="absolute inset-0 -z-10">
-        <FloatingParticles />
-        <motion.div 
-          className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/40 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-      </div>
+    <section className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pb-24 md:pt-32">
+      <div className="grid-paper absolute inset-0 -z-10" aria-hidden="true" />
 
-      <motion.div 
-        className="container mx-auto max-w-4xl text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Headline */}
-        <motion.div variants={itemVariants}>
-          <p className="text-sm md:text-base font-medium text-primary mb-4 tracking-wide uppercase">
-            {t("hero.welcome")}
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-3xl"
+        >
+          <p className="eyebrow eyebrow-accent">{t("hero.welcome")}</p>
+
+          <h1 className="mt-5">Luna Pérez Troncoso</h1>
+
+          <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm uppercase tracking-[0.14em] text-muted-foreground">
+            <span>Data Scientist</span>
+            <span className="text-border-strong" aria-hidden="true">
+              /
+            </span>
+            <span>AI Engineer</span>
+            <span className="text-border-strong" aria-hidden="true">
+              /
+            </span>
+            <span>Madrid</span>
           </p>
-          <h1 className="text-foreground mb-2">
-            Luna Pérez Troncoso
-          </h1>
-          <div className="text-2xl md:text-3xl lg:text-4xl font-semibold h-[1.4em]">
-            <AnimatedText 
-              texts={roles} 
-              className="gradient-text"
-            />
+
+          <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+            {t("hero.summary")}
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <a
+              href="#projects"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-strong"
+            >
+              {t("hero.viewProjects")}
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-5 text-sm font-medium transition-colors hover:border-border-strong"
+            >
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              {t("hero.contact")}
+            </a>
+
+            <div className="flex items-center gap-1">
+              <a
+                href={socialLinks.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                <Github className="h-5 w-5" aria-hidden="true" />
+              </a>
+              <a
+                href={socialLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                <Linkedin className="h-5 w-5" aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </motion.div>
 
-        {/* Professional Summary */}
-        <motion.p 
-          variants={itemVariants}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 mt-8 leading-relaxed"
+        {/* Proof band */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-14 md:mt-20"
         >
-          {t("hero.summary")}
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div 
-          variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button 
-              variant="hero" 
-              size="lg" 
-              onClick={() => scrollToSection("projects")}
-              className="group"
-            >
-              {t("hero.viewProjects")}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button 
-              variant="hero-outline" 
-              size="lg" 
-              asChild
-            >
-              <a href={socialLinks.github} target="_blank" rel="noopener noreferrer">
-                <Github className="h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button 
-              variant="hero-outline" 
-              size="lg" 
-              onClick={() => scrollToSection("contact")}
-            >
-              <Mail className="h-4 w-4" />
-              {t("hero.contact")}
-            </Button>
-          </motion.div>
+          <p className="eyebrow mb-4">{t("hero.proof.label")}</p>
+          <ul className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
+            {PROOF.map((item) => (
+              <li key={item.id} className="bg-card">
+                <Link
+                  to={`/project/${item.id}`}
+                  className="group block h-full p-5 transition-colors hover:bg-background-alt"
+                >
+                  <span className="metric-value block text-3xl leading-none text-primary md:text-4xl">
+                    {item.value}
+                  </span>
+                  <span className="mt-2.5 block text-sm font-medium leading-snug text-foreground">
+                    {item.label[language]}
+                  </span>
+                  <span className="metric-label mt-1 block">{item.note[language]}</span>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                    {t("hero.proof.cta")}
+                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            {t("hero.proof.footnote")}
+          </p>
         </motion.div>
-
-        {/* Stats */}
-        <motion.div 
-          variants={itemVariants}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
-        >
-          {[
-            { value: 5, suffix: "", label: t("hero.stat.projects") },
-            { value: 17, suffix: "+", label: t("hero.stat.certifications") },
-            { value: 100, suffix: "%", label: t("hero.stat.focus") },
-            { value: 45, suffix: "+", label: t("hero.stat.tools") },
-          ].map((stat, index) => (
-            <motion.div 
-              key={stat.label} 
-              className="text-center"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="text-3xl md:text-4xl font-bold text-foreground">
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              </p>
-              <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <button 
-            onClick={() => scrollToSection("projects")}
-            className="text-muted-foreground hover:text-primary transition-colors"
-            aria-label="Scroll to projects"
-          >
-            <ChevronDown className="h-8 w-8" />
-          </button>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luna Pérez Troncoso</title>
+    <meta name="robots" content="noindex" />
+    <script>
+      // GitHub Pages has no server-side rewrite, so a deep link such as
+      // /project/ecg-heartbeat-categorization lands here. Remember where the
+      // visitor was going, then hand control to the SPA at the site root.
+      sessionStorage.setItem(
+        "spa-redirect",
+        location.pathname + location.search + location.hash
+      );
+      location.replace("/");
+    </script>
+  </head>
+  <body>
+    <p>Redirigiendo…</p>
+  </body>
+</html>

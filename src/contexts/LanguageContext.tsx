@@ -26,7 +26,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.welcome": "Welcome to my portfolio",
     "hero.title1": "Data Scientist &",
     "hero.title2": "AI Engineer",
-    "hero.summary": "I'm a Data Scientist with a strong foundation in Artificial Intelligence, data analytics, and computational modeling. I design data-driven solutions that transform complex information into actionable insights.",
+    "hero.summary": "Data Scientist and AI Engineer working across the full pipeline, from ingestion to deployment. Most of my work sits in medical and health AI, with a recurring interest in what a model\u2019s output should actually be used for \u2014 and in evaluation that survives scrutiny.",
     "hero.viewProjects": "View Projects",
     "hero.contact": "Contact",
     "hero.stat.projects": "Featured Projects",
@@ -37,8 +37,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     "projects.subtitle": "Featured Work",
     "projects.title": "Projects",
-    "projects.description": "A curated selection of my work in Data Science, ranging from Deep Learning and MLOps to Agentic AI and Data Engineering.",
-    "projects.viewDetails": "View Details",
+    "projects.description": "Nine projects, ordered by what each one proves rather than by date. Every card carries its headline number, the split it was measured on, and the limitation that comes with it.",
+    "projects.viewDetails": "Read the case study",
     "projects.backToProjects": "Back to Projects",
     
     // Project Tabs
@@ -116,6 +116,38 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Language selector
     "language.select": "Language",
+    // --- Redesign 2026-08: new keys -------------------------------------
+    "nav.primary": "Main navigation",
+    "nav.skip": "Skip to content",
+    "nav.open": "Open menu",
+    "nav.close": "Close menu",
+    "theme.toDark": "Switch to dark theme",
+    "theme.toLight": "Switch to light theme",
+
+    "hero.proof.label": "Three results, and where to check them",
+    "hero.proof.cta": "Read the case study",
+    "hero.proof.footnote": "Every figure on this site names the split it was measured on and the limitation it carries. Nine projects, three with a live demo.",
+
+    "projects.filter.label": "Filter projects by field",
+    "projects.filter.all": "All",
+    "projects.showing": "{n} projects",
+
+    "project.repository": "Repository",
+    "project.liveDemo": "Live demo",
+    "project.limitations": "Limitations and caveats",
+    "project.contents": "Contents",
+    "project.stack": "Stack",
+    "project.next": "Next project",
+
+    "about.principles": "How I work",
+    "certifications.view": "View credential",
+
+    "contact.error.name": "Tell me your name so I know who is writing.",
+    "contact.error.emailRequired": "I need an email address to reply to.",
+    "contact.error.emailFormat": "That address does not look right — check for a typo.",
+    "contact.error.message": "Add a message, even a short one.",
+    "contact.error.sendTitle": "The message did not go through",
+    "contact.error.sendBody": "Something went wrong on the way. Try again, or write directly to lunapereztroncoso@gmail.com.",
   },
   es: {
     // Header
@@ -131,7 +163,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.welcome": "Bienvenido/a a mi portfolio",
     "hero.title1": "Data Scientist &",
     "hero.title2": "AI Engineer",
-    "hero.summary": "Soy una Data Scientist con una sólida formación en Inteligencia Artificial, análisis de datos y modelado computacional. Diseño soluciones basadas en datos que transforman información compleja en insights accionables.",
+    "hero.summary": "Data Scientist y AI Engineer que trabaja en todo el pipeline, desde la ingesta hasta el despliegue. La mayor parte de mi trabajo est\u00e1 en IA m\u00e9dica y de salud, con un inter\u00e9s recurrente en para qu\u00e9 deber\u00eda usarse de verdad la salida de un modelo \u2014 y en evaluaciones que aguantan el escrutinio.",
     "hero.viewProjects": "Ver Proyectos",
     "hero.contact": "Contacto",
     "hero.stat.projects": "Proyectos Destacados",
@@ -142,8 +174,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     "projects.subtitle": "Trabajo Destacado",
     "projects.title": "Proyectos",
-    "projects.description": "Una selección de mi trabajo en Data Science, desde Deep Learning y MLOps hasta IA Agéntica e Ingeniería de Datos.",
-    "projects.viewDetails": "Ver Detalles",
+    "projects.description": "Nueve proyectos, ordenados por lo que demuestra cada uno y no por fecha. Cada tarjeta lleva su cifra principal, el split sobre el que se midi\u00f3 y la limitaci\u00f3n que arrastra.",
+    "projects.viewDetails": "Ver el caso",
     "projects.backToProjects": "Volver a Proyectos",
     
     // Project Tabs
@@ -221,6 +253,38 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Language selector
     "language.select": "Idioma",
+    // --- Rediseño 2026-08: claves nuevas --------------------------------
+    "nav.primary": "Navegación principal",
+    "nav.skip": "Saltar al contenido",
+    "nav.open": "Abrir menú",
+    "nav.close": "Cerrar menú",
+    "theme.toDark": "Cambiar a tema oscuro",
+    "theme.toLight": "Cambiar a tema claro",
+
+    "hero.proof.label": "Tres resultados, y dónde comprobarlos",
+    "hero.proof.cta": "Ver el caso",
+    "hero.proof.footnote": "Cada cifra de este sitio dice sobre qué split se midió y qué limitación arrastra. Nueve proyectos, tres con demo en vivo.",
+
+    "projects.filter.label": "Filtrar proyectos por área",
+    "projects.filter.all": "Todos",
+    "projects.showing": "{n} proyectos",
+
+    "project.repository": "Repositorio",
+    "project.liveDemo": "Demo en vivo",
+    "project.limitations": "Limitaciones y caveats",
+    "project.contents": "Contenido",
+    "project.stack": "Stack",
+    "project.next": "Siguiente proyecto",
+
+    "about.principles": "Cómo trabajo",
+    "certifications.view": "Ver credencial",
+
+    "contact.error.name": "Dime tu nombre para saber quién escribe.",
+    "contact.error.emailRequired": "Necesito un email al que responderte.",
+    "contact.error.emailFormat": "Esa dirección no parece correcta — revisa si hay alguna errata.",
+    "contact.error.message": "Escribe un mensaje, aunque sea corto.",
+    "contact.error.sendTitle": "El mensaje no ha salido",
+    "contact.error.sendBody": "Algo ha fallado por el camino. Vuelve a intentarlo o escríbeme directamente a lunapereztroncoso@gmail.com.",
   },
 };
 

@@ -3,22 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Luna Pérez Troncoso | Data Scientist & AI Engineer</title>
-    <meta name="description" content="Portfolio de Luna Pérez Troncoso - Data Scientist y AI Engineer especializada en Machine Learning, Deep Learning, MLOps y análisis de datos." />
+    <title>Luna Pérez Troncoso | Data Scientist &amp; AI Engineer</title>
+    <meta
+      name="description"
+      content="Portfolio de Luna Pérez Troncoso — Data Scientist y AI Engineer en Madrid. Nueve proyectos de machine learning, deep learning y MLOps, cada uno con sus métricas y sus limitaciones."
+    />
     <meta name="author" content="Luna Pérez Troncoso" />
-    
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href="https://lunaperezt.github.io/" />
+
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Luna Pérez Troncoso | Data Scientist & AI Engineer" />
-    <meta property="og:description" content="Portfolio profesional mostrando proyectos de Data Science, Machine Learning y AI." />
-    <meta property="og:site_name" content="Luna Pérez Troncoso Portfolio" />
-    
+    <meta property="og:url" content="https://lunaperezt.github.io/" />
+    <meta property="og:title" content="Luna Pérez Troncoso | Data Scientist &amp; AI Engineer" />
+    <meta
+      property="og:description"
+      content="Nueve proyectos de data science y AI — desde pipelines Spark sobre 124.000 latidos hasta modelos desplegados en AWS. Con las cifras verificadas y sus caveats."
+    />
+    <meta property="og:site_name" content="Luna Pérez Troncoso" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale:alternate" content="en_GB" />
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Luna Pérez Troncoso | Data Scientist & AI Engineer" />
-    <meta name="twitter:description" content="Portfolio profesional mostrando proyectos de Data Science, Machine Learning y AI." />
-    
+    <meta name="twitter:title" content="Luna Pérez Troncoso | Data Scientist &amp; AI Engineer" />
+    <meta
+      name="twitter:description"
+      content="Nueve proyectos de data science y AI, con métricas verificadas y limitaciones declaradas."
+    />
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Typography: Fraunces (display) · Inter (UI) · JetBrains Mono (numbers) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+
+    <script>
+      // Apply the stored theme before first paint so the page never flashes.
+      (function () {
+        try {
+          var stored = localStorage.getItem("luna-theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (stored === "dark" || (stored !== "light" && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {
+          /* private mode or storage disabled — fall back to light */
+        }
+      })();
+
+      // GitHub Pages serves 404.html for deep links; it stashes the path here.
+      (function () {
+        var redirect = sessionStorage.getItem("spa-redirect");
+        if (redirect) {
+          sessionStorage.removeItem("spa-redirect");
+          if (redirect !== location.pathname + location.search + location.hash) {
+            history.replaceState(null, "", redirect);
+          }
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

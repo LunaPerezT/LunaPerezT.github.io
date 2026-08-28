@@ -1,131 +1,181 @@
-import { Github, Linkedin, Mail, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Github, Linkedin, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "./ui/button";
 import { LanguageSelector } from "./LanguageSelector";
+import { ThemeToggle } from "./ThemeToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { socialLinks } from "@/data/portfolio-data";
+import { cn } from "@/lib/utils";
+
+const SECTIONS = ["projects", "skills", "tools", "about", "contact"] as const;
+
+/** Highlights the nav item for whichever section is currently in view. */
+function useActiveSection(enabled: boolean) {
+  const [active, setActive] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!enabled) {
+      setActive(null);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      // Only count a section as active once it reaches the upper third.
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+    );
+
+    for (const id of SECTIONS) {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    }
+    return () => observer.disconnect();
+  }, [enabled]);
+
+  return active;
+}
 
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { t } = useLanguage();
 
-  const navItems = [
-    { label: t("nav.home"), href: "/" },
-    { label: t("nav.projects"), href: "/#projects" },
-    { label: t("nav.skills"), href: "/#skills" },
-    { label: t("nav.tools"), href: "/#tools" },
-    { label: t("nav.about"), href: "/#about" },
-    { label: t("nav.contact"), href: "/#contact" },
-  ];
+  const onHome = location.pathname === "/";
+  const active = useActiveSection(onHome);
 
-  const handleNavClick = (href: string) => {
-    setMobileMenuOpen(false);
-    if (href.startsWith("/#")) {
-      const id = href.slice(2);
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close the mobile sheet whenever the route changes.
+  useEffect(() => setMobileOpen(false), [location.pathname]);
+
+  const navItems = SECTIONS.map((id) => ({ id, label: t(`nav.${id}`) }));
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <nav className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link 
-          to="/" 
-          className="text-xl font-bold text-foreground hover:text-primary transition-colors"
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-200",
+        scrolled || mobileOpen
+          ? "border-b border-border bg-background/85 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      )}
+    >
+      <nav
+        aria-label={t("nav.primary")}
+        className="container flex h-16 items-center justify-between gap-4"
+      >
+        <Link
+          to="/"
+          className="font-display text-lg font-semibold tracking-tight transition-colors hover:text-primary"
         >
-          {t("header.portfolio")}
+          Luna&nbsp;Pérez
+          <span className="text-primary">.</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <ul className="hidden items-center gap-7 lg:flex">
           {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={(e) => {
-                if (item.href.startsWith("/#") && location.pathname === "/") {
-                  e.preventDefault();
-                  handleNavClick(item.href);
-                }
-              }}
-              className="nav-link text-sm font-medium"
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
-
-        {/* Social Links & Language Selector */}
-        <div className="hidden md:flex items-center gap-2">
-          <LanguageSelector />
-          <Button variant="ghost" size="icon" asChild>
-            <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <Linkedin className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <a href={`mailto:${socialLinks.email}`} aria-label="Email">
-              <Mail className="h-5 w-5" />
-            </a>
-          </Button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center gap-2">
-          <LanguageSelector />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-background border-b border-border animate-slide-up">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            {navItems.map((item) => (
+            <li key={item.id}>
               <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => {
-                  if (item.href.startsWith("/#")) {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  }
-                }}
-                className="text-foreground hover:text-primary transition-colors py-2"
+                href={onHome ? `#${item.id}` : `/#${item.id}`}
+                data-active={active === item.id}
+                aria-current={active === item.id ? "true" : undefined}
+                className="nav-link"
               >
                 {item.label}
               </a>
-            ))}
-            <div className="flex items-center gap-4 pt-4 border-t border-border">
-              <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a href={`mailto:${socialLinks.email}`} className="text-muted-foreground hover:text-foreground">
-                <Mail className="h-5 w-5" />
-              </a>
-            </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-0.5">
+          <div className="hidden sm:flex sm:items-center sm:gap-0.5">
+            <a
+              href={socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              <Github className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
+            </a>
+            <a
+              href={socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              <Linkedin className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
+            </a>
           </div>
+          <ThemeToggle />
+          <LanguageSelector />
+
+          <button
+            type="button"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            aria-label={mobileOpen ? t("nav.close") : t("nav.open")}
+            className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground lg:hidden"
+          >
+            {mobileOpen ? (
+              <X className="h-5 w-5" aria-hidden="true" />
+            ) : (
+              <Menu className="h-5 w-5" aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      </nav>
+
+      {mobileOpen && (
+        <div
+          id="mobile-nav"
+          className="border-t border-border bg-background lg:hidden"
+        >
+          <ul className="container flex flex-col py-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={onHome ? `#${item.id}` : `/#${item.id}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex min-h-11 items-center border-b border-border/60 text-[0.9375rem] text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li className="flex items-center gap-2 pt-3 sm:hidden">
+              <a
+                href={socialLinks.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground"
+              >
+                <Github className="h-4 w-4" aria-hidden="true" />
+                GitHub
+              </a>
+              <a
+                href={socialLinks.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-4 inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground"
+              >
+                <Linkedin className="h-4 w-4" aria-hidden="true" />
+                LinkedIn
+              </a>
+            </li>
+          </ul>
         </div>
       )}
     </header>

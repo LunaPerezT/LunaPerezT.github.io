@@ -2,116 +2,137 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Portfolio Design System
-   Clean, modern, recruiter-friendly aesthetic
-   Colors in HSL format */
+/* ============================================================================
+   Luna Pérez Troncoso — Portfolio Design System
+   "Editorial research instrument": warm paper, graphite ink, one signal colour.
+   Display serif for voice, grotesque for reading, mono for every number.
+   All colours in HSL channels so Tailwind can compose opacity.
+   ========================================================================= */
 
 @layer base {
   :root {
-    /* Base colors - Light, airy, professional */
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    /* --- Surfaces ------------------------------------------------------- */
+    --background: 40 30% 98%;          /* warm paper                        */
+    --background-alt: 38 24% 96%;      /* banded sections                   */
+    --foreground: 24 12% 10%;          /* graphite ink                      */
 
-    /* Card surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 24 12% 10%;
 
-    /* Popovers and overlays */
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 24 12% 10%;
 
-    /* Primary - Professional teal accent */
-    --primary: 199 89% 48%;
+    /* --- Signal (primary) ----------------------------------------------- */
+    --primary: 14 78% 42%;             /* vermilion — 5.4:1 on paper        */
     --primary-foreground: 0 0% 100%;
+    --primary-soft: 18 70% 95%;        /* tinted fill                       */
+    --primary-strong: 14 80% 34%;
 
-    /* Secondary - Subtle gray for secondary actions */
-    --secondary: 210 16% 93%;
-    --secondary-foreground: 222 47% 11%;
+    /* --- Neutrals -------------------------------------------------------- */
+    --secondary: 34 16% 93%;
+    --secondary-foreground: 24 12% 16%;
 
-    /* Muted - For subtle text and backgrounds */
-    --muted: 210 16% 93%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 34 16% 93%;
+    --muted-foreground: 25 8% 38%;     /* 6.0:1 on paper                    */
 
-    /* Accent - Warm accent for highlights */
-    --accent: 199 89% 96%;
-    --accent-foreground: 199 89% 32%;
+    --accent: 34 20% 94%;
+    --accent-foreground: 24 12% 14%;
 
-    /* Semantic colors */
-    --destructive: 0 84% 60%;
+    /* --- Status ---------------------------------------------------------- */
+    --deployed: 162 72% 26%;           /* live demo exists                  */
+    --deployed-soft: 162 44% 94%;
+    --neutral-status: 216 14% 40%;
+    --neutral-status-soft: 216 22% 95%;
+
+    --destructive: 0 72% 42%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders and inputs */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 199 89% 48%;
+    /* --- Lines & focus ---------------------------------------------------- */
+    --border: 30 13% 84%;
+    --border-strong: 28 12% 74%;
+    --input: 30 13% 84%;
+    --ring: 14 78% 42%;
 
-    --radius: 0.75rem;
+    --radius: 0.625rem;
 
-    /* Sidebar (keeping for compatibility) */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 199 89% 48%;
+    /* --- Elevation (warm shadows, never pure black) ------------------------ */
+    --shadow-color: 24 20% 50%;
+    --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.06);
+    --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.08),
+                 0 1px 2px hsl(var(--shadow-color) / 0.04);
+    --shadow-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.12),
+                 0 2px 6px -2px hsl(var(--shadow-color) / 0.06);
+    --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.18),
+                 0 4px 12px -4px hsl(var(--shadow-color) / 0.08);
 
-    /* Custom portfolio tokens */
-    --hero-gradient-start: 199 89% 48%;
-    --hero-gradient-end: 187 92% 42%;
-    --card-shadow: 215 25% 85%;
-    --card-hover-shadow: 199 40% 80%;
-    --skill-tag-bg: 199 89% 96%;
-    --skill-tag-text: 199 89% 32%;
-    --section-divider: 214 32% 96%;
+    /* --- Grid paper texture ------------------------------------------------ */
+    --grid-line: 28 12% 88%;
+
+    /* Sidebar tokens kept for shadcn compatibility */
+    --sidebar-background: 40 30% 98%;
+    --sidebar-foreground: 24 12% 16%;
+    --sidebar-primary: 14 78% 42%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 34 20% 94%;
+    --sidebar-accent-foreground: 24 12% 14%;
+    --sidebar-border: 30 14% 87%;
+    --sidebar-ring: 14 78% 42%;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    --background: 24 10% 7%;           /* warm near-black                   */
+    --background-alt: 24 9% 9%;
+    --foreground: 38 20% 94%;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 24 9% 10%;
+    --card-foreground: 38 20% 94%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 24 9% 11%;
+    --popover-foreground: 38 20% 94%;
 
-    --primary: 199 89% 48%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 18 88% 62%;             /* 7.0:1 on the dark ground          */
+    --primary-foreground: 24 24% 8%;
+    --primary-soft: 16 40% 16%;
+    --primary-strong: 18 90% 70%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 26 8% 16%;
+    --secondary-foreground: 38 18% 92%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 26 8% 16%;
+    --muted-foreground: 30 8% 66%;     /* 8.6:1 on the dark ground          */
 
-    --accent: 199 89% 16%;
-    --accent-foreground: 199 89% 80%;
+    --accent: 26 8% 17%;
+    --accent-foreground: 38 18% 92%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --deployed: 160 60% 62%;
+    --deployed-soft: 162 30% 14%;
+    --neutral-status: 216 16% 70%;
+    --neutral-status-soft: 220 12% 17%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 199 89% 48%;
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 199 89% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 199 89% 48%;
+    --destructive: 0 70% 62%;
+    --destructive-foreground: 24 24% 8%;
 
-    --hero-gradient-start: 199 89% 48%;
-    --hero-gradient-end: 187 92% 42%;
-    --card-shadow: 222 47% 4%;
-    --card-hover-shadow: 199 60% 20%;
-    --skill-tag-bg: 199 89% 16%;
-    --skill-tag-text: 199 89% 80%;
-    --section-divider: 217 33% 12%;
+    --border: 26 8% 20%;
+    --border-strong: 26 8% 30%;
+    --input: 26 8% 20%;
+    --ring: 18 88% 62%;
+
+    --shadow-color: 0 0% 0%;
+    --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.4);
+    --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.5);
+    --shadow-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.6);
+    --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.7);
+
+    --grid-line: 26 8% 15%;
+
+    --sidebar-background: 24 10% 7%;
+    --sidebar-foreground: 38 18% 92%;
+    --sidebar-primary: 18 88% 62%;
+    --sidebar-primary-foreground: 24 24% 8%;
+    --sidebar-accent: 26 8% 17%;
+    --sidebar-accent-foreground: 38 18% 92%;
+    --sidebar-border: 26 8% 20%;
+    --sidebar-ring: 18 88% 62%;
   }
 }
 
@@ -120,148 +141,231 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header is 4rem; keep anchored sections clear of it. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: theme("fontFamily.sans");
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Fluid editorial type scale. Display face is the serif; body stays sans. */
+  h1,
+  h2,
+  h3 {
+    font-family: theme("fontFamily.display");
+    @apply text-foreground;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  h4,
+  h5,
+  h6 {
     @apply font-semibold tracking-tight text-foreground;
   }
 
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
+    font-size: clamp(2.5rem, 1.6rem + 4.2vw, 4.75rem);
   }
 
   h2 {
-    @apply text-3xl md:text-4xl;
+    font-size: clamp(1.875rem, 1.35rem + 2.1vw, 2.875rem);
   }
 
   h3 {
-    @apply text-xl md:text-2xl;
+    font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    line-height: 1.2;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One focus treatment everywhere, and it is always visible. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.22);
+  }
+
+  /* Respect the OS setting rather than animating regardless. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer components {
-  /* Hero gradient text */
-  .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(
-      135deg,
-      hsl(var(--hero-gradient-start)) 0%,
-      hsl(var(--hero-gradient-end)) 100%
-    );
+  /* --- Layout ------------------------------------------------------------ */
+  .section-shell {
+    @apply px-5 py-20 sm:px-8 md:py-28;
   }
 
-  /* Project card styling */
-  .project-card {
-    @apply bg-card rounded-xl border border-border p-6 transition-all duration-300;
-    box-shadow: 0 4px 20px -4px hsl(var(--card-shadow) / 0.15);
+  .section-band {
+    background-color: hsl(var(--background-alt));
   }
 
-  .project-card:hover {
-    @apply border-primary/20;
-    box-shadow: 0 8px 30px -4px hsl(var(--card-hover-shadow) / 0.25);
-    transform: translateY(-2px);
-  }
-
-  /* Skill tag styling */
-  .skill-tag {
-    @apply inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors;
-    background-color: hsl(var(--skill-tag-bg));
-    color: hsl(var(--skill-tag-text));
-  }
-
-  .skill-tag:hover {
-    background-color: hsl(var(--primary) / 0.15);
-  }
-
-  /* Section styling */
-  .section-container {
-    @apply py-16 md:py-24 px-4 md:px-8;
-  }
-
-  .section-divider {
+  .rule-top {
     @apply border-t;
-    border-color: hsl(var(--section-divider));
+    border-color: hsl(var(--border));
   }
 
-  /* Smooth focus styles */
-  .focus-ring {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  /* Faint engineering-paper grid, used behind the hero only. */
+  .grid-paper {
+    background-image: linear-gradient(
+        to right,
+        hsl(var(--grid-line) / 0.55) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, hsl(var(--grid-line) / 0.55) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
   }
 
-  /* Navigation link */
+  /* --- Eyebrow / label --------------------------------------------------- */
+  .eyebrow {
+    font-family: theme("fontFamily.mono");
+    @apply text-[0.6875rem] font-medium uppercase tracking-[0.16em];
+    color: hsl(var(--muted-foreground));
+  }
+
+  .eyebrow-accent {
+    color: hsl(var(--primary));
+  }
+
+  /* --- Surfaces ---------------------------------------------------------- */
+  .surface {
+    @apply rounded-xl border bg-card;
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-sm);
+  }
+
+  .surface-interactive {
+    @apply surface transition-[box-shadow,border-color,transform] duration-200;
+  }
+
+  .surface-interactive:hover {
+    border-color: hsl(var(--border-strong));
+    box-shadow: var(--shadow-md);
+  }
+
+  /* --- Tags -------------------------------------------------------------- */
+  .tag {
+    font-family: theme("fontFamily.mono");
+    @apply inline-flex items-center rounded-md px-2 py-0.5 text-[0.6875rem] font-medium;
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .tag-accent {
+    background-color: hsl(var(--primary-soft));
+    color: hsl(var(--primary-strong));
+    border-color: hsl(var(--primary) / 0.25);
+  }
+
+  /* --- Metric readout ----------------------------------------------------- */
+  .metric-value {
+    font-family: theme("fontFamily.mono");
+    @apply font-semibold tabular-nums tracking-tight text-foreground;
+    font-feature-settings: "tnum" 1, "ss01" 1;
+  }
+
+  .metric-label {
+    @apply text-xs leading-snug;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* --- Prose for case-study bodies ---------------------------------------- */
+  .prose-case p {
+    @apply leading-[1.75];
+    color: hsl(var(--muted-foreground));
+  }
+
+  .prose-case strong {
+    color: hsl(var(--foreground));
+    font-weight: 600;
+  }
+
+  /* --- Nav --------------------------------------------------------------- */
   .nav-link {
-    @apply relative text-muted-foreground hover:text-foreground transition-colors duration-200;
+    @apply relative py-1 text-sm transition-colors duration-200;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .nav-link:hover,
+  .nav-link[data-active="true"] {
+    color: hsl(var(--foreground));
   }
 
   .nav-link::after {
-    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-200;
-    content: '';
+    content: "";
+    @apply absolute -bottom-0.5 left-0 h-px w-0 transition-[width] duration-200;
+    background-color: hsl(var(--primary));
   }
 
-  .nav-link:hover::after {
+  .nav-link:hover::after,
+  .nav-link[data-active="true"]::after {
     @apply w-full;
   }
 
-  /* Tab underline animation */
-  .tab-underline {
-    @apply relative;
+  /* Skip link — visible the moment it takes focus. */
+  .skip-link {
+    @apply absolute left-4 top-3 z-[100] -translate-y-16 rounded-md px-4 py-2 text-sm font-medium opacity-0 transition-transform;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
 
-  .tab-underline::after {
-    @apply absolute left-0 bottom-0 w-full h-0.5 bg-primary scale-x-0 transition-transform duration-200 origin-left;
-    content: '';
-  }
-
-  .tab-underline[data-state="active"]::after {
-    @apply scale-x-100;
+  .skip-link:focus-visible {
+    @apply translate-y-0 opacity-100;
   }
 }
 
-/* Custom animations */
 @layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+  /* Chip rows scroll sideways on phones; the page itself never does. */
+  .scroll-row {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out forwards;
+  .scroll-row::-webkit-scrollbar {
+    display: none;
   }
 
-  .animate-slide-in-right {
-    animation: slideInRight 0.4s ease-out forwards;
+  .text-balance {
+    text-wrap: balance;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  .font-numeric {
+    font-variant-numeric: tabular-nums;
   }
 
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  /* Hairline dividers that survive both themes. */
+  .divide-hairline > * + * {
+    border-top: 1px solid hsl(var(--border));
   }
 }

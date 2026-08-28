@@ -1,104 +1,97 @@
-import { Award, ExternalLink, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { ChevronDown, ExternalLink } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useId, useState } from "react";
 import { certifications } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SectionHeading } from "./SectionHeading";
+import { cn } from "@/lib/utils";
 
 export function CertificationsSection() {
   const { language, t } = useLanguage();
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-
-  const toggle = (i: number) => setExpandedIndex(expandedIndex === i ? null : i);
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const baseId = useId();
 
   return (
-    <section id="certifications" className="section-container section-divider">
-      <div className="container mx-auto max-w-4xl">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
-            {t("certifications.subtitle")}
-          </p>
-          <h2 className="text-foreground mb-4">{t("certifications.title")}</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            {t("certifications.description")}
-          </p>
-        </motion.div>
+    <section id="certifications" className="section-shell rule-top scroll-mt-24">
+      <div className="container">
+        <SectionHeading
+          eyebrow={t("certifications.subtitle")}
+          title={t("certifications.title")}
+          description={t("certifications.description")}
+        />
 
-        {/* Certifications List */}
-        <div className="grid gap-3">
+        <ul className="grid overflow-hidden rounded-xl border border-border md:grid-cols-2">
           {certifications.map((cert, index) => {
-            const isExpanded = expandedIndex === index;
-            return (
-              <motion.div
-                key={cert.url}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.3, delay: index * 0.03 }}
-                className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-colors"
-              >
-                {/* Header row - always visible */}
-                <button
-                  onClick={() => toggle(index)}
-                  className="w-full flex items-center gap-3 p-4 text-left group"
-                >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Award className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-foreground text-sm group-hover:text-primary transition-colors">
-                      {cert.name[language]}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {cert.issuer} · {cert.date}
-                    </p>
-                  </div>
-                  <ChevronDown
-                    className={`h-4 w-4 text-muted-foreground transition-transform duration-200 flex-shrink-0 ${
-                      isExpanded ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
+            const panelId = `${baseId}-panel-${index}`;
+            const isOpen = expanded === cert.url;
 
-                {/* Expandable description */}
-                <AnimatePresence>
-                  {isExpanded && (
+            return (
+              <li
+                key={cert.url}
+                className={cn(
+                  "border-border bg-card",
+                  index > 0 && "border-t",
+                  "md:border-t md:odd:border-r",
+                  index < 2 && "md:border-t-0"
+                )}
+              >
+                <h3>
+                  <button
+                    type="button"
+                    onClick={() => setExpanded(isOpen ? null : cert.url)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    className="group flex min-h-11 w-full cursor-pointer items-center gap-3 px-5 py-4 text-left transition-colors hover:bg-background-alt"
+                  >
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-medium leading-snug transition-colors group-hover:text-primary">
+                        {cert.name[language]}
+                      </span>
+                      <span className="mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-wider text-muted-foreground">
+                        {cert.issuer} · {cert.date}
+                      </span>
+                    </span>
+                    <ChevronDown
+                      className={cn(
+                        "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200",
+                        isOpen && "rotate-180"
+                      )}
+                      aria-hidden="true"
+                    />
+                  </button>
+                </h3>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
                     <motion.div
+                      id={panelId}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
+                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="px-4 pb-4 pt-0">
-                        <div className="border-t border-border/50 pt-3">
-                          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                            {cert.description[language]}
-                          </p>
-                          <a
-                            href={cert.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
-                          >
-                            {language === "es" ? "Ver credencial" : "View credential"}
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </div>
+                      <div className="border-t border-border px-5 py-4">
+                        <p className="text-sm leading-relaxed text-muted-foreground">
+                          {cert.description[language]}
+                        </p>
+                        <a
+                          href={cert.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                        >
+                          {t("certifications.view")}
+                          <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                        </a>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );

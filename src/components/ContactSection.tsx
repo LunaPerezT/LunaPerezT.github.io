@@ -1,6 +1,5 @@
 import { Github, Linkedin, Mail, Send } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -8,87 +7,63 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { socialLinks } from "@/data/portfolio-data";
 import { supabase } from "@/integrations/supabase/client";
+import { SectionHeading } from "./SectionHeading";
+import { Reveal } from "./Reveal";
+import { cn } from "@/lib/utils";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+type FieldName = "name" | "email" | "message";
+type Errors = Partial<Record<FieldName, string>>;
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut" as const,
-    },
-  },
-};
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [values, setValues] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState<Errors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { t } = useLanguage();
+  const fieldId = useId();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Basic validation
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      toast({
-        title: t("contact.fillAll"),
-        variant: "destructive",
-      });
-      return;
-    }
+  const validate = (): Errors => {
+    const next: Errors = {};
+    if (!values.name.trim()) next.name = t("contact.error.name");
+    if (!values.email.trim()) next.email = t("contact.error.emailRequired");
+    else if (!EMAIL_PATTERN.test(values.email.trim()))
+      next.email = t("contact.error.emailFormat");
+    if (!values.message.trim()) next.message = t("contact.error.message");
+    return next;
+  };
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Email inválido",
-        variant: "destructive",
-      });
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const found = validate();
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      // Move focus to the first field that needs attention.
+      const first = (["name", "email", "message"] as FieldName[]).find((f) => found[f]);
+      document.getElementById(`${fieldId}-${first}`)?.focus();
       return;
     }
 
     setIsSubmitting(true);
-    
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+      const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          message: formData.message.trim(),
+          name: values.name.trim(),
+          email: values.email.trim(),
+          message: values.message.trim(),
         },
       });
+      if (error) throw error;
 
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: t("contact.sent"),
-        description: t("contact.sentDesc"),
-      });
-      
-      setFormData({ name: "", email: "", message: "" });
+      toast({ title: t("contact.sent"), description: t("contact.sentDesc") });
+      setValues({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error("Error sending email:", error);
       toast({
-        title: "Error al enviar",
-        description: "No se pudo enviar el mensaje. Por favor, intenta de nuevo.",
+        title: t("contact.error.sendTitle"),
+        description: t("contact.error.sendBody"),
         variant: "destructive",
       });
     } finally {
@@ -96,22 +71,22 @@ export function ContactSection() {
     }
   };
 
-  const socialLinks_items = [
+  const update = (field: FieldName, value: string) => {
+    setValues((current) => ({ ...current, [field]: value }));
+    if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
+  const channels = [
+    { Icon: Mail, label: "Email", value: socialLinks.email, href: `mailto:${socialLinks.email}` },
     {
-      icon: Mail,
-      label: "Email",
-      value: socialLinks.email,
-      href: `mailto:${socialLinks.email}`,
-    },
-    {
-      icon: Linkedin,
+      Icon: Linkedin,
       label: "LinkedIn",
       value: t("contact.connectWithMe"),
       href: socialLinks.linkedin,
       external: true,
     },
     {
-      icon: Github,
+      Icon: Github,
       label: "GitHub",
       value: t("contact.viewRepos"),
       href: socialLinks.github,
@@ -119,146 +94,164 @@ export function ContactSection() {
     },
   ];
 
+  const fieldClass = (field: FieldName) =>
+    cn("w-full", errors[field] && "border-destructive focus-visible:ring-destructive");
+
   return (
-    <section id="contact" className="section-container section-divider">
-      <div className="container mx-auto max-w-4xl">
-        {/* Section Header */}
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
-            {t("contact.subtitle")}
-          </p>
-          <h2 className="text-foreground mb-4">{t("contact.title")}</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            {t("contact.description")}
-          </p>
-        </motion.div>
+    <section id="contact" className="section-shell rule-top scroll-mt-24">
+      <div className="container">
+        <SectionHeading
+          eyebrow={t("contact.subtitle")}
+          title={t("contact.title")}
+          description={t("contact.description")}
+        />
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.form 
-            onSubmit={handleSubmit} 
-            className="space-y-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <motion.div variants={itemVariants}>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                {t("contact.name")}
-              </label>
-              <Input
-                id="name"
-                type="text"
-                placeholder={t("contact.namePlaceholder")}
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full transition-all duration-200 focus:scale-[1.01]"
-                maxLength={100}
-              />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                {t("contact.email")}
-              </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder={t("contact.emailPlaceholder")}
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full transition-all duration-200 focus:scale-[1.01]"
-                maxLength={255}
-              />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                {t("contact.message")}
-              </label>
-              <Textarea
-                id="message"
-                placeholder={t("contact.messagePlaceholder")}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full min-h-[150px] resize-none transition-all duration-200 focus:scale-[1.01]"
-                maxLength={1000}
-              />
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Button 
-                  type="submit" 
-                  variant="hero" 
-                  size="lg" 
-                  className="w-full"
-                  disabled={isSubmitting}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
+          <Reveal className="min-w-0">
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+              <div>
+                <label
+                  htmlFor={`${fieldId}-name`}
+                  className="mb-2 block text-sm font-medium"
                 >
-                  {isSubmitting ? (
-                    t("contact.sending")
-                  ) : (
-                    <>
-                      {t("contact.send")}
-                      <Send className="h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            </motion.div>
-          </motion.form>
+                  {t("contact.name")}
+                </label>
+                <Input
+                  id={`${fieldId}-name`}
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  placeholder={t("contact.namePlaceholder")}
+                  value={values.name}
+                  onChange={(event) => update("name", event.target.value)}
+                  aria-invalid={Boolean(errors.name)}
+                  aria-describedby={errors.name ? `${fieldId}-name-error` : undefined}
+                  className={fieldClass("name")}
+                  maxLength={100}
+                />
+                {errors.name && (
+                  <p id={`${fieldId}-name-error`} className="mt-1.5 text-xs text-destructive">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
 
-          {/* Contact Info */}
-          <motion.div 
-            className="space-y-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <motion.div variants={itemVariants}>
-              <h3 className="text-lg font-semibold text-foreground mb-4">
-                {t("contact.otherWays")}
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                {t("contact.responseTime")}
-              </p>
-            </motion.div>
-
-            <div className="space-y-4">
-              {socialLinks_items.map((item) => (
-                <motion.a
-                  key={item.label}
-                  href={item.href}
-                  target={item.external ? "_blank" : undefined}
-                  rel={item.external ? "noopener noreferrer" : undefined}
-                  variants={itemVariants}
-                  whileHover={{ x: 8, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-4 p-4 rounded-lg bg-card border border-border hover:border-primary/30 transition-colors group"
+              <div>
+                <label
+                  htmlFor={`${fieldId}-email`}
+                  className="mb-2 block text-sm font-medium"
                 >
-                  <motion.div 
-                    className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center group-hover:bg-primary/10 transition-colors"
-                    whileHover={{ rotate: [0, -10, 10, 0] }}
-                    transition={{ duration: 0.4 }}
+                  {t("contact.email")}
+                </label>
+                <Input
+                  id={`${fieldId}-email`}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t("contact.emailPlaceholder")}
+                  value={values.email}
+                  onChange={(event) => update("email", event.target.value)}
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? `${fieldId}-email-error` : undefined}
+                  className={fieldClass("email")}
+                  maxLength={255}
+                />
+                {errors.email && (
+                  <p id={`${fieldId}-email-error`} className="mt-1.5 text-xs text-destructive">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor={`${fieldId}-message`}
+                  className="mb-2 block text-sm font-medium"
+                >
+                  {t("contact.message")}
+                </label>
+                <Textarea
+                  id={`${fieldId}-message`}
+                  name="message"
+                  placeholder={t("contact.messagePlaceholder")}
+                  value={values.message}
+                  onChange={(event) => update("message", event.target.value)}
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={
+                    errors.message ? `${fieldId}-message-error` : `${fieldId}-message-hint`
+                  }
+                  className={cn(fieldClass("message"), "min-h-[150px] resize-y")}
+                  maxLength={1000}
+                />
+                {errors.message ? (
+                  <p
+                    id={`${fieldId}-message-error`}
+                    className="mt-1.5 text-xs text-destructive"
                   >
-                    <item.icon className="h-5 w-5 text-accent-foreground group-hover:text-primary transition-colors" />
-                  </motion.div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{item.label}</p>
-                    <p className="text-sm text-muted-foreground">{item.value}</p>
-                  </div>
-                </motion.a>
+                    {errors.message}
+                  </p>
+                ) : (
+                  <p
+                    id={`${fieldId}-message-hint`}
+                    className="mt-1.5 font-mono text-xs tabular-nums text-muted-foreground"
+                  >
+                    {values.message.length}/1000
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                size="lg"
+                className="min-h-11 w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  t("contact.sending")
+                ) : (
+                  <>
+                    {t("contact.send")}
+                    <Send className="h-4 w-4" aria-hidden="true" />
+                  </>
+                )}
+              </Button>
+            </form>
+          </Reveal>
+
+          <Reveal delay={0.08} className="min-w-0">
+            <p className="eyebrow">{t("contact.otherWays")}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {t("contact.responseTime")}
+            </p>
+
+            <ul className="divide-hairline mt-6 rounded-xl border border-border bg-card">
+              {channels.map(({ Icon, label, value, href, external }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="group flex min-h-11 items-center gap-4 p-4 transition-colors hover:bg-background-alt"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background-alt transition-colors group-hover:border-primary/40">
+                      <Icon
+                        className="h-[1.125rem] w-[1.125rem] text-muted-foreground transition-colors group-hover:text-primary"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium transition-colors group-hover:text-primary">
+                        {label}
+                      </span>
+                      <span className="block truncate text-sm text-muted-foreground">
+                        {value}
+                      </span>
+                    </span>
+                  </a>
+                </li>
               ))}
-            </div>
-          </motion.div>
+            </ul>
+          </Reveal>
         </div>
       </div>
     </section>

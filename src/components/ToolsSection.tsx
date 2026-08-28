@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SectionHeading } from "./SectionHeading";
+import { Reveal } from "./Reveal";
 
 import rIcon from "@/assets/tool-icons/r.svg";
 import rstudioIcon from "@/assets/tool-icons/rstudio.svg";
@@ -125,29 +127,30 @@ function ToolTile({ tool }: { tool: Tool }) {
 
   return (
     <motion.div
-      whileHover={{
-        scale: 1.08,
-        y: -3,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="group relative flex flex-col items-center"
+      whileHover={{ y: -3 }}
+      transition={{ type: "spring", stiffness: 320, damping: 22 }}
+      className="group flex flex-col items-center"
     >
-      <div className="w-14 h-14 md:w-16 md:h-16 p-2.5 rounded-xl bg-card border border-border/60 shadow-sm flex items-center justify-center transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-md group-hover:bg-primary/5">
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-card p-2.5 shadow-xs transition-colors duration-200 group-hover:border-border-strong md:h-16 md:w-16">
         {showImage ? (
           <img
             src={tool.icon}
-            alt={tool.name}
-            className="w-full h-full object-contain"
+            alt=""
+            className="h-full w-full object-contain"
             loading="lazy"
+            decoding="async"
             onError={() => setImageError(true)}
           />
         ) : (
-          <span className="text-xs font-semibold text-foreground" aria-label={tool.name}>
+          <span
+            className="font-mono text-xs font-semibold text-muted-foreground"
+            aria-hidden="true"
+          >
             {initials}
           </span>
         )}
       </div>
-      <span className="mt-2 text-xs text-muted-foreground group-hover:text-foreground transition-colors text-center max-w-[80px] leading-tight">
+      <span className="mt-2 max-w-[84px] text-center text-xs leading-tight text-muted-foreground transition-colors group-hover:text-foreground">
         {tool.name}
       </span>
     </motion.div>
@@ -158,45 +161,28 @@ export function ToolsSection() {
   const { language, t } = useLanguage();
 
   return (
-    <section id="tools" className="section-container section-divider">
-      <div className="container mx-auto max-w-5xl">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-sm font-medium text-primary mb-2 tracking-wide uppercase">
-            {t("tools.subtitle")}
-          </p>
-          <h2 className="text-foreground mb-4">{t("tools.title")}</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            {t("tools.description")}
-          </p>
-        </motion.div>
+    <section id="tools" className="section-shell rule-top section-band scroll-mt-24">
+      <div className="container">
+        <SectionHeading
+          eyebrow={t("tools.subtitle")}
+          title={t("tools.title")}
+          description={t("tools.description")}
+        />
 
-        {/* Tools Grid by Category */}
         <div className="space-y-10">
-          {Object.entries(toolCategories).map(([key, category]) => (
-            <motion.div
-              key={key}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5 }}
-            >
-              <h3 className="text-base font-semibold text-foreground mb-5 flex items-center justify-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary" />
+          {Object.entries(toolCategories).map(([key, category], index) => (
+            <Reveal key={key} delay={Math.min(index, 4) * 0.05}>
+              <h3 className="eyebrow mb-5 border-b border-border pb-3">
                 {category[language]}
               </h3>
-              <div className="flex flex-wrap gap-4 justify-center">
+              <ul className="flex flex-wrap gap-x-5 gap-y-6">
                 {category.tools.map((tool) => (
-                  <ToolTile key={tool.name} tool={tool} />
+                  <li key={tool.name}>
+                    <ToolTile tool={tool} />
+                  </li>
                 ))}
-              </div>
-            </motion.div>
+              </ul>
+            </Reveal>
           ))}
         </div>
       </div>

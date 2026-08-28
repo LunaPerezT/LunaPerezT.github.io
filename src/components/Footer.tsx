@@ -4,43 +4,41 @@ import { socialLinks } from "@/data/portfolio-data";
 
 export function Footer() {
   const { t } = useLanguage();
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
+
+  const links = [
+    { href: socialLinks.github, label: "GitHub", Icon: Github },
+    { href: socialLinks.linkedin, label: "LinkedIn", Icon: Linkedin },
+    { href: `mailto:${socialLinks.email}`, label: "Email", Icon: Mail },
+  ];
 
   return (
-    <footer className="bg-card border-t border-border py-8">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {currentYear} Luna Pérez Troncoso. {t("footer.rights")}
+    <footer className="rule-top section-band px-5 py-10 sm:px-8">
+      <div className="container flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+        <div>
+          <p className="font-display text-base font-semibold">
+            Luna Pérez Troncoso<span className="text-primary">.</span>
           </p>
-          <div className="flex items-center gap-4">
-            <a
-              href={socialLinks.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-            <a
-              href={socialLinks.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href={`mailto:${socialLinks.email}`}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="h-5 w-5" />
-            </a>
-          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            © {year} · {t("footer.rights")}
+          </p>
         </div>
+
+        <ul className="flex items-center gap-1">
+          {links.map(({ href, label, Icon }) => (
+            <li key={label}>
+              <a
+                href={href}
+                target={href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                aria-label={label}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                <Icon className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </footer>
   );

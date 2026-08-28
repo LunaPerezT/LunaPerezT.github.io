@@ -1,43 +1,46 @@
-import { Globe } from "lucide-react";
-import { useLanguage, Language } from "@/contexts/LanguageContext";
-import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { useLanguage, type Language } from "@/contexts/LanguageContext";
+import { cn } from "@/lib/utils";
 
-const languages: { code: Language; label: string; flag: string }[] = [
-  { code: "es", label: "Español", flag: "🇪🇸" },
-  { code: "en", label: "English", flag: "🇬🇧" },
+const LANGUAGES: { code: Language; short: string; full: string }[] = [
+  { code: "es", short: "ES", full: "Español" },
+  { code: "en", short: "EN", full: "English" },
 ];
 
+/**
+ * Two languages do not need a dropdown — a segmented control shows the choice
+ * and makes the switch one click instead of two.
+ */
 export function LanguageSelector() {
-  const { language, setLanguage } = useLanguage();
-
-  const currentLang = languages.find((l) => l.code === language);
+  const { language, setLanguage, t } = useLanguage();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="h-4 w-4" />
-          <span className="hidden sm:inline">{currentLang?.flag}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {languages.map((lang) => (
-          <DropdownMenuItem
-            key={lang.code}
-            onClick={() => setLanguage(lang.code)}
-            className={language === lang.code ? "bg-accent" : ""}
+    <div
+      role="group"
+      aria-label={t("language.select")}
+      className="ml-1 flex items-center rounded-lg border border-border p-0.5"
+    >
+      {LANGUAGES.map((item) => {
+        const selected = language === item.code;
+        return (
+          <button
+            key={item.code}
+            type="button"
+            lang={item.code}
+            onClick={() => setLanguage(item.code)}
+            aria-pressed={selected}
+            title={item.full}
+            className={cn(
+              "cursor-pointer rounded-md px-2 py-1.5 font-mono text-[0.6875rem] font-medium tracking-wider transition-colors",
+              selected
+                ? "bg-secondary text-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            )}
           >
-            <span className="mr-2">{lang.flag}</span>
-            {lang.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+            {item.short}
+            <span className="sr-only"> — {item.full}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }
