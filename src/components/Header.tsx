@@ -7,7 +7,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { socialLinks } from "@/data/portfolio-data";
 import { cn } from "@/lib/utils";
 
-const SECTIONS = ["projects", "skills", "tools", "about", "contact"] as const;
+const SECTIONS = [
+  "projects",
+  "skills",
+  "tools",
+  "certifications",
+  "about",
+  "contact",
+] as const;
 
 /** Highlights the nav item for whichever section is currently in view. */
 function useActiveSection(enabled: boolean) {
@@ -82,7 +89,7 @@ export function Header() {
           <span className="text-primary">.</span>
         </Link>
 
-        <ul className="hidden items-center gap-7 lg:flex">
+        <ul className="hidden items-center gap-6 lg:flex xl:gap-7">
           {navItems.map((item) => (
             <li key={item.id}>
               <a

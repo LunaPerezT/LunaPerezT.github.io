@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   CATEGORY_LABELS,
   STATUS_LABELS,
+  certifications,
+  education,
   orderedProjects,
   projects,
+  skills,
 } from "@/data/portfolio-data";
 
 /**
@@ -96,6 +99,55 @@ describe("portfolio data", () => {
       expect(`${metric.note?.en ?? ""} ${part1.caveat.en}`.toLowerCase()).toContain(
         "simulated"
       );
+    }
+  });
+});
+
+describe("credentials and skills", () => {
+  it("gives every education entry both languages and a period", () => {
+    expect(education.length).toBeGreaterThanOrEqual(3);
+    for (const item of education) {
+      for (const field of [item.title, item.period, item.summary]) {
+        expect(field.en.trim()).not.toBe("");
+        expect(field.es.trim()).not.toBe("");
+      }
+      expect(item.institution.trim()).not.toBe("");
+      if (item.topics) {
+        // A missing translation would silently render an empty tag list.
+        expect(item.topics.en.length).toBe(item.topics.es.length);
+        expect(item.topics.en.length).toBeGreaterThan(0);
+      }
+      if (item.url) expect(item.url).toMatch(/^https:\/\//);
+    }
+  });
+
+  it("gives every certification a date, an issuer and a way to verify it", () => {
+    for (const cert of certifications) {
+      expect(cert.date).toMatch(/^\d{4}-\d{2}$/);
+      expect(cert.issuer.trim()).not.toBe("");
+      expect(cert.name.en.trim()).not.toBe("");
+      expect(cert.name.es.trim()).not.toBe("");
+      expect(cert.description.en.trim()).not.toBe("");
+      expect(cert.description.es.trim()).not.toBe("");
+      // Either a public credential page or, failing that, an ID someone can quote.
+      expect(Boolean(cert.url) || Boolean(cert.credentialId)).toBe(true);
+      if (cert.url) expect(cert.url).toMatch(/^https:\/\//);
+    }
+  });
+
+  it("has no duplicate certifications", () => {
+    const names = certifications.map((c) => c.name.en);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  it("keeps every skill group balanced across languages", () => {
+    const groups = Object.values(skills);
+    expect(groups.length).toBeGreaterThanOrEqual(6);
+    for (const group of groups) {
+      expect(group.en.trim()).not.toBe("");
+      expect(group.es.trim()).not.toBe("");
+      expect(group.items.en.length).toBe(group.items.es.length);
+      expect(group.items.en.length).toBeGreaterThanOrEqual(3);
     }
   });
 });

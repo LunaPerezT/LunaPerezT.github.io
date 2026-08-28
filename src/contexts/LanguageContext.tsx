@@ -18,6 +18,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.projects": "Projects",
     "nav.skills": "Skills",
     "nav.tools": "Tech Stack",
+    "nav.certifications": "Education",
     "nav.about": "About",
     "nav.contact": "Contact",
     "header.portfolio": "Luna Pérez Troncoso",
@@ -66,17 +67,17 @@ const translations: Record<Language, Record<string, string>> = {
     // Skills
     "skills.subtitle": "Technical Expertise",
     "skills.title": "Skills",
-    "skills.description": "A comprehensive toolkit built through hands-on experience in data science, machine learning, and software engineering.",
+    "skills.description": "Nine groups, drawn from what the projects on this page actually required \u2014 from cost-derived decision rules to Spark pipelines and clinical terminology.",
     
     // Tools
     "tools.subtitle": "Tech Stack",
     "tools.title": "Languages & Tools",
-    "tools.description": "The technologies and frameworks I use daily to build data-driven solutions and machine learning systems.",
+    "tools.description": "Everything advertised on my GitHub profile, grouped the same way. Depth varies: some of these carry whole projects on this page, others are familiar tools I have used less.",
     
     // Certifications
-    "certifications.subtitle": "Professional Credentials",
-    "certifications.title": "Certifications",
-    "certifications.description": "Industry-recognized certifications validating expertise in data science and machine learning technologies.",
+    "certifications.subtitle": "Training & credentials",
+    "certifications.title": "Education & Certifications",
+    "certifications.description": "Where the training came from, and the certifications behind it \u2014 from a data science bootcamp to Azure data engineering and clinical terminology standards.",
     
     // About
     "about.subtitle": "Get to Know Me",
@@ -148,6 +149,11 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.error.message": "Add a message, even a short one.",
     "contact.error.sendTitle": "The message did not go through",
     "contact.error.sendBody": "Something went wrong on the way. Try again, or write directly to lunapereztroncoso@gmail.com.",
+    // --- Education + refreshed skills/tools copy ------------------------
+    "education.title": "Education & training",
+    "certifications.listTitle": "{n} certifications",
+    "certifications.credentialId": "Credential ID",
+    "skills.footnote": "Most of these are demonstrated by a project on this page. The exceptions come from training rather than from a repository, and they are: Delta Lake and Lakehouse architecture, pipeline orchestration, SNOMED CT, healthcare data standards, and NLP fundamentals.",
   },
   es: {
     // Header
@@ -155,6 +161,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.projects": "Proyectos",
     "nav.skills": "Habilidades",
     "nav.tools": "Stack Tecnológico",
+    "nav.certifications": "Formación",
     "nav.about": "Sobre mí",
     "nav.contact": "Contacto",
     "header.portfolio": "Luna Pérez Troncoso",
@@ -203,17 +210,17 @@ const translations: Record<Language, Record<string, string>> = {
     // Skills
     "skills.subtitle": "Experiencia Técnica",
     "skills.title": "Habilidades",
-    "skills.description": "Un conjunto de herramientas construido a través de experiencia práctica en data science, machine learning e ingeniería de software.",
+    "skills.description": "Nueve bloques, sacados de lo que han exigido de verdad los proyectos de esta página \u2014 desde reglas de decisión por coste hasta pipelines de Spark y terminología cl\u00ednica.",
     
     // Tools
     "tools.subtitle": "Stack Tecnológico",
     "tools.title": "Lenguajes & Herramientas",
-    "tools.description": "Las tecnologías y frameworks que utilizo a diario para construir soluciones basadas en datos y sistemas de machine learning.",
+    "tools.description": "Todo lo que aparece en mi perfil de GitHub, agrupado igual. La profundidad var\u00eda: algunas sostienen proyectos enteros de esta p\u00e1gina y otras son herramientas conocidas que he usado menos.",
     
     // Certifications
-    "certifications.subtitle": "Credenciales Profesionales",
-    "certifications.title": "Certificaciones",
-    "certifications.description": "Certificaciones reconocidas en la industria que validan mi experiencia en data science y tecnologías de machine learning.",
+    "certifications.subtitle": "Formación y credenciales",
+    "certifications.title": "Formación y Certificaciones",
+    "certifications.description": "De dónde viene la formación y qué certificaciones la respaldan \u2014 desde un bootcamp de data science hasta ingeniería de datos en Azure y estándares de terminología clínica.",
     
     // About
     "about.subtitle": "Conóceme",
@@ -285,6 +292,11 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.error.message": "Escribe un mensaje, aunque sea corto.",
     "contact.error.sendTitle": "El mensaje no ha salido",
     "contact.error.sendBody": "Algo ha fallado por el camino. Vuelve a intentarlo o escríbeme directamente a lunapereztroncoso@gmail.com.",
+    // --- Formación + copy actualizado de habilidades y herramientas -----
+    "education.title": "Formación",
+    "certifications.listTitle": "{n} certificaciones",
+    "certifications.credentialId": "ID de credencial",
+    "skills.footnote": "La mayoría están demostradas por alguno de los proyectos de esta página. Las excepciones vienen de la formación y no de un repositorio, y son: Delta Lake y arquitectura Lakehouse, orquestación de pipelines, SNOMED CT, estándares de datos sanitarios y fundamentos de NLP.",
   },
 };
 

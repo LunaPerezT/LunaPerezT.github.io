@@ -1174,41 +1174,237 @@ export const STATUS_LABELS: Record<ProjectStatus, { en: string; es: string }> = 
   local: { en: "Runs locally", es: "Solo en local" },
 };
 
-export interface Skill {
-  name: string;
-  category: string;
+export interface SkillGroup {
+  en: string;
+  es: string;
+  /** Bilingual, because half of these are terms of art and half are not. */
+  items: { en: string[]; es: string[] };
 }
 
-export const skills: Record<string, { en: string; es: string; items: string[] }> = {
-  statisticalModeling: {
-    en: "Statistical Analysis & Modeling",
-    es: "Análisis Estadístico y Modelado",
-    items: ["Hypothesis Testing", "Regression Analysis", "Time Series", "Bayesian Inference", "A/B Testing", "Experimental Design"],
+/**
+ * Each group lists what the nine projects actually demonstrate. Nothing here is
+ * aspirational: if a skill appears, a project on this site shows it being used.
+ */
+export const skills: Record<string, SkillGroup> = {
+  experimentDesign: {
+    en: "Statistics & Experiment Design",
+    es: "Estadística y Diseño Experimental",
+    items: {
+      en: [
+        "Hypothesis testing",
+        "A/B testing",
+        "Causal inference",
+        "Selection bias",
+        "Interference & saturation randomisation",
+        "Difference-in-differences",
+        "Probability calibration",
+        "Cost-derived decision rules",
+      ],
+      es: [
+        "Contraste de hipótesis",
+        "Tests A/B",
+        "Inferencia causal",
+        "Sesgo de selección",
+        "Interferencia y aleatorización por saturación",
+        "Diferencias en diferencias",
+        "Calibración de probabilidades",
+        "Reglas de decisión por coste",
+      ],
+    },
   },
-  mlAi: {
-    en: "Machine Learning & AI",
-    es: "Machine Learning e IA",
-    items: ["Supervised Learning", "Unsupervised Learning", "Ensemble Methods", "Feature Engineering", "Hyperparameter Tuning", "Model Evaluation"],
+  machineLearning: {
+    en: "Machine Learning",
+    es: "Machine Learning",
+    items: {
+      en: [
+        "Supervised learning",
+        "Ensemble methods & stacking",
+        "Feature engineering",
+        "Feature selection (RFECV, SelectKBest)",
+        "Hyperparameter search (Optuna)",
+        "Nested cross-validation",
+        "Class imbalance (SMOTENC, class weighting)",
+        "Honest baselines",
+      ],
+      es: [
+        "Aprendizaje supervisado",
+        "Ensembles y stacking",
+        "Feature engineering",
+        "Selección de variables (RFECV, SelectKBest)",
+        "Búsqueda de hiperparámetros (Optuna)",
+        "Validación cruzada anidada",
+        "Desbalance de clases (SMOTENC, pesos)",
+        "Baselines honestos",
+      ],
+    },
   },
-  deepLearningSkills: {
-    en: "Deep Learning & Neural Networks",
-    es: "Deep Learning y Redes Neuronales",
-    items: ["CNNs", "Image Segmentation", "Transfer Learning", "NLP", "LLMs", "Agentic AI"],
+  deepLearning: {
+    en: "Deep Learning",
+    es: "Deep Learning",
+    items: {
+      en: [
+        "1-D & 2-D CNNs",
+        "Residual architectures",
+        "Image segmentation (ResUNet)",
+        "Transfer learning & fine-tuning",
+        "Custom training loops",
+        "Custom losses & metrics (Dice, IoU)",
+        "Early stopping on the right metric",
+      ],
+      es: [
+        "CNN 1-D y 2-D",
+        "Arquitecturas residuales",
+        "Segmentación de imagen (ResUNet)",
+        "Transfer learning y fine-tuning",
+        "Bucles de entrenamiento propios",
+        "Losses y métricas propias (Dice, IoU)",
+        "Early stopping sobre la métrica correcta",
+      ],
+    },
+  },
+  timeSeries: {
+    en: "Time Series & Forecasting",
+    es: "Series Temporales y Forecasting",
+    items: {
+      en: [
+        "Global forecasting models",
+        "Intermittent demand",
+        "M5 metrics (WRMSSE, MASE, RMSSE)",
+        "Future vs past covariates",
+        "Chronological validation",
+        "Calendar & seasonality features",
+        "Tweedie objectives",
+      ],
+      es: [
+        "Modelos globales de forecasting",
+        "Demanda intermitente",
+        "Métricas M5 (WRMSSE, MASE, RMSSE)",
+        "Covariables futuras y pasadas",
+        "Validación cronológica",
+        "Features de calendario y estacionalidad",
+        "Objetivos Tweedie",
+      ],
+    },
   },
   dataEngineering: {
-    en: "Data Engineering & ETL",
-    es: "Ingeniería de Datos y ETL",
-    items: ["ETL Pipelines", "Data Wrangling", "Database Design", "Data Quality", "Schema Normalization", "Big Data Processing"],
+    en: "Data Engineering & Big Data",
+    es: "Ingeniería de Datos y Big Data",
+    items: {
+      en: [
+        "PySpark & Spark SQL",
+        "Spark ML pipelines with custom transformers",
+        "ETL & data transformation",
+        "Delta Lake & Lakehouse architecture",
+        "Parquet / columnar storage",
+        "Schema design & normalisation",
+        "Pipeline orchestration",
+        "Data quality",
+      ],
+      es: [
+        "PySpark y Spark SQL",
+        "Pipelines de Spark ML con transformadores propios",
+        "ETL y transformación de datos",
+        "Delta Lake y arquitectura Lakehouse",
+        "Parquet / almacenamiento columnar",
+        "Diseño y normalización de esquemas",
+        "Orquestación de pipelines",
+        "Calidad del dato",
+      ],
+    },
   },
-  mlopsSkills: {
+  mlops: {
     en: "MLOps & Production",
     es: "MLOps y Producción",
-    items: ["CI/CD for ML", "Model Deployment", "Containerization", "API Development", "Monitoring", "Reproducibility"],
+    items: {
+      en: [
+        "Model deployment",
+        "Containerisation (Docker)",
+        "REST APIs",
+        "Cloud deployment (AWS App Runner, S3)",
+        "Experiment tracking (MLflow)",
+        "Testing (pytest)",
+        "Reproducibility",
+      ],
+      es: [
+        "Despliegue de modelos",
+        "Contenedores (Docker)",
+        "APIs REST",
+        "Despliegue en cloud (AWS App Runner, S3)",
+        "Seguimiento de experimentos (MLflow)",
+        "Testing (pytest)",
+        "Reproducibilidad",
+      ],
+    },
+  },
+  agenticAi: {
+    en: "Agentic AI & LLMs",
+    es: "IA Agéntica y LLMs",
+    items: {
+      en: [
+        "Model Context Protocol (MCP)",
+        "Local LLM serving (Ollama)",
+        "Text-to-SQL generation",
+        "Runtime schema introspection",
+        "Query validation & prompt-injection defence",
+        "NLP fundamentals",
+      ],
+      es: [
+        "Model Context Protocol (MCP)",
+        "LLMs en local (Ollama)",
+        "Generación de SQL desde lenguaje natural",
+        "Introspección de esquema en tiempo de ejecución",
+        "Validación de consultas y defensa ante prompt injection",
+        "Fundamentos de NLP",
+      ],
+    },
+  },
+  healthData: {
+    en: "Health & Clinical Data",
+    es: "Datos Clínicos y de Salud",
+    items: {
+      en: [
+        "SNOMED CT terminology",
+        "Healthcare data standards",
+        "Medical imaging preprocessing (MRI)",
+        "Biosignal processing (ECG)",
+        "Clinical metric selection",
+        "Patient-level leakage risk",
+        "Public-health & burden-of-disease data",
+      ],
+      es: [
+        "Terminología SNOMED CT",
+        "Estándares de datos sanitarios",
+        "Preprocesado de imagen médica (RM)",
+        "Procesado de bioseñales (ECG)",
+        "Elección de métricas clínicas",
+        "Riesgo de fuga entre pacientes",
+        "Datos de salud pública y carga de enfermedad",
+      ],
+    },
   },
   communication: {
-    en: "Scientific Communication & Reporting",
-    es: "Comunicación Científica y Reporting",
-    items: ["Data Visualization", "Dashboard Design", "Scientific Writing", "Cross-team Communication", "EDA", "Insight Reporting"],
+    en: "Analysis & Communication",
+    es: "Análisis y Comunicación",
+    items: {
+      en: [
+        "Exploratory data analysis",
+        "Data visualisation",
+        "Dashboard design",
+        "Geospatial analysis",
+        "Technical writing",
+        "Stakeholder reporting",
+        "Bilingual documentation (ES / EN)",
+      ],
+      es: [
+        "Análisis exploratorio de datos",
+        "Visualización de datos",
+        "Diseño de dashboards",
+        "Análisis geoespacial",
+        "Escritura técnica",
+        "Reporting a negocio",
+        "Documentación bilingüe (ES / EN)",
+      ],
+    },
   },
 };
 
@@ -1222,11 +1418,54 @@ export interface Certification {
     es: string;
   };
   issuer: string;
+  /** YYYY-MM, so the list can sort itself newest first. */
   date: string;
-  url: string;
+  /** Absent when the issuer provides no public verification page. */
+  url?: string;
+  credentialId?: string;
 }
 
 export const certifications: Certification[] = [
+  {
+    name: {
+      en: "DP-900: Microsoft Azure Data Fundamentals",
+      es: "DP-900: Microsoft Azure Data Fundamentals",
+    },
+    description: {
+      en: "Microsoft's foundational data certification: core data concepts, relational and non-relational data on Azure, and the analytics workloads the platform supports.",
+      es: "Certificación fundamental de datos de Microsoft: conceptos básicos de datos, datos relacionales y no relacionales en Azure, y las cargas de trabajo analíticas que soporta la plataforma.",
+    },
+    issuer: "Microsoft",
+    date: "2026-04",
+    url: "https://learn.microsoft.com/en-us/users/lunapreztroncoso-4555/achievements/8vfzxhyw",
+  },
+  {
+    name: {
+      en: "SNOMED CT Foundation Course",
+      es: "SNOMED CT Foundation Course",
+    },
+    description: {
+      en: "The structure and use of SNOMED CT, the clinical terminology behind interoperable health records: concepts, hierarchies, relationships and how coded clinical meaning is recorded and retrieved.",
+      es: "Estructura y uso de SNOMED CT, la terminología clínica detrás de las historias clínicas interoperables: conceptos, jerarquías, relaciones y cómo se registra y recupera el significado clínico codificado.",
+    },
+    issuer: "SNOMED International",
+    date: "2026-04",
+    credentialId: "111cebb2-9932-486b-9648-f1d6b7ee6d32",
+  },
+  {
+    name: {
+      en: "Healthcare Data Standards",
+      es: "Healthcare Data Standards",
+    },
+    description: {
+      en: "How clinical information is structured, exchanged and reused across systems — the standards layer that has to exist before health data can be analysed at all.",
+      es: "Cómo se estructura, intercambia y reutiliza la información clínica entre sistemas: la capa de estándares que tiene que existir antes de poder analizar datos de salud.",
+    },
+    issuer: "Better",
+    date: "2026-04",
+    url: "https://mycourse.app/W9iLCBYkstCYhX8py",
+    credentialId: "6992ce556f0548895f06e0f9",
+  },
   {
     name: { en: "Deep Learning", es: "Deep Learning" },
     description: {
@@ -1396,6 +1635,107 @@ export const certifications: Certification[] = [
     issuer: "The Bridge",
     date: "2025-12",
     url: "https://api.badgr.io/public/assertions/6947c014da35354bb06c05e9",
+  },
+];
+
+export interface Education {
+  title: { en: string; es: string };
+  institution: string;
+  /** Free text, because these are ranges and single dates alike. */
+  period: { en: string; es: string };
+  summary: { en: string; es: string };
+  /** What the programme actually covered. Rendered as tags. */
+  topics?: { en: string[]; es: string[] };
+  url?: string;
+}
+
+export const education: Education[] = [
+  {
+    title: {
+      en: "Master in Azure Databricks & Spark for Data Engineers",
+      es: "Máster en Azure Databricks & Spark para Data Engineers",
+    },
+    institution: "Udemy",
+    period: { en: "Jun 2026 – Aug 2026", es: "jun. 2026 – ago. 2026" },
+    summary: {
+      en: "Specialised training in data engineering on Azure Databricks and Apache Spark, aimed at building scalable pipelines and cloud data architectures — from cluster and job management through to governance with Unity Catalog.",
+      es: "Formación especializada en ingeniería de datos sobre Azure Databricks y Apache Spark, orientada a construir pipelines escalables y arquitecturas de datos en cloud — desde la gestión de clusters y jobs hasta la gobernanza con Unity Catalog.",
+    },
+    topics: {
+      en: [
+        "Azure Databricks: clusters, notebooks, workflows, jobs, pools",
+        "Spark Core, PySpark & Spark SQL",
+        "ETL pipelines in Python and Spark SQL",
+        "Batch processing & incremental loading",
+        "Delta Lake: Delta tables, Time Travel, optimisation",
+        "Data Lake & Lakehouse architectures",
+        "Azure Data Lake Storage Gen2 & Storage Accounts",
+        "Orchestration with Azure Data Factory",
+        "Unity Catalog: governance, metadata, security & access control",
+        "Spark tuning: partitioning, caching, data distribution",
+        "Databricks ↔ Power BI integration",
+        "Structured & unstructured data",
+        "End-to-end projects with repository-based management",
+      ],
+      es: [
+        "Azure Databricks: clusters, notebooks, workflows, jobs y pools",
+        "Spark Core, PySpark y Spark SQL",
+        "Pipelines ETL en Python y Spark SQL",
+        "Procesamiento batch y carga incremental",
+        "Delta Lake: tablas Delta, Time Travel y optimización",
+        "Arquitecturas Data Lake y Lakehouse",
+        "Azure Data Lake Storage Gen2 y Storage Accounts",
+        "Orquestación con Azure Data Factory",
+        "Unity Catalog: gobernanza, metadatos, seguridad y control de acceso",
+        "Optimización de Spark: particionado, caching y distribución",
+        "Integración Databricks ↔ Power BI",
+        "Datos estructurados y no estructurados",
+        "Proyectos end-to-end con gestión por repositorio",
+      ],
+    },
+  },
+  {
+    title: { en: "Data Science Bootcamp", es: "Bootcamp de Data Science" },
+    institution: "The Bridge",
+    period: { en: "Completed Dec 2025", es: "finalizado dic. 2025" },
+    summary: {
+      en: "Full-time data science programme covering programming, data access and extraction, analysis and problem solving, and machine learning and deep learning algorithms. Seventeen of the certifications below come from it.",
+      es: "Programa intensivo de data science: programación, acceso y extracción de datos, análisis y resolución de problemas, y algoritmos de machine learning y deep learning. Diecisiete de las certificaciones de abajo salen de aquí.",
+    },
+    topics: {
+      en: [
+        "Machine Learning Engineer specialisation",
+        "MLOps",
+        "Deep learning with TensorFlow & Keras",
+        "NLP",
+        "SQL & data wrangling",
+        "Time series analysis",
+        "Data visualisation",
+      ],
+      es: [
+        "Especialización Machine Learning Engineer",
+        "MLOps",
+        "Deep learning con TensorFlow y Keras",
+        "NLP",
+        "SQL y data wrangling",
+        "Análisis de series temporales",
+        "Visualización de datos",
+      ],
+    },
+    url: "https://api.badgr.io/public/assertions/6947bf60da35354bb06c0290",
+  },
+  {
+    title: { en: "Elements of AI", es: "Elementos de la IA" },
+    institution: "University of Helsinki",
+    period: { en: "Oct 2025", es: "oct. 2025" },
+    summary: {
+      en: "The University of Helsinki's introduction to artificial intelligence — what AI is, what it can and cannot do, and the societal questions that come with it.",
+      es: "La introducción a la inteligencia artificial de la Universidad de Helsinki: qué es la IA, qué puede y qué no puede hacer, y las preguntas sociales que trae consigo.",
+    },
+    topics: {
+      en: ["Artificial intelligence", "Machine learning fundamentals", "AI & society"],
+      es: ["Inteligencia artificial", "Fundamentos de machine learning", "IA y sociedad"],
+    },
   },
 ];
 

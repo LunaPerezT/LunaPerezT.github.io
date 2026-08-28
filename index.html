@@ -46,15 +46,14 @@
 
     <script>
       // Apply the stored theme before first paint so the page never flashes.
+      // Light is the default: dark only when the visitor has chosen it here.
       (function () {
         try {
-          var stored = localStorage.getItem("luna-theme");
-          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          if (stored === "dark" || (stored !== "light" && prefersDark)) {
+          if (localStorage.getItem("luna-theme") === "dark") {
             document.documentElement.classList.add("dark");
           }
         } catch (e) {
-          /* private mode or storage disabled — fall back to light */
+          /* private mode or storage disabled — stay light */
         }
       })();
 

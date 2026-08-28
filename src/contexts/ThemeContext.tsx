@@ -23,9 +23,11 @@ function readInitialTheme(): Theme {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
   } catch {
-    /* storage blocked — fall through to the OS preference */
+    /* storage blocked — fall through */
   }
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  // Deliberately light, not the OS preference: the site is designed on paper
+  // and that is the first impression every visitor should get.
+  return "light";
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -41,23 +43,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       /* nothing to do — the class is applied either way */
     }
   }, [theme]);
-
-  // Follow the OS only while the visitor has not made a choice of their own.
-  useEffect(() => {
-    let hasStoredChoice = false;
-    try {
-      hasStoredChoice = window.localStorage.getItem(STORAGE_KEY) !== null;
-    } catch {
-      hasStoredChoice = false;
-    }
-    if (hasStoredChoice) return;
-
-    const query = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = (event: MediaQueryListEvent) =>
-      setThemeState(event.matches ? "dark" : "light");
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
 
   const setTheme = useCallback((next: Theme) => setThemeState(next), []);
   const toggleTheme = useCallback(
