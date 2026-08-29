@@ -1,6 +1,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
+import { PerspectiveCard } from "./uiverse/PerspectiveCard";
 
 export function AboutSection() {
   const { t } = useLanguage();
@@ -20,12 +21,22 @@ export function AboutSection() {
           </Reveal>
 
           <Reveal delay={0.08} className="min-w-0">
+            <div className="mb-10 flex origin-top scale-[0.86] justify-center min-[360px]:scale-100 lg:justify-start">
+              <PerspectiveCard
+                eyebrow={t("about.card.eyebrow")}
+                title={t("about.card.title")}
+                body={t("about.card.body")}
+                cta={t("about.card.cta")}
+                ctaHref="#contact"
+              />
+            </div>
+
             <p className="eyebrow mb-5">{t("about.principles")}</p>
             <ol className="divide-hairline rounded-xl border border-border bg-card">
               {principles.map((key, index) => (
                 <li key={key} className="flex gap-4 p-5">
                   <span
-                    className="metric-value shrink-0 text-sm text-primary"
+                    className="metric-value shrink-0 text-sm text-highlight"
                     aria-hidden="true"
                   >
                     {String(index + 1).padStart(2, "0")}

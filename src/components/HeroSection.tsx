@@ -3,6 +3,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { socialLinks } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { HeroBackdrop } from "./HeroBackdrop";
+import { GradientLink } from "./uiverse/GradientButton";
+import { OrbitCard } from "./uiverse/OrbitCard";
 import { AnimatedNumber } from "./AnimatedNumber";
 
 /**
@@ -38,13 +41,15 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pb-24 md:pt-32">
       <div className="grid-paper absolute inset-0 -z-10" aria-hidden="true" />
+      <HeroBackdrop className="pointer-events-none absolute inset-0 -z-10 h-full w-full" />
 
       <div className="container">
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl"
+          className="min-w-0 max-w-3xl"
         >
           <p className="eyebrow eyebrow-accent">{t("hero.welcome")}</p>
 
@@ -67,16 +72,10 @@ export function HeroSection() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a
-              href="#projects"
-              className="group inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-strong"
-            >
+            <GradientLink href="#projects">
               {t("hero.viewProjects")}
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
-            </a>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </GradientLink>
             <a
               href="#contact"
               className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-5 text-sm font-medium transition-colors hover:border-border-strong"
@@ -107,6 +106,22 @@ export function HeroSection() {
             </div>
           </div>
         </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden justify-self-end lg:block"
+          >
+            <OrbitCard
+              eyebrow={t("hero.featured")}
+              title="ECG"
+              subtitle={t("hero.featured.subtitle")}
+              footnote="macro-F1 0.917"
+              to="/project/ecg-heartbeat-categorization"
+              cta={t("hero.proof.cta")}
+            />
+          </motion.div>
+        </div>
 
         {/* Proof band */}
         <motion.div
@@ -122,7 +137,7 @@ export function HeroSection() {
             aria-hidden="true"
             viewBox="0 0 1200 90"
             preserveAspectRatio="none"
-            className="mb-8 h-14 w-full text-primary/30 md:h-16"
+            className="mb-8 h-14 w-full text-highlight/45 md:h-16"
           >
             <motion.path
               d="M0 45 H210 l12-15 9 30 12-69 14 102 12-45 9 14 h30 q11 0 14-20 t14 20 H540 M540 45 H750 l12-15 9 30 12-69 14 102 12-45 9 14 h30 q11 0 14-20 t14 20 H1080 M1080 45 H1200"
@@ -148,7 +163,7 @@ export function HeroSection() {
                 >
                   <AnimatedNumber
                     value={item.value}
-                    className="metric-value block text-3xl leading-none text-primary md:text-4xl"
+                    className="metric-value block text-3xl leading-none text-highlight md:text-4xl"
                   />
                   <span className="mt-2.5 block text-sm font-medium leading-snug text-foreground">
                     {item.label[language]}

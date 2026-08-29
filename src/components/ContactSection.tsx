@@ -1,14 +1,14 @@
-import { Github, Linkedin, Mail, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useId, useState } from "react";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { socialLinks } from "@/data/portfolio-data";
 import { supabase } from "@/integrations/supabase/client";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
+import { GradientButton } from "./uiverse/GradientButton";
+import { IsoSocialLinks } from "./uiverse/IsoSocialLinks";
 import { cn } from "@/lib/utils";
 
 type FieldName = "name" | "email" | "message";
@@ -75,24 +75,6 @@ export function ContactSection() {
     setValues((current) => ({ ...current, [field]: value }));
     if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
   };
-
-  const channels = [
-    { Icon: Mail, label: "Email", value: socialLinks.email, href: `mailto:${socialLinks.email}` },
-    {
-      Icon: Linkedin,
-      label: "LinkedIn",
-      value: t("contact.connectWithMe"),
-      href: socialLinks.linkedin,
-      external: true,
-    },
-    {
-      Icon: Github,
-      label: "GitHub",
-      value: t("contact.viewRepos"),
-      href: socialLinks.github,
-      external: true,
-    },
-  ];
 
   const fieldClass = (field: FieldName) =>
     cn("w-full", errors[field] && "border-destructive focus-visible:ring-destructive");
@@ -200,11 +182,11 @@ export function ContactSection() {
                 )}
               </div>
 
-              <Button
+              <GradientButton
                 type="submit"
-                size="lg"
-                className="min-h-11 w-full"
                 disabled={isSubmitting}
+                className="w-full disabled:cursor-not-allowed disabled:opacity-70"
+                panelClassName="w-full"
               >
                 {isSubmitting ? (
                   t("contact.sending")
@@ -214,7 +196,7 @@ export function ContactSection() {
                     <Send className="h-4 w-4" aria-hidden="true" />
                   </>
                 )}
-              </Button>
+              </GradientButton>
             </form>
           </Reveal>
 
@@ -224,33 +206,10 @@ export function ContactSection() {
               {t("contact.responseTime")}
             </p>
 
-            <ul className="divide-hairline mt-6 rounded-xl border border-border bg-card">
-              {channels.map(({ Icon, label, value, href, external }) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    target={external ? "_blank" : undefined}
-                    rel={external ? "noopener noreferrer" : undefined}
-                    className="group flex min-h-11 items-center gap-4 p-4 transition-colors hover:bg-background-alt"
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background-alt transition-colors group-hover:border-primary/40">
-                      <Icon
-                        className="h-[1.125rem] w-[1.125rem] text-muted-foreground transition-colors group-hover:text-primary"
-                        aria-hidden="true"
-                      />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-medium transition-colors group-hover:text-primary">
-                        {label}
-                      </span>
-                      <span className="block truncate text-sm text-muted-foreground">
-                        {value}
-                      </span>
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-8">
+              <IsoSocialLinks />
+            </div>
+
           </Reveal>
         </div>
       </div>

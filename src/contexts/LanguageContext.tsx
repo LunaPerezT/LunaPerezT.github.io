@@ -156,6 +156,12 @@ const translations: Record<Language, Record<string, string>> = {
     "skills.footnote": "Most of these are demonstrated by a project on this page. The exceptions come from training rather than from a repository, and they are: Delta Lake and Lakehouse architecture, pipeline orchestration, SNOMED CT, healthcare data standards, and NLP fundamentals.",
     "tools.footnote": "Marks without an official icon in any reliable set — the boosting libraries, the Nixtla family, Delta Lake, Azure Data Factory, Unity Catalog — are drawn here rather than copied, so nothing is passed off as a logo it is not.",
     "nav.backToTop": "Back to top",
+    "hero.featured": "Leading case",
+    "hero.featured.subtitle": "124k heartbeats, a Spark pipeline and a residual 1-D CNN",
+    "about.card.eyebrow": "Open to work",
+    "about.card.title": "Data Scientist & AI Engineer",
+    "about.card.body": "Madrid. Medical and health AI, from Spark pipelines to deployed models.",
+    "about.card.cta": "Get in touch",
   },
   es: {
     // Header
@@ -301,6 +307,12 @@ const translations: Record<Language, Record<string, string>> = {
     "skills.footnote": "La mayoría están demostradas por alguno de los proyectos de esta página. Las excepciones vienen de la formación y no de un repositorio, y son: Delta Lake y arquitectura Lakehouse, orquestación de pipelines, SNOMED CT, estándares de datos sanitarios y fundamentos de NLP.",
     "tools.footnote": "Las marcas sin icono oficial en ningún set fiable —las librerías de boosting, la familia Nixtla, Delta Lake, Azure Data Factory, Unity Catalog— están dibujadas aquí en vez de copiadas, para no hacer pasar nada por un logo que no es.",
     "nav.backToTop": "Volver arriba",
+    "hero.featured": "Caso principal",
+    "hero.featured.subtitle": "124.000 latidos, un pipeline Spark y una CNN 1-D residual",
+    "about.card.eyebrow": "Disponible",
+    "about.card.title": "Data Scientist & AI Engineer",
+    "about.card.body": "Madrid. IA médica y de salud, de pipelines de Spark a modelos desplegados.",
+    "about.card.cta": "Hablemos",
   },
 };
 

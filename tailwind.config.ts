@@ -30,6 +30,12 @@ export default {
           soft: "hsl(var(--primary-soft))",
           strong: "hsl(var(--primary-strong))",
         },
+        highlight: {
+          DEFAULT: "hsl(var(--highlight))",
+          foreground: "hsl(var(--highlight-foreground))",
+          soft: "hsl(var(--highlight-soft))",
+          strong: "hsl(var(--highlight-strong))",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

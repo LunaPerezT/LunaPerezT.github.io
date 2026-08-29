@@ -189,7 +189,7 @@ export default function ProjectDetail() {
                 <dd>
                   <AnimatedNumber
                     value={metric.value}
-                    className="metric-value block text-4xl leading-none text-primary md:text-5xl"
+                    className="metric-value block text-4xl leading-none text-highlight md:text-5xl"
                   />
                 </dd>
                 <dt className="mt-3 text-sm font-medium leading-snug">

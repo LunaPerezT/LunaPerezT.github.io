@@ -109,7 +109,7 @@ function hslToHex(h, s, l) {
 
 /* Surfaces the marks sit on. Keep in sync with --card in src/index.css. */
 const LIGHT_SURFACE = [255, 255, 255];
-const DARK_SURFACE = [26, 24, 23]; // hsl(24 9% 10%)
+const DARK_SURFACE = [21, 25, 37]; // hsl(222 32% 11%)
 
 function hexToRgb(hex) {
   const n = parseInt(hex, 16);

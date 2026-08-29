@@ -17,7 +17,7 @@ export function Footer() {
       <div className="container flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         <div>
           <p className="font-display text-base font-semibold">
-            Luna Pérez Troncoso<span className="text-primary">.</span>
+            Luna Pérez Troncoso<span className="text-highlight">.</span>
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
             © {year} · {t("footer.rights")}

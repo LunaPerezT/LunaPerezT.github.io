@@ -88,7 +88,7 @@ export function Header() {
           className="font-display text-lg font-semibold tracking-tight transition-colors hover:text-primary"
         >
           Luna&nbsp;Pérez
-          <span className="text-primary">.</span>
+          <span className="text-highlight">.</span>
         </Link>
 
         <ul className="hidden items-center gap-6 lg:flex xl:gap-7">

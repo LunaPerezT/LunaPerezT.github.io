@@ -11,128 +11,138 @@
 
 @layer base {
   :root {
-    /* --- Surfaces ------------------------------------------------------- */
-    --background: 40 30% 98%;          /* warm paper                        */
-    --background-alt: 38 24% 96%;      /* banded sections                   */
-    --foreground: 24 12% 10%;          /* graphite ink                      */
+    /* --- Surfaces: white first, with a blue-tinted band ------------------ */
+    --background: 0 0% 100%;
+    --background-alt: 214 45% 97.5%;   /* faint blue paper                  */
+    --foreground: 220 32% 12%;         /* blue-black ink                    */
 
     --card: 0 0% 100%;
-    --card-foreground: 24 12% 10%;
+    --card-foreground: 220 32% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 24 12% 10%;
+    --popover-foreground: 220 32% 12%;
 
-    /* --- Signal (primary) ----------------------------------------------- */
-    --primary: 14 78% 42%;             /* vermilion — 5.4:1 on paper        */
+    /* --- Primary: blue. Structure and interaction. ----------------------- */
+    --primary: 217 84% 45%;            /* 6.0:1 on white                    */
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 18 70% 95%;        /* tinted fill                       */
-    --primary-strong: 14 80% 34%;
+    --primary-soft: 214 90% 96%;
+    --primary-strong: 219 86% 36%;
+
+    /* --- Highlight: orange. Emphasis, and the numbers. ------------------- */
+    --highlight: 18 94% 39%;           /* 5.3:1 on white                    */
+    --highlight-foreground: 0 0% 100%;
+    --highlight-soft: 28 95% 95%;
+    --highlight-strong: 16 92% 32%;
 
     /* --- Neutrals -------------------------------------------------------- */
-    --secondary: 34 16% 93%;
-    --secondary-foreground: 24 12% 16%;
+    --secondary: 214 32% 94%;
+    --secondary-foreground: 220 30% 20%;
 
-    --muted: 34 16% 93%;
-    --muted-foreground: 25 8% 38%;     /* 6.0:1 on paper                    */
+    --muted: 214 32% 94%;
+    --muted-foreground: 218 14% 40%;   /* 6.1:1 on white                    */
 
-    --accent: 34 20% 94%;
-    --accent-foreground: 24 12% 14%;
+    --accent: 214 38% 95%;             /* shadcn surface token, stays neutral */
+    --accent-foreground: 220 30% 18%;
 
     /* --- Status ---------------------------------------------------------- */
-    --deployed: 162 72% 26%;           /* live demo exists                  */
+    --deployed: 162 72% 26%;
     --deployed-soft: 162 44% 94%;
     --neutral-status: 216 14% 40%;
-    --neutral-status-soft: 216 22% 95%;
+    --neutral-status-soft: 216 30% 95%;
 
-    --destructive: 0 72% 42%;
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
     /* --- Lines & focus ---------------------------------------------------- */
-    --border: 30 13% 84%;
-    --border-strong: 28 12% 74%;
-    --input: 30 13% 84%;
-    --ring: 14 78% 42%;
+    --border: 214 26% 87%;
+    --border-strong: 214 22% 78%;
+    --input: 214 26% 87%;
+    --ring: 217 84% 45%;
 
     --radius: 0.625rem;
 
-    /* --- Elevation (warm shadows, never pure black) ------------------------ */
-    --shadow-color: 24 20% 50%;
+    /* --- Elevation: blue-grey shadows, never pure black -------------------- */
+    --shadow-color: 218 40% 45%;
     --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.06);
     --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.08),
                  0 1px 2px hsl(var(--shadow-color) / 0.04);
-    --shadow-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.12),
-                 0 2px 6px -2px hsl(var(--shadow-color) / 0.06);
-    --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.18),
-                 0 4px 12px -4px hsl(var(--shadow-color) / 0.08);
+    --shadow-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.14),
+                 0 2px 6px -2px hsl(var(--shadow-color) / 0.07);
+    --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.2),
+                 0 4px 12px -4px hsl(var(--shadow-color) / 0.1);
 
-    /* --- Grid paper texture ------------------------------------------------ */
-    --grid-line: 28 12% 88%;
+    --grid-line: 214 30% 90%;
 
     /* Sidebar tokens kept for shadcn compatibility */
-    --sidebar-background: 40 30% 98%;
-    --sidebar-foreground: 24 12% 16%;
-    --sidebar-primary: 14 78% 42%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 30% 20%;
+    --sidebar-primary: 217 84% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 34 20% 94%;
-    --sidebar-accent-foreground: 24 12% 14%;
-    --sidebar-border: 30 14% 87%;
-    --sidebar-ring: 14 78% 42%;
+    --sidebar-accent: 214 38% 95%;
+    --sidebar-accent-foreground: 220 30% 18%;
+    --sidebar-border: 214 26% 87%;
+    --sidebar-ring: 217 84% 45%;
   }
 
   .dark {
-    --background: 24 10% 7%;           /* warm near-black                   */
-    --background-alt: 24 9% 9%;
-    --foreground: 38 20% 94%;
+    --background: 222 35% 7%;
+    --background-alt: 221 32% 10%;
+    --foreground: 213 30% 95%;
 
-    --card: 24 9% 10%;
-    --card-foreground: 38 20% 94%;
+    --card: 222 32% 11%;
+    --card-foreground: 213 30% 95%;
 
-    --popover: 24 9% 11%;
-    --popover-foreground: 38 20% 94%;
+    --popover: 222 32% 12%;
+    --popover-foreground: 213 30% 95%;
 
-    --primary: 18 88% 62%;             /* 7.0:1 on the dark ground          */
-    --primary-foreground: 24 24% 8%;
-    --primary-soft: 16 40% 16%;
-    --primary-strong: 18 90% 70%;
+    --primary: 213 90% 66%;
+    --primary-foreground: 222 45% 10%;
+    --primary-soft: 218 50% 18%;
+    --primary-strong: 212 92% 76%;
 
-    --secondary: 26 8% 16%;
-    --secondary-foreground: 38 18% 92%;
+    --highlight: 26 95% 62%;
+    --highlight-foreground: 222 45% 10%;
+    --highlight-soft: 20 45% 17%;
+    --highlight-strong: 28 96% 70%;
 
-    --muted: 26 8% 16%;
-    --muted-foreground: 30 8% 66%;     /* 8.6:1 on the dark ground          */
+    --secondary: 218 22% 18%;
+    --secondary-foreground: 213 28% 92%;
 
-    --accent: 26 8% 17%;
-    --accent-foreground: 38 18% 92%;
+    --muted: 218 22% 18%;
+    --muted-foreground: 215 16% 68%;
+
+    --accent: 218 22% 19%;
+    --accent-foreground: 213 28% 92%;
 
     --deployed: 160 60% 62%;
     --deployed-soft: 162 30% 14%;
     --neutral-status: 216 16% 70%;
-    --neutral-status-soft: 220 12% 17%;
+    --neutral-status-soft: 220 14% 18%;
 
-    --destructive: 0 70% 62%;
-    --destructive-foreground: 24 24% 8%;
+    --destructive: 0 70% 64%;
+    --destructive-foreground: 222 45% 10%;
 
-    --border: 26 8% 20%;
-    --border-strong: 26 8% 30%;
-    --input: 26 8% 20%;
-    --ring: 18 88% 62%;
+    --border: 218 20% 22%;
+    --border-strong: 216 18% 34%;
+    --input: 218 20% 22%;
+    --ring: 213 90% 66%;
 
-    --shadow-color: 0 0% 0%;
-    --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.4);
-    --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.5);
-    --shadow-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.6);
-    --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.7);
+    --shadow-color: 222 60% 2%;
+    --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.5);
+    --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.6);
+    --shadow-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.7);
+    --shadow-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.8);
 
-    --grid-line: 26 8% 15%;
+    --grid-line: 218 20% 17%;
 
-    --sidebar-background: 24 10% 7%;
-    --sidebar-foreground: 38 18% 92%;
-    --sidebar-primary: 18 88% 62%;
-    --sidebar-primary-foreground: 24 24% 8%;
-    --sidebar-accent: 26 8% 17%;
-    --sidebar-accent-foreground: 38 18% 92%;
-    --sidebar-border: 26 8% 20%;
-    --sidebar-ring: 18 88% 62%;
+    --sidebar-background: 222 35% 7%;
+    --sidebar-foreground: 213 28% 92%;
+    --sidebar-primary: 213 90% 66%;
+    --sidebar-primary-foreground: 222 45% 10%;
+    --sidebar-accent: 218 22% 19%;
+    --sidebar-accent-foreground: 213 28% 92%;
+    --sidebar-border: 218 20% 22%;
+    --sidebar-ring: 213 90% 66%;
   }
 }
 
@@ -257,6 +267,10 @@
     color: hsl(var(--primary));
   }
 
+  .eyebrow-highlight {
+    color: hsl(var(--highlight));
+  }
+
   /* --- Surfaces ---------------------------------------------------------- */
   .surface {
     @apply rounded-xl border bg-card;
@@ -370,6 +384,13 @@
   .glyph-trace > *:nth-child(n + 4),
   .group:hover .glyph-trace-hover > *:nth-child(n + 4) {
     animation-delay: 0.36s;
+  }
+
+  /* PerspectiveCard: each stacked disc travels further out along Z than it
+     starts, and the distance differs per disc, so it lives in a variable set
+     inline rather than in a utility class. */
+  .persp:hover .persp-disc {
+    transform: translate3d(0, 0, var(--z-hover));
   }
 
   /* Skip link — visible the moment it takes focus. */
