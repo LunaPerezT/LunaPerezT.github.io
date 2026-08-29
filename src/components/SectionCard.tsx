@@ -27,6 +27,12 @@ interface SectionCardProps {
   /** Seconds. Staggers a grid without giving every card its own Reveal. */
   delay?: number;
   as?: keyof typeof TAGS;
+  /**
+   * Which hover treatment the card gets. `glow` is the default and is what
+   * every card on the page uses; `spin` is the skills grid only. Both are
+   * defined in index.css, where the adaptations are documented.
+   */
+  hover?: "glow" | "spin";
 }
 
 export function SectionCard({
@@ -34,6 +40,7 @@ export function SectionCard({
   className,
   delay = 0,
   as = "article",
+  hover = "glow",
 }: SectionCardProps) {
   const Tag = TAGS[as];
 
@@ -47,8 +54,9 @@ export function SectionCard({
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card",
         "shadow-sm transition-[box-shadow,border-color] duration-200",
-        "hover:border-border-strong hover:shadow-md",
+        "hover:border-border-strong",
         "focus-within:border-primary/50",
+        hover === "spin" ? "halo-spin" : "card-glow",
         className
       )}
     >

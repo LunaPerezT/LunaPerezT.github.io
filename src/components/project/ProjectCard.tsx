@@ -68,8 +68,10 @@ function Root({ project, className, children }: RootProps) {
         className={cn(
           "group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card",
           "shadow-sm transition-[box-shadow,border-color] duration-200",
-          "hover:border-border-strong hover:shadow-md",
+          "hover:border-border-strong",
           "focus-within:border-primary/50",
+          // Gradient rim plus glow on hover. See `.card-glow` in index.css.
+          "card-glow",
           className
         )}
       >

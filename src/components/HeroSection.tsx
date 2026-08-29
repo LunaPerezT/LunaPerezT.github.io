@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SplineBackdrop } from "./SplineBackdrop";
 import { GradientLink } from "./uiverse/GradientButton";
 import { OrbitCard } from "./uiverse/OrbitCard";
+import { TerminalCard } from "./uiverse/TerminalCard";
 import { AnimatedNumber } from "./AnimatedNumber";
 
 /**
@@ -39,7 +40,8 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pb-24 md:pt-32">
-      <div className="grid-paper absolute inset-0 -z-10" aria-hidden="true" />
+      {/* The rain replaces the grid paper: two textures behind one headline was
+          one too many, and the grid was the quieter of the pair. */}
       <SplineBackdrop className="pointer-events-none absolute inset-0 -z-10 h-full w-full" />
 
       <div className="container">
@@ -119,6 +121,8 @@ export function HeroSection() {
               to="/project/ecg-heartbeat-categorization"
               cta={t("hero.proof.cta")}
             />
+            {/* Same 210px as the card above it, so the two read as one column. */}
+            <TerminalCard title={t("hero.terminal")} className="mt-4 w-[210px]" />
           </motion.div>
         </div>
 

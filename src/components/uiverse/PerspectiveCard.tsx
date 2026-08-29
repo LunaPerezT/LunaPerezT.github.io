@@ -40,15 +40,16 @@ export function PerspectiveCard({
   return (
     <div
       className={cn(
-        // Taller on narrow screens only, where the title wraps and the body
-        // needs a third line to avoid being cut off mid-word.
-        "persp group/persp h-[236px] w-full [perspective:1000px] sm:h-[208px]",
+        "persp group/persp w-full [perspective:1000px]",
         className
       )}
     >
       <div
         className={cn(
-          "relative h-full rounded-[32px] [transform-style:preserve-3d]",
+          // Height follows the content now that the link is in flow. The floor
+          // is what the disc stack needs; narrow screens get more because the
+          // title wraps and the body takes a third line.
+          "relative min-h-[188px] rounded-[32px] pb-4 [transform-style:preserve-3d] sm:min-h-[160px]",
           "bg-[linear-gradient(135deg,hsl(var(--primary))_0%,hsl(var(--highlight))_100%)]",
           "shadow-[0_25px_25px_-5px_hsl(var(--primary)/0.28)]",
           "transition-all duration-500 ease-in-out",
@@ -100,9 +101,11 @@ export function PerspectiveCard({
           </p>
         </div>
 
+        {/* Directly under the body rather than pinned to the card's bottom edge:
+            the gap that left below two lines of text read as a mistake. */}
         <a
           href={ctaHref}
-          className="link-underline absolute bottom-3 left-7 inline-flex min-h-11 items-center gap-1.5 text-xs font-bold text-primary [transform:translate3d(0,0,26px)] transition-transform duration-200 hover:[transform:translate3d(0,0,10px)]"
+          className="link-underline relative ml-7 mt-1 inline-flex w-fit min-h-11 items-center gap-1.5 text-xs font-bold text-primary [transform:translate3d(0,0,26px)] transition-transform duration-200 hover:[transform:translate3d(0,0,10px)]"
         >
           {cta}
           <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

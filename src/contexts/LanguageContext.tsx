@@ -125,6 +125,7 @@ const translations: Record<Language, Record<string, string>> = {
     "theme.toDark": "Switch to dark theme",
     "theme.toLight": "Switch to light theme",
 
+    "hero.terminal": "Terminal",
     "hero.proof.label": "Three results, and where to check them",
     "hero.proof.cta": "Read the case study",
 
@@ -273,6 +274,7 @@ const translations: Record<Language, Record<string, string>> = {
     "theme.toDark": "Cambiar a tema oscuro",
     "theme.toLight": "Cambiar a tema claro",
 
+    "hero.terminal": "Terminal",
     "hero.proof.label": "Tres resultados, y dónde comprobarlos",
     "hero.proof.cta": "Ver el caso",
 

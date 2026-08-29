@@ -21,7 +21,12 @@ export function SkillsSection() {
             uses, rather than nine cells sharing one hairline box. */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {groups.map(([key, group], index) => (
-            <SectionCard key={key} delay={Math.min(index, 5) * 0.04} className="p-6">
+            <SectionCard
+              key={key}
+              delay={Math.min(index, 5) * 0.04}
+              hover="spin"
+              className="p-6"
+            >
               <h3 className="font-display text-lg font-semibold leading-snug transition-colors group-hover:text-primary">
                 {group[language]}
               </h3>

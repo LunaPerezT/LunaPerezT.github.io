@@ -1,3 +1,9 @@
+@property --halo-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -254,6 +260,355 @@
     background-size: 64px 64px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
+  }
+
+
+  /* --- Hero rain --------------------------------------------------------- *
+   * Adapted from "warm-lion-64" by SelfMadeSystem on uiverse.io (MIT).
+   * https://uiverse.io/SelfMadeSystem/warm-lion-64
+   *
+   * Thirty-six stacked radial gradients form twelve falling streaks; the whole
+   * field scrolls for 150s and loops. A dot mask sits over it, so what you see
+   * is a halftone of glowing rain rather than continuous lines.
+   *
+   * Three changes.
+   *
+   * The streak colour is the site's own `--primary` instead of #09f, and the
+   * ground is `--background` rather than pure black, so the hero does not end
+   * in a hard edge against the rest of the page.
+   *
+   * The original hue-rotates a full 360deg every 10s, touring greens and
+   * purples that have no place in this palette. Here it breathes between 0 and
+   * 175deg over 24s, which on this blue lands on the site's orange and comes
+   * back.
+   *
+   * And the glow is a `filter` on the streaks rather than a `backdrop-filter`
+   * on the dot mask. The original is a standalone pattern with nothing above
+   * it; behind a headline, a backdrop-filter layer gets composited over the
+   * text it is supposed to sit behind, dots and all. Filtering the streaks
+   * directly gives the same halftone, paints in the ordinary order, and costs
+   * one static layer instead of a per-frame sample of the whole backdrop.
+   *
+   * Both animations pause when the hero is off screen or the tab is hidden,
+   * and the global prefers-reduced-motion block pins them to a single frame. */
+  .rain {
+    position: relative;
+    overflow: hidden;
+    background-color: hsl(var(--background));
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+
+  .rain__field {
+    position: absolute;
+    inset: -6%;
+    --c: hsl(var(--primary));
+    /* Read by the rain-hue keyframes too, so light mode only has to override
+       these two rather than restate the whole filter and lose to the
+       animation. */
+    --rain-blur: 5px;
+    --rain-bright: 2.4;
+    opacity: 0.72;
+    filter: blur(var(--rain-blur)) brightness(var(--rain-bright));
+    background-image:
+    radial-gradient(4px 100px at 0px 235px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 235px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 117.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 252px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 252px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 126px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 150px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 150px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 75px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 253px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 253px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 126.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 204px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 204px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 102px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 134px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 134px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 67px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 179px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 179px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 89.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 299px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 299px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 149.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 215px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 215px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 107.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 281px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 281px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 140.5px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 158px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 158px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 79px, var(--c) 100%, #0000 150%),
+    radial-gradient(4px 100px at 0px 210px, var(--c), #0000),
+    radial-gradient(4px 100px at 300px 210px, var(--c), #0000),
+    radial-gradient(1.5px 1.5px at 150px 105px, var(--c) 100%, #0000 150%);
+    background-size:
+      300px 235px,
+      300px 235px,
+      300px 235px,
+      300px 252px,
+      300px 252px,
+      300px 252px,
+      300px 150px,
+      300px 150px,
+      300px 150px,
+      300px 253px,
+      300px 253px,
+      300px 253px,
+      300px 204px,
+      300px 204px,
+      300px 204px,
+      300px 134px,
+      300px 134px,
+      300px 134px,
+      300px 179px,
+      300px 179px,
+      300px 179px,
+      300px 299px,
+      300px 299px,
+      300px 299px,
+      300px 215px,
+      300px 215px,
+      300px 215px,
+      300px 281px,
+      300px 281px,
+      300px 281px,
+      300px 158px,
+      300px 158px,
+      300px 158px,
+      300px 210px,
+      300px 210px,
+      300px 210px;
+    animation:
+      rain-fall 150s linear infinite,
+      rain-hue 24s ease-in-out infinite alternate;
+  }
+
+  .rain__dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      circle at 50% 50%,
+      #0000 0,
+      #0000 2px,
+      hsl(var(--background)) 2px
+    );
+    background-size: 8px 8px;
+  }
+
+  /* On white the brightened streaks flatten into glare, so light mode shows
+     them plainly and leans on the dot mask alone. */
+  :root:not(.dark) .rain__field {
+    --rain-blur: 4px;
+    --rain-bright: 1;
+    opacity: 0.4;
+  }
+
+  .rain[data-active="false"] .rain__field {
+    animation-play-state: paused;
+  }
+
+  @keyframes rain-fall {
+    0% {
+      background-position:
+      0px 220px, 3px 220px, 151.5px 337.5px,
+      25px 24px, 28px 24px, 176.5px 150px,
+      50px 16px, 53px 16px, 201.5px 91px,
+      75px 224px, 78px 224px, 226.5px 350.5px,
+      100px 19px, 103px 19px, 251.5px 121px,
+      125px 120px, 128px 120px, 276.5px 187px,
+      150px 31px, 153px 31px, 301.5px 120.5px,
+      175px 235px, 178px 235px, 326.5px 384.5px,
+      200px 121px, 203px 121px, 351.5px 228.5px,
+      225px 224px, 228px 224px, 376.5px 364.5px,
+      250px 26px, 253px 26px, 401.5px 105px,
+      275px 75px, 278px 75px, 426.5px 180px;
+    }
+    to {
+      background-position:
+      0px 6800px, 3px 6800px, 151.5px 6917.5px,
+      25px 13632px, 28px 13632px, 176.5px 13758px,
+      50px 5416px, 53px 5416px, 201.5px 5491px,
+      75px 17175px, 78px 17175px, 226.5px 17301.5px,
+      100px 5119px, 103px 5119px, 251.5px 5221px,
+      125px 8428px, 128px 8428px, 276.5px 8495px,
+      150px 9876px, 153px 9876px, 301.5px 9965.5px,
+      175px 13391px, 178px 13391px, 326.5px 13540.5px,
+      200px 14741px, 203px 14741px, 351.5px 14848.5px,
+      225px 18770px, 228px 18770px, 376.5px 18910.5px,
+      250px 5082px, 253px 5082px, 401.5px 5161px,
+      275px 6375px, 278px 6375px, 426.5px 6480px;
+    }
+  }
+
+  @keyframes rain-hue {
+    0% {
+      filter: blur(var(--rain-blur)) brightness(var(--rain-bright)) hue-rotate(0deg);
+    }
+    to {
+      filter: blur(var(--rain-blur)) brightness(var(--rain-bright)) hue-rotate(175deg);
+    }
+  }
+
+  /* --- Terminal typing ---------------------------------------------------- *
+   * The moving half of "smooth-quail-87" by ilkhoeri (MIT). The typed text is
+   * `content: attr(data-cmd)` in an overflow-hidden box whose width steps from
+   * nothing to the full string and back; the caret is a second pseudo-element
+   * with a border on one side. The original's four-stage 8s rhythm is kept, but
+   * measured in `ch` off `--cmd-len` rather than in pixels measured against one
+   * particular string. */
+  .terminal-cmd {
+    position: relative;
+    display: flex;
+    height: 1.2em;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .terminal-cmd::before {
+    content: attr(data-cmd);
+    position: relative;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: terminal-type 8s steps(var(--cmd-steps, 6)) infinite;
+  }
+
+  .terminal-cmd::after {
+    content: "";
+    position: relative;
+    display: block;
+    height: 100%;
+    border-right: 0.12em solid hsl(var(--highlight));
+    animation:
+      terminal-caret 0.5s step-end infinite alternate,
+      terminal-blink 0.5s infinite;
+  }
+
+  @keyframes terminal-type {
+    0%,
+    100% {
+      width: 0;
+    }
+    10%,
+    90% {
+      width: calc(var(--cmd-len) * 0.34);
+    }
+    30%,
+    70% {
+      width: var(--cmd-len);
+      max-width: max-content;
+    }
+  }
+
+  @keyframes terminal-caret {
+    50% {
+      border-right-color: transparent;
+    }
+  }
+
+  @keyframes terminal-blink {
+    20%,
+    80% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(0);
+    }
+  }
+
+  /* --- Card hover treatments --------------------------------------------- *
+   * Two effects from uiverse.io, both re-cut as a masked ring so they work on
+   * a card of any size and survive the `overflow: hidden` these cards need.
+   *
+   * `.card-glow`, from "cuddly-catfish-6" by Tiagoadag (MIT):
+   * https://uiverse.io/Tiagoadag/cuddly-catfish-6
+   * The original hides a gradient plate behind a solid one and shrinks the
+   * solid plate to 0.98 on hover, so the gradient shows as a rim, plus a
+   * coloured glow. The scale is not available here (framer-motion already owns
+   * these cards' transform), so the rim it would have revealed is drawn
+   * directly. Same two things happen: a gradient edge appears and the card
+   * glows.
+   *
+   * `.halo-spin`, from "tasty-frog-49" by gharsh11032000 (MIT):
+   * https://uiverse.io/gharsh11032000/tasty-frog-49
+   * The original rotates a fixed 200x264 gradient rectangle behind a fixed
+   * 190x254 card, rescaling it so it still covers after the turn. Those scale
+   * factors only work for that one aspect ratio, and skill cards are a grid
+   * whose height follows their tag count, so the turn is applied to a conic
+   * gradient on the ring instead: the colour sweeps a quarter turn around the
+   * card on the original's springy 0.6s curve. The bloom is the original's. */
+  .card-glow,
+  .halo-spin {
+    position: relative;
+    transition: box-shadow 0.35s ease;
+  }
+
+  .card-glow::before,
+  .halo-spin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1.5px;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .card-glow::before {
+    background: linear-gradient(
+      163deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--highlight)) 100%
+    );
+    transition: opacity 0.3s ease;
+  }
+
+  .halo-spin::before {
+    background: conic-gradient(
+      from var(--halo-angle),
+      hsl(var(--primary)) 0deg,
+      hsl(var(--highlight)) 90deg,
+      hsl(var(--primary)) 180deg,
+      hsl(var(--highlight)) 270deg,
+      hsl(var(--primary)) 360deg
+    );
+    transition:
+      opacity 0.35s ease,
+      --halo-angle 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .card-glow:hover::before,
+  .card-glow:focus-within::before,
+  .halo-spin:hover::before,
+  .halo-spin:focus-within::before {
+    opacity: 1;
+  }
+
+  .halo-spin:hover::before,
+  .halo-spin:focus-within::before {
+    --halo-angle: 90deg;
+  }
+
+  .card-glow:hover,
+  .card-glow:focus-within,
+  .halo-spin:hover,
+  .halo-spin:focus-within {
+    box-shadow: 0 0 30px 1px hsl(var(--primary) / 0.3);
   }
 
   /* --- Eyebrow / label --------------------------------------------------- */
