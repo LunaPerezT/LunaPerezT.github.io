@@ -18,16 +18,17 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 function readInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === "undefined") return "dark";
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
   } catch {
-    /* storage blocked — fall through */
+    /* storage blocked, fall through */
   }
-  // Deliberately light, not the OS preference: the site is designed on paper
-  // and that is the first impression every visitor should get.
-  return "light";
+  // Deliberately dark, not the OS preference: it is the first impression Luna
+  // wants every visitor to get. The inline script in index.html applies the same
+  // rule before first paint, so the two must be changed together.
+  return "dark";
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

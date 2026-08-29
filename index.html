@@ -10,8 +10,8 @@
     />
     <meta name="author" content="Luna Pérez Troncoso" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0C0F18" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href="https://lunaperezt.github.io/" />
 
     <!-- Open Graph / Social -->
@@ -46,14 +46,17 @@
 
     <script>
       // Apply the stored theme before first paint so the page never flashes.
-      // Light is the default: dark only when the visitor has chosen it here.
+      // Dark is the default: light only when the visitor has chosen it here.
+      // This must stay in sync with readInitialTheme() in ThemeContext.tsx.
       (function () {
+        var stored = null;
         try {
-          if (localStorage.getItem("luna-theme") === "dark") {
-            document.documentElement.classList.add("dark");
-          }
+          stored = localStorage.getItem("luna-theme");
         } catch (e) {
-          /* private mode or storage disabled — stay light */
+          /* private mode or storage disabled: fall through to the default */
+        }
+        if (stored !== "light") {
+          document.documentElement.classList.add("dark");
         }
       })();
 

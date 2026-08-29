@@ -1,7 +1,7 @@
 import { skills } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
-import { Reveal } from "./Reveal";
+import { SectionCard } from "./SectionCard";
 import { Stagger } from "./Stagger";
 
 export function SkillsSection() {
@@ -17,22 +17,22 @@ export function SkillsSection() {
           description={t("skills.description")}
         />
 
-        <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+        {/* Separate cards in a gapped grid, the same object the projects grid
+            uses, rather than nine cells sharing one hairline box. */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {groups.map(([key, group], index) => (
-            <Reveal key={key} delay={Math.min(index, 5) * 0.04} className="bg-card">
-              <div className="flex h-full flex-col p-6">
-                <h3 className="font-display text-lg font-semibold leading-snug">
-                  {group[language]}
-                </h3>
-                <Stagger.List className="mt-4 flex flex-wrap gap-1.5">
-                  {group.items[language].map((item) => (
-                    <Stagger.Item key={item} className="tag">
-                      {item}
-                    </Stagger.Item>
-                  ))}
-                </Stagger.List>
-              </div>
-            </Reveal>
+            <SectionCard key={key} delay={Math.min(index, 5) * 0.04} className="p-6">
+              <h3 className="font-display text-lg font-semibold leading-snug transition-colors group-hover:text-primary">
+                {group[language]}
+              </h3>
+              <Stagger.List className="mt-4 flex flex-wrap gap-1.5">
+                {group.items[language].map((item) => (
+                  <Stagger.Item key={item} className="tag">
+                    {item}
+                  </Stagger.Item>
+                ))}
+              </Stagger.List>
+            </SectionCard>
           ))}
         </div>
       </div>

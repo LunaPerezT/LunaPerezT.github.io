@@ -25,7 +25,9 @@ export function LeadProjectCard({ project }: { project: Project }) {
         </ProjectCard.Body>
 
         <div className="relative flex flex-col justify-between gap-5 overflow-hidden border-t border-border bg-background-alt p-6 lg:border-l lg:border-t-0 lg:p-8">
-          <ProjectCard.Glyph className="-right-8 -top-6 h-24 w-48" />
+          {/* Fully inside the panel: it used to bleed past the top-left corner,
+              where `overflow-hidden` sliced the top off the motif. */}
+          <ProjectCard.Glyph className="right-5 top-5 h-20 w-40" />
           <div className="relative">
             <ProjectCard.Metrics count={3} layout="stack" />
           </div>

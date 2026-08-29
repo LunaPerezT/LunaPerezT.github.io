@@ -4,57 +4,55 @@ import { useId, useMemo, useState } from "react";
 import { certifications, education } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SectionHeading } from "./SectionHeading";
-import { Reveal } from "./Reveal";
+import { SectionCard } from "./SectionCard";
 import { Stagger } from "./Stagger";
 import { cn } from "@/lib/utils";
 
 /** Education first — it is the frame the certifications hang on. */
-function EducationTimeline() {
+function EducationCards() {
   const { language, t } = useLanguage();
 
   return (
     <div className="mb-16">
       <p className="eyebrow mb-5">{t("education.title")}</p>
-      <ol className="divide-hairline rounded-xl border border-border bg-card">
+      <ol className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {education.map((item, index) => (
-          <Reveal key={item.title.en} delay={Math.min(index, 3) * 0.05}>
-            <li className="p-6">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h3 className="font-display text-lg font-semibold leading-snug">
-                  {item.title[language]}
-                </h3>
-                <span className="eyebrow shrink-0">{item.period[language]}</span>
-              </div>
+          <SectionCard as="li" key={item.title.en} delay={index * 0.05} className="p-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h3 className="font-display text-lg font-semibold leading-snug transition-colors group-hover:text-primary">
+                {item.title[language]}
+              </h3>
+              <span className="eyebrow shrink-0">{item.period[language]}</span>
+            </div>
 
-              <p className="eyebrow eyebrow-accent mt-1.5">{item.institution}</p>
+            <p className="eyebrow eyebrow-accent mt-1.5">{item.institution}</p>
 
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-                {item.summary[language]}
-              </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {item.summary[language]}
+            </p>
 
-              {item.topics && (
-                <Stagger.List className="mt-4 flex flex-wrap gap-1.5">
-                  {item.topics[language].map((topic) => (
-                    <Stagger.Item key={topic} className="tag">
-                      {topic}
-                    </Stagger.Item>
-                  ))}
-                </Stagger.List>
-              )}
+            {item.topics && (
+              <Stagger.List className="mt-4 flex flex-wrap gap-1.5">
+                {item.topics[language].map((topic) => (
+                  <Stagger.Item key={topic} className="tag">
+                    {topic}
+                  </Stagger.Item>
+                ))}
+              </Stagger.List>
+            )}
 
-              {item.url && (
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex min-h-11 items-center gap-1.5 link-underline text-xs font-medium text-primary"
-                >
-                  {t("certifications.view")}
-                  <ExternalLink className="h-3 w-3" aria-hidden="true" />
-                </a>
-              )}
-            </li>
-          </Reveal>
+            {item.url && (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-underline mt-auto inline-flex min-h-11 w-fit items-center gap-1.5 pt-4 text-xs font-medium text-primary"
+              >
+                {t("certifications.view")}
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </a>
+            )}
+          </SectionCard>
         ))}
       </ol>
     </div>
@@ -81,35 +79,27 @@ export function CertificationsSection() {
           description={t("certifications.description")}
         />
 
-        <EducationTimeline />
+        <EducationCards />
 
         <p className="eyebrow mb-5">
           {t("certifications.listTitle").replace("{n}", String(ordered.length))}
         </p>
 
-        <ul className="grid overflow-hidden rounded-xl border border-border md:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {ordered.map((cert, index) => {
             const key = cert.url ?? cert.credentialId ?? cert.name.en;
             const panelId = `${baseId}-panel-${index}`;
             const isOpen = expanded === key;
 
             return (
-              <li
-                key={key}
-                className={cn(
-                  "border-border bg-card",
-                  index > 0 && "border-t",
-                  "md:border-t md:odd:border-r",
-                  index < 2 && "md:border-t-0"
-                )}
-              >
+              <SectionCard as="li" key={key} delay={Math.min(index, 5) * 0.03}>
                 <h3>
                   <button
                     type="button"
                     onClick={() => setExpanded(isOpen ? null : key)}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    className="group flex min-h-11 w-full cursor-pointer items-center gap-3 px-5 py-4 text-left transition-colors hover:bg-background-alt"
+                    className="flex min-h-11 w-full cursor-pointer items-center gap-3 px-5 py-4 text-left transition-colors hover:bg-background-alt"
                   >
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-medium leading-snug transition-colors group-hover:text-primary">
@@ -149,7 +139,7 @@ export function CertificationsSection() {
                             href={cert.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-3 inline-flex min-h-11 items-center gap-1.5 link-underline text-xs font-medium text-primary"
+                            className="link-underline mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-medium text-primary"
                           >
                             {t("certifications.view")}
                             <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -165,7 +155,7 @@ export function CertificationsSection() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </li>
+              </SectionCard>
             );
           })}
         </ul>

@@ -217,10 +217,12 @@ export function ToolsSection() {
         <div className="space-y-10">
           {Object.entries(toolCategories).map(([key, category], index) => (
             <Reveal key={key} delay={Math.min(index, 4) * 0.05}>
-              <h3 className="eyebrow mb-5 border-b border-border pb-3">
+              <h3 className="eyebrow mb-5 border-b border-border pb-3 text-center">
                 {category[language]}
               </h3>
-              <Stagger.List className="flex flex-wrap gap-x-5 gap-y-6">
+              {/* Centred rather than left-aligned: the categories have very
+                  different counts, and a ragged last row reads as a mistake. */}
+              <Stagger.List className="flex flex-wrap justify-center gap-x-5 gap-y-6">
                 {category.tools.map((tool) => (
                   <Stagger.Item key={tool.name}>
                     <ToolTile tool={tool} />

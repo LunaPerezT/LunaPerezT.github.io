@@ -12,9 +12,18 @@ import type { GlyphKind } from "@/data/portfolio-data";
  * Purely decorative: `aria-hidden` and no accessible name.
  */
 const PATHS: Record<GlyphKind, React.ReactNode> = {
-  // Two heartbeats: baseline, P wave, QRS spike, T wave.
+  // Two heartbeats: baseline, P wave, QRS complex, T wave, twice.
+  //
+  // One continuous path on a single baseline at y=38. The previous version drew
+  // each beat as its own subpath and the first one ended six units low, so the
+  // second started with a visible step; it also spiked to y=8, which the card's
+  // `overflow-hidden` clipped. Every vertex here returns to 38, and the extremes
+  // (16 and 46) sit well inside the 0..64 box.
   ecg: (
-    <path pathLength={1} d="M0 32 H14 l4-6 3 12 4-30 5 44 4-20 3 6 h9 q4 0 5-8 t5 8 H62 M62 32 H76 l4-6 3 12 4-30 5 44 4-20 3 6 h9 q4 0 5-8 t5 8 H124" />
+    <path
+      pathLength={1}
+      d="M0 38 H14 q3-5 6 0 H24 l2 5 3-27 3 30 2-8 H40 q5-9 10 0 H78 q3-5 6 0 H88 l2 5 3-27 3 30 2-8 H104 q5-9 10 0 H128"
+    />
   ),
   // An estimated route and the one actually driven, diverging then rejoining.
   route: (
