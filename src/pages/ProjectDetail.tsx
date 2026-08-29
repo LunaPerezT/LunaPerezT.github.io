@@ -224,7 +224,7 @@ export default function ProjectDetail() {
                 <img
                   key={image}
                   src={image}
-                  alt={`${project.title[language]} — ${position + 1}`}
+                  alt={`${project.title[language]} (${position + 1})`}
                   loading="lazy"
                   decoding="async"
                   className="w-full rounded-xl border border-border bg-card object-cover"

@@ -21,7 +21,7 @@ export function AboutSection() {
           </Reveal>
 
           <Reveal delay={0.08} className="min-w-0">
-            <div className="mb-10 flex origin-top scale-[0.86] justify-center min-[360px]:scale-100 lg:justify-start">
+            <div className="mb-10">
               <PerspectiveCard
                 eyebrow={t("about.card.eyebrow")}
                 title={t("about.card.title")}

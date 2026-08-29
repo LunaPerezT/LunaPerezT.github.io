@@ -35,10 +35,6 @@ export function SkillsSection() {
             </Reveal>
           ))}
         </div>
-
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-          {t("skills.footnote")}
-        </p>
       </div>
     </section>
   );

@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { socialLinks } from "@/data/portfolio-data";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { HeroBackdrop } from "./HeroBackdrop";
+import { SplineBackdrop } from "./SplineBackdrop";
 import { GradientLink } from "./uiverse/GradientButton";
 import { OrbitCard } from "./uiverse/OrbitCard";
 import { AnimatedNumber } from "./AnimatedNumber";
@@ -41,7 +41,7 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pb-24 md:pt-32">
       <div className="grid-paper absolute inset-0 -z-10" aria-hidden="true" />
-      <HeroBackdrop className="pointer-events-none absolute inset-0 -z-10 h-full w-full" />
+      <SplineBackdrop className="pointer-events-none absolute inset-0 -z-10 h-full w-full" />
 
       <div className="container">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
@@ -177,9 +177,6 @@ export function HeroSection() {
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            {t("hero.proof.footnote")}
-          </p>
         </motion.div>
       </div>
     </section>

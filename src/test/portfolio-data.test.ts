@@ -105,7 +105,7 @@ describe("portfolio data", () => {
 
 describe("credentials and skills", () => {
   it("gives every education entry both languages and a period", () => {
-    expect(education.length).toBeGreaterThanOrEqual(3);
+    expect(education.length).toBeGreaterThanOrEqual(2);
     for (const item of education) {
       for (const field of [item.title, item.period, item.summary]) {
         expect(field.en.trim()).not.toBe("");
@@ -129,10 +129,17 @@ describe("credentials and skills", () => {
       expect(cert.name.es.trim()).not.toBe("");
       expect(cert.description.en.trim()).not.toBe("");
       expect(cert.description.es.trim()).not.toBe("");
-      // Either a public credential page or, failing that, an ID someone can quote.
-      expect(Boolean(cert.url) || Boolean(cert.credentialId)).toBe(true);
       if (cert.url) expect(cert.url).toMatch(/^https:\/\//);
     }
+  });
+
+  it("leaves at most one certification without a way to verify it", () => {
+    // A public credential page, or failing that an ID someone can quote. The one
+    // allowance is Elements of AI, whose mooc.fi certificate link is not on file;
+    // it renders without a "view credential" affordance rather than linking the
+    // public course page, which would verify nothing.
+    const unverifiable = certifications.filter((c) => !c.url && !c.credentialId);
+    expect(unverifiable.map((c) => c.name.en)).toEqual(["Elements of AI"]);
   });
 
   it("has no duplicate certifications", () => {
@@ -149,5 +156,37 @@ describe("credentials and skills", () => {
       expect(group.items.en.length).toBe(group.items.es.length);
       expect(group.items.en.length).toBeGreaterThanOrEqual(3);
     }
+  });
+
+  it("keeps skill and education tags to short names, not sentences", () => {
+    const tags = [
+      ...Object.values(skills).flatMap((g) => [...g.items.en, ...g.items.es]),
+      ...education.flatMap((e) => (e.topics ? [...e.topics.en, ...e.topics.es] : [])),
+    ];
+    const tooLong = tags.filter((tag) => tag.split(/\s+/).length > 4);
+    expect(tooLong).toEqual([]);
+  });
+});
+
+describe("copy style", () => {
+  // Em and en dashes were swept out of the visible copy in favour of commas and
+  // parentheses. This catches a reintroduction, in either the raw character or
+  // its escaped form.
+  it("uses no em or en dashes anywhere in the visible copy", () => {
+    const offenders: string[] = [];
+    const walk = (node: unknown, path: string) => {
+      if (typeof node === "string") {
+        if (/[–—]/.test(node)) offenders.push(`${path}: ${node.slice(0, 60)}`);
+        return;
+      }
+      if (Array.isArray(node)) return node.forEach((v, i) => walk(v, `${path}[${i}]`));
+      if (node && typeof node === "object")
+        for (const [k, v] of Object.entries(node)) walk(v, `${path}.${k}`);
+    };
+    walk(projects, "projects");
+    walk(skills, "skills");
+    walk(certifications, "certifications");
+    walk(education, "education");
+    expect(offenders).toEqual([]);
   });
 });

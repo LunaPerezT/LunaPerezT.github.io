@@ -37,7 +37,7 @@ export function LanguageSelector() {
             )}
           >
             {item.short}
-            <span className="sr-only"> — {item.full}</span>
+            <span className="sr-only">, {item.full}</span>
           </button>
         );
       })}

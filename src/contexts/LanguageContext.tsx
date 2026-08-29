@@ -27,7 +27,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.welcome": "Welcome to my portfolio",
     "hero.title1": "Data Scientist &",
     "hero.title2": "AI Engineer",
-    "hero.summary": "Data Scientist and AI Engineer working across the full pipeline, from ingestion to deployment. Most of my work sits in medical and health AI, with a recurring interest in what a model\u2019s output should actually be used for \u2014 and in evaluation that survives scrutiny.",
+    "hero.summary": "Data Scientist and AI Engineer working across the full pipeline, from ingestion to deployment. Most of my work sits in medical and health AI, with a recurring interest in what a model\u2019s output should actually be used for, and in evaluation that survives scrutiny.",
     "hero.viewProjects": "View Projects",
     "hero.contact": "Contact",
     "hero.stat.projects": "Featured Projects",
@@ -67,7 +67,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Skills
     "skills.subtitle": "Technical Expertise",
     "skills.title": "Skills",
-    "skills.description": "Nine groups, drawn from what the projects on this page actually required \u2014 from cost-derived decision rules to Spark pipelines and clinical terminology.",
+    "skills.description": "Nine groups, drawn from what the projects on this page actually required, from cost-derived decision rules to Spark pipelines and clinical terminology.",
     
     // Tools
     "tools.subtitle": "Tech Stack",
@@ -77,7 +77,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Certifications
     "certifications.subtitle": "Training & credentials",
     "certifications.title": "Education & Certifications",
-    "certifications.description": "Where the training came from, and the certifications behind it \u2014 from a data science bootcamp to Azure data engineering and clinical terminology standards.",
+    "certifications.description": "Where the training came from, and the certifications behind it, from a data science bootcamp to Azure data engineering and clinical terminology standards.",
     
     // About
     "about.subtitle": "Get to Know Me",
@@ -127,7 +127,6 @@ const translations: Record<Language, Record<string, string>> = {
 
     "hero.proof.label": "Three results, and where to check them",
     "hero.proof.cta": "Read the case study",
-    "hero.proof.footnote": "Every figure on this site names the split it was measured on and the limitation it carries. Nine projects, three with a live demo.",
 
     "projects.filter.label": "Filter projects by field",
     "projects.filter.all": "All",
@@ -145,7 +144,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     "contact.error.name": "Tell me your name so I know who is writing.",
     "contact.error.emailRequired": "I need an email address to reply to.",
-    "contact.error.emailFormat": "That address does not look right — check for a typo.",
+    "contact.error.emailFormat": "That address does not look right, check for a typo.",
     "contact.error.message": "Add a message, even a short one.",
     "contact.error.sendTitle": "The message did not go through",
     "contact.error.sendBody": "Something went wrong on the way. Try again, or write directly to lunapereztroncoso@gmail.com.",
@@ -153,14 +152,12 @@ const translations: Record<Language, Record<string, string>> = {
     "education.title": "Education & training",
     "certifications.listTitle": "{n} certifications",
     "certifications.credentialId": "Credential ID",
-    "skills.footnote": "Most of these are demonstrated by a project on this page. The exceptions come from training rather than from a repository, and they are: Delta Lake and Lakehouse architecture, pipeline orchestration, SNOMED CT, healthcare data standards, and NLP fundamentals.",
-    "tools.footnote": "Marks without an official icon in any reliable set — the boosting libraries, the Nixtla family, Delta Lake, Azure Data Factory, Unity Catalog — are drawn here rather than copied, so nothing is passed off as a logo it is not.",
     "nav.backToTop": "Back to top",
     "hero.featured": "Leading case",
     "hero.featured.subtitle": "124k heartbeats, a Spark pipeline and a residual 1-D CNN",
     "about.card.eyebrow": "Open to work",
     "about.card.title": "Data Scientist & AI Engineer",
-    "about.card.body": "Madrid. Medical and health AI, from Spark pipelines to deployed models.",
+    "about.card.body": "Madrid. Medical and health AI, from data to deployment.",
     "about.card.cta": "Get in touch",
   },
   es: {
@@ -178,7 +175,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.welcome": "Bienvenido/a a mi portfolio",
     "hero.title1": "Data Scientist &",
     "hero.title2": "AI Engineer",
-    "hero.summary": "Data Scientist y AI Engineer que trabaja en todo el pipeline, desde la ingesta hasta el despliegue. La mayor parte de mi trabajo est\u00e1 en IA m\u00e9dica y de salud, con un inter\u00e9s recurrente en para qu\u00e9 deber\u00eda usarse de verdad la salida de un modelo \u2014 y en evaluaciones que aguantan el escrutinio.",
+    "hero.summary": "Data Scientist y AI Engineer que trabaja en todo el pipeline, desde la ingesta hasta el despliegue. La mayor parte de mi trabajo est\u00e1 en IA m\u00e9dica y de salud, con un inter\u00e9s recurrente en para qu\u00e9 deber\u00eda usarse de verdad la salida de un modelo, y en evaluaciones que aguantan el escrutinio.",
     "hero.viewProjects": "Ver Proyectos",
     "hero.contact": "Contacto",
     "hero.stat.projects": "Proyectos Destacados",
@@ -218,7 +215,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Skills
     "skills.subtitle": "Experiencia Técnica",
     "skills.title": "Habilidades",
-    "skills.description": "Nueve bloques, sacados de lo que han exigido de verdad los proyectos de esta página \u2014 desde reglas de decisión por coste hasta pipelines de Spark y terminología cl\u00ednica.",
+    "skills.description": "Nueve bloques, sacados de lo que han exigido de verdad los proyectos de esta página, desde reglas de decisión por coste hasta pipelines de Spark y terminología cl\u00ednica.",
     
     // Tools
     "tools.subtitle": "Stack Tecnológico",
@@ -228,7 +225,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Certifications
     "certifications.subtitle": "Formación y credenciales",
     "certifications.title": "Formación y Certificaciones",
-    "certifications.description": "De dónde viene la formación y qué certificaciones la respaldan \u2014 desde un bootcamp de data science hasta ingeniería de datos en Azure y estándares de terminología clínica.",
+    "certifications.description": "De dónde viene la formación y qué certificaciones la respaldan, desde un bootcamp de data science hasta ingeniería de datos en Azure y estándares de terminología clínica.",
     
     // About
     "about.subtitle": "Conóceme",
@@ -278,7 +275,6 @@ const translations: Record<Language, Record<string, string>> = {
 
     "hero.proof.label": "Tres resultados, y dónde comprobarlos",
     "hero.proof.cta": "Ver el caso",
-    "hero.proof.footnote": "Cada cifra de este sitio dice sobre qué split se midió y qué limitación arrastra. Nueve proyectos, tres con demo en vivo.",
 
     "projects.filter.label": "Filtrar proyectos por área",
     "projects.filter.all": "Todos",
@@ -296,7 +292,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     "contact.error.name": "Dime tu nombre para saber quién escribe.",
     "contact.error.emailRequired": "Necesito un email al que responderte.",
-    "contact.error.emailFormat": "Esa dirección no parece correcta — revisa si hay alguna errata.",
+    "contact.error.emailFormat": "Esa dirección no parece correcta, revisa si hay alguna errata.",
     "contact.error.message": "Escribe un mensaje, aunque sea corto.",
     "contact.error.sendTitle": "El mensaje no ha salido",
     "contact.error.sendBody": "Algo ha fallado por el camino. Vuelve a intentarlo o escríbeme directamente a lunapereztroncoso@gmail.com.",
@@ -304,14 +300,12 @@ const translations: Record<Language, Record<string, string>> = {
     "education.title": "Formación",
     "certifications.listTitle": "{n} certificaciones",
     "certifications.credentialId": "ID de credencial",
-    "skills.footnote": "La mayoría están demostradas por alguno de los proyectos de esta página. Las excepciones vienen de la formación y no de un repositorio, y son: Delta Lake y arquitectura Lakehouse, orquestación de pipelines, SNOMED CT, estándares de datos sanitarios y fundamentos de NLP.",
-    "tools.footnote": "Las marcas sin icono oficial en ningún set fiable —las librerías de boosting, la familia Nixtla, Delta Lake, Azure Data Factory, Unity Catalog— están dibujadas aquí en vez de copiadas, para no hacer pasar nada por un logo que no es.",
     "nav.backToTop": "Volver arriba",
     "hero.featured": "Caso principal",
     "hero.featured.subtitle": "124.000 latidos, un pipeline Spark y una CNN 1-D residual",
     "about.card.eyebrow": "Disponible",
     "about.card.title": "Data Scientist & AI Engineer",
-    "about.card.body": "Madrid. IA médica y de salud, de pipelines de Spark a modelos desplegados.",
+    "about.card.body": "Madrid. IA médica y de salud, de los datos al despliegue.",
     "about.card.cta": "Hablemos",
   },
 };

@@ -230,10 +230,6 @@ export function ToolsSection() {
             </Reveal>
           ))}
         </div>
-
-        <p className="mt-8 text-xs leading-relaxed text-muted-foreground">
-          {t("tools.footnote")}
-        </p>
       </div>
     </section>
   );
