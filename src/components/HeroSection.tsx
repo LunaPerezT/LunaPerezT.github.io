@@ -79,7 +79,7 @@ export function HeroSection() {
             </GradientLink>
             <a
               href="#contact"
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-5 text-sm font-medium transition-colors hover:border-border-strong"
+              className="card-glow inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-5 text-sm font-medium transition-[color,background-color,border-color,box-shadow] duration-300 hover:border-border-strong"
             >
               <Mail className="h-4 w-4" aria-hidden="true" />
               {t("hero.contact")}
@@ -91,7 +91,7 @@ export function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="card-glow inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-[color,background-color,border-color,box-shadow] duration-300 hover:text-foreground"
               >
                 <Github className="h-5 w-5" aria-hidden="true" />
               </a>
@@ -100,7 +100,7 @@ export function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="card-glow inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-[color,background-color,border-color,box-shadow] duration-300 hover:text-foreground"
               >
                 <Linkedin className="h-5 w-5" aria-hidden="true" />
               </a>

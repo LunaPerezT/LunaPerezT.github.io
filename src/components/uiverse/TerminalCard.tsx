@@ -1,29 +1,73 @@
+import { useEffect, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
  * Adapted from "smooth-quail-87" by ilkhoeri on uiverse.io (MIT).
  * https://uiverse.io/ilkhoeri/smooth-quail-87
  *
- * A terminal chrome with a command that types itself in and out: the typed part
- * is a `::before` carrying `content: attr(data-cmd)` inside an `overflow:
- * hidden` box whose width is animated in `steps()`, with a second pseudo-element
- * as the blinking cursor. The rhythm is the original's, four stages over 8s.
+ * A terminal chrome with a command that types itself in and out.
  *
- * Three changes. The command is `pip install pandas` rather than
- * `npx create-react-app@latest`. The original's widths are hard-coded pixels
- * measured against that one string, so they are `ch` here and the step count is
- * the character count, which means changing the command needs no re-measuring.
- * And it is sized to sit under the featured-case card at the same width, so the
- * type scale is smaller than the original's 16px.
+ * The original does this in pure CSS: `content: attr(data-cmd)` inside an
+ * overflow-hidden box whose width animates in `steps()`. That mechanism has two
+ * limits this card runs into. `steps()` divides the whole animation, so with the
+ * original's four-stage keyframes each step covers several characters at once,
+ * which is the "in chunks" look. And a width animation can only reveal one line,
+ * while `pandas numpy scikit-learn tensorflow` needs three at this card's width.
  *
- * The copy button of the original is gone: it copied the command to the
- * clipboard, and a decorative control that does nothing is worse than no
- * control. What is left is `aria-hidden`, because a caret animating across a
- * shell prompt is decoration, and the command is announced once as static text.
+ * So the reveal is a character counter here instead: one character per tick,
+ * text wrapping normally, a caret that keeps blinking while it types. The
+ * chrome, the rhythm (type, hold, erase) and the caret are the original's.
+ *
+ * Under `prefers-reduced-motion` the whole command is shown at once and no timer
+ * ever starts.
  */
 const PROMPT = "$";
 const COMMAND = "pip install";
-const TYPED = "pandas";
+const PACKAGES = "pandas numpy scikit-learn tensorflow";
+
+const TYPE_MS = 70;
+const ERASE_MS = 25;
+const HOLD_MS = 2600;
+const RESTART_MS = 700;
+
+/** Reveals `text` one character at a time, then erases it, forever. */
+function useTypewriter(text: string) {
+  const reduced = useReducedMotion();
+  const [count, setCount] = useState(() => (reduced ? text.length : 0));
+
+  useEffect(() => {
+    if (reduced) {
+      setCount(text.length);
+      return;
+    }
+
+    let n = 0;
+    let timer: number;
+
+    const type = () => {
+      n += 1;
+      setCount(n);
+      timer = window.setTimeout(n < text.length ? type : hold, TYPE_MS);
+    };
+    const hold = () => {
+      timer = window.setTimeout(erase, HOLD_MS);
+    };
+    const erase = () => {
+      n -= 1;
+      setCount(n);
+      timer = window.setTimeout(n > 0 ? erase : restart, ERASE_MS);
+    };
+    const restart = () => {
+      timer = window.setTimeout(type, RESTART_MS);
+    };
+
+    timer = window.setTimeout(type, 600);
+    return () => window.clearTimeout(timer);
+  }, [text, reduced]);
+
+  return text.slice(0, count);
+}
 
 interface TerminalCardProps {
   /** Shown in the title bar. */
@@ -32,6 +76,8 @@ interface TerminalCardProps {
 }
 
 export function TerminalCard({ title, className }: TerminalCardProps) {
+  const typed = useTypewriter(PACKAGES);
+
   return (
     <div
       className={cn(
@@ -61,26 +107,23 @@ export function TerminalCard({ title, className }: TerminalCardProps) {
           </span>
         </div>
 
-        {/* Body. The animation is decoration; the command itself is read once. */}
-        <div className="overflow-hidden bg-[hsl(220_32%_6%)] px-2.5 py-3">
-          <p className="sr-only">{`${PROMPT} ${COMMAND} ${TYPED}`}</p>
-          <pre
+        {/* Body. The original hard-codes a black body; here it follows the
+            theme, so the card is not a black hole in the light hero. */}
+        <div className="bg-background-alt px-2.5 py-2.5 dark:bg-[hsl(220_32%_6%)]">
+          {/* The command is announced once as static text; the caret is not. */}
+          <p className="sr-only">{`${PROMPT} ${COMMAND} ${PACKAGES}`}</p>
+          <p
             aria-hidden="true"
-            className="flex items-center whitespace-pre font-mono text-[0.6875rem] leading-[1.2]"
+            className="whitespace-pre-wrap break-words font-mono text-[0.6875rem] leading-[1.45]"
           >
-            <code className="text-white/35">{PROMPT}&nbsp;</code>
-            <code className="text-[hsl(213_90%_66%)]">{COMMAND}&nbsp;</code>
-            <code
-              className="terminal-cmd text-white/90"
-              data-cmd={TYPED}
-              style={
-                {
-                  "--cmd-len": `${TYPED.length}ch`,
-                  "--cmd-steps": TYPED.length,
-                } as React.CSSProperties
-              }
+            <span className="text-muted-foreground">{PROMPT} </span>
+            <span className="font-medium text-primary">{COMMAND} </span>
+            <span className="text-foreground">{typed}</span>
+            <span
+              className="terminal-caret ml-px inline-block h-[0.95em] w-[1px] translate-y-[2px] bg-highlight"
+              aria-hidden="true"
             />
-          </pre>
+          </p>
         </div>
       </div>
     </div>

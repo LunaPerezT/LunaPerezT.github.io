@@ -192,7 +192,7 @@ const toolCategories: Record<string, { en: string; es: string; tools: Tool[] }> 
 function ToolTile({ tool }: { tool: Tool }) {
   return (
     <div className="group flex flex-col items-center">
-      <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-card p-3 shadow-xs transition-[border-color,transform,box-shadow] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-md md:h-16 md:w-16">
+      <div className="halo-spin flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-card p-3 shadow-xs transition-[border-color,transform,box-shadow] duration-300 ease-out-expo group-hover:-translate-y-1 group-hover:border-primary/40 md:h-16 md:w-16 [--halo-glow:18px]">
         <ToolIcon {...tool} className="h-full w-full" />
       </div>
       <span className="mt-2 max-w-[84px] text-center text-xs leading-tight text-muted-foreground transition-colors group-hover:text-foreground">

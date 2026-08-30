@@ -8,6 +8,8 @@ import {
   type Project,
 } from "@/data/portfolio-data";
 import { projectImages } from "@/data/project-images";
+import { projectCharts } from "@/data/project-charts";
+import { ProjectCharts } from "@/components/ProjectCharts";
 import { Layout } from "@/components/Layout";
 import { ProjectGlyph } from "@/components/ProjectGlyph";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
@@ -38,6 +40,7 @@ export default function ProjectDetail() {
   if (!project) return <Navigate to="/" replace />;
 
   const images = id ? (projectImages[id] ?? []) : [];
+  const charts = id ? (projectCharts[id] ?? []) : [];
   const next = orderedProjects[(index + 1) % orderedProjects.length];
 
   const sections: { key: string; title: string; blocks: [string, string][] }[] = [
@@ -218,6 +221,8 @@ export default function ProjectDetail() {
       {/* ------------------------------------------------------------ Body */}
       <div className="px-5 py-14 sm:px-8 md:py-20">
         <div className="container">
+          <ProjectCharts charts={charts} />
+
           {images.length > 0 && (
             <div className="mb-14 grid gap-4 md:grid-cols-2">
               {images.map((image, position) => (

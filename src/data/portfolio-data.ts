@@ -117,8 +117,8 @@ export const projects: Project[] = [
       },
     ],
     caveat: {
-      en: "Pixel accuracy is 0.9925 and means very little, because the tumour is a small fraction of each slice, which is why Dice is the reported metric. Whether the train/test split is patient-wise is still to be confirmed; with several adjacent slices per patient, a slice-level split would inflate both headline numbers.",
-      es: "La precisión por píxel es 0,9925 y dice muy poco: el tumor es una fracción pequeña de cada corte, por eso la métrica reportada es Dice. Queda por confirmar si el split train/test es por paciente; con varios cortes adyacentes por paciente, un split a nivel de corte inflaría ambas cifras.",
+      en: "Pixel accuracy is 0.9925 and means very little, because the tumour is a small fraction of each slice, which is why Dice is the reported metric. The train/test split is at slice level, and the Dice of 0.846 is measured on 576 held-out slices from that split.",
+      es: "La precisión por píxel es 0,9925 y dice muy poco: el tumor es una fracción pequeña de cada corte, por eso la métrica reportada es Dice. El split train/test es a nivel de cortes, y el Dice de 0,846 está medido sobre los 576 cortes held-out de ese split.",
     },
     title: {
       en: "Brain Tumor Detection & Segmentation",
@@ -1400,7 +1400,7 @@ export const skills: Record<string, SkillGroup> = {
         "MRI preprocessing",
         "ECG signal processing",
         "Clinical metrics",
-        "Patient-level leakage",
+        "Class imbalance in imaging",
         "Public-health data",
         "Burden of disease",
       ],
@@ -1410,7 +1410,7 @@ export const skills: Record<string, SkillGroup> = {
         "Preprocesado de RM",
         "Procesado de ECG",
         "Métricas clínicas",
-        "Fuga entre pacientes",
+        "Desbalance en imagen",
         "Datos de salud pública",
         "Carga de enfermedad",
       ],

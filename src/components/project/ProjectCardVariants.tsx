@@ -31,7 +31,6 @@ export function LeadProjectCard({ project }: { project: Project }) {
           <div className="relative">
             <ProjectCard.Metrics count={3} layout="stack" />
           </div>
-          <ProjectCard.Caveat clamp={false} />
         </div>
       </div>
     </ProjectCard.Root>
@@ -49,7 +48,6 @@ export function StandardProjectCard({ project }: { project: Project }) {
         <div className="rounded-lg border border-border bg-background-alt/60 p-3.5">
           <ProjectCard.Metrics count={2} layout="pair" />
         </div>
-        <ProjectCard.Caveat />
         <ProjectCard.Tags limit={4} />
         <ProjectCard.Actions />
       </ProjectCard.Body>
@@ -57,8 +55,7 @@ export function StandardProjectCard({ project }: { project: Project }) {
   );
 }
 
-/** One third of a row, lighter: the summary and a single headline number.
- *  The caveat is not dropped — it opens with the case study this card links to. */
+/** One third of a row, lighter: the summary and a single headline number. */
 export function CompactProjectCard({ project }: { project: Project }) {
   return (
     <ProjectCard.Root project={project} className="lg:col-span-2">

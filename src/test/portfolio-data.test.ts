@@ -8,6 +8,8 @@ import {
   projects,
   skills,
 } from "@/data/portfolio-data";
+import { projectImages } from "@/data/project-images";
+import { projectCharts } from "@/data/project-charts";
 
 /**
  * The portfolio's promise is that every card carries a real number and the
@@ -165,6 +167,44 @@ describe("credentials and skills", () => {
     ];
     const tooLong = tags.filter((tag) => tag.split(/\s+/).length > 4);
     expect(tooLong).toEqual([]);
+  });
+});
+
+describe("project charts", () => {
+  it("gives every project either screenshots or charts", () => {
+    for (const project of projects) {
+      const hasVisual =
+        (projectImages[project.id]?.length ?? 0) > 0 ||
+        (projectCharts[project.id]?.length ?? 0) > 0;
+      expect(hasVisual, `${project.id} has nothing to look at`).toBe(true);
+    }
+  });
+
+  it("keeps every bar inside its authored axis, in both languages", () => {
+    for (const [id, charts] of Object.entries(projectCharts)) {
+      expect(projects.some((p) => p.id === id)).toBe(true);
+      for (const chart of charts) {
+        expect(chart.bars.length).toBeGreaterThanOrEqual(2);
+        for (const field of [chart.title, chart.caption]) {
+          expect(field.en.trim()).not.toBe("");
+          expect(field.es.trim()).not.toBe("");
+        }
+        for (const bar of chart.bars) {
+          // An auto-scaled or overflowing bar is a lie about the axis.
+          expect(bar.value).toBeLessThanOrEqual(chart.max);
+          expect(bar.value).toBeGreaterThan(0);
+          expect(bar.label.es.trim()).not.toBe("");
+          expect(bar.display.es.trim()).not.toBe("");
+        }
+      }
+    }
+  });
+
+  it("says every simulated Cabify Part 1 chart is simulated", () => {
+    for (const chart of projectCharts["cabify-experiment-design"]) {
+      expect(chart.caption.en.toLowerCase()).toContain("simulated");
+      expect(chart.caption.es.toLowerCase()).toContain("simulado");
+    }
   });
 });
 

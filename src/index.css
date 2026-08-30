@@ -455,70 +455,23 @@
     }
   }
 
-  /* --- Terminal typing ---------------------------------------------------- *
-   * The moving half of "smooth-quail-87" by ilkhoeri (MIT). The typed text is
-   * `content: attr(data-cmd)` in an overflow-hidden box whose width steps from
-   * nothing to the full string and back; the caret is a second pseudo-element
-   * with a border on one side. The original's four-stage 8s rhythm is kept, but
-   * measured in `ch` off `--cmd-len` rather than in pixels measured against one
-   * particular string. */
-  .terminal-cmd {
-    position: relative;
-    display: flex;
-    height: 1.2em;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .terminal-cmd::before {
-    content: attr(data-cmd);
-    position: relative;
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    animation: terminal-type 8s steps(var(--cmd-steps, 6)) infinite;
-  }
-
-  .terminal-cmd::after {
-    content: "";
-    position: relative;
-    display: block;
-    height: 100%;
-    border-right: 0.12em solid hsl(var(--highlight));
-    animation:
-      terminal-caret 0.5s step-end infinite alternate,
-      terminal-blink 0.5s infinite;
-  }
-
-  @keyframes terminal-type {
-    0%,
-    100% {
-      width: 0;
-    }
-    10%,
-    90% {
-      width: calc(var(--cmd-len) * 0.34);
-    }
-    30%,
-    70% {
-      width: var(--cmd-len);
-      max-width: max-content;
-    }
-  }
-
-  @keyframes terminal-caret {
-    50% {
-      border-right-color: transparent;
-    }
+  /* --- Terminal caret ------------------------------------------------------ *
+   * All that survives in CSS from "smooth-quail-87" by ilkhoeri (MIT): the
+   * caret. The typing itself is a character counter in TerminalCard, because
+   * the original's width-in-steps() trick can only reveal a single line and
+   * quantises the whole animation, which is what made the letters arrive in
+   * chunks. */
+  .terminal-caret {
+    animation: terminal-blink 1s step-end infinite;
   }
 
   @keyframes terminal-blink {
-    20%,
-    80% {
-      transform: scaleY(1);
+    0%,
+    100% {
+      opacity: 1;
     }
     50% {
-      transform: scaleY(0);
+      opacity: 0;
     }
   }
 
@@ -607,8 +560,27 @@
   .card-glow:hover,
   .card-glow:focus-within,
   .halo-spin:hover,
-  .halo-spin:focus-within {
-    box-shadow: 0 0 30px 1px hsl(var(--primary) / 0.3);
+  .halo-spin:focus-within,
+  .group:hover > .card-glow,
+  .group:hover > .halo-spin,
+  .group:focus-within > .card-glow,
+  .group:focus-within > .halo-spin {
+    box-shadow: 0 0 var(--halo-glow, 30px) 1px hsl(var(--primary) / 0.3);
+  }
+
+  /* A tool tile is the icon plus its label, and the pointer is often over the
+     label. Letting an ancestor `.group` fire the effect keeps the whole tile
+     one hover target. */
+  .group:hover > .card-glow::before,
+  .group:hover > .halo-spin::before,
+  .group:focus-within > .card-glow::before,
+  .group:focus-within > .halo-spin::before {
+    opacity: 1;
+  }
+
+  .group:hover > .halo-spin::before,
+  .group:focus-within > .halo-spin::before {
+    --halo-angle: 90deg;
   }
 
   /* --- Eyebrow / label --------------------------------------------------- */
