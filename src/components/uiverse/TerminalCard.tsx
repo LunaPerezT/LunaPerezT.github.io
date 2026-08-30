@@ -9,64 +9,84 @@ import { cn } from "@/lib/utils";
  * A terminal chrome with a command that types itself in and out.
  *
  * The original does this in pure CSS: `content: attr(data-cmd)` inside an
- * overflow-hidden box whose width animates in `steps()`. That mechanism has two
- * limits this card runs into. `steps()` divides the whole animation, so with the
- * original's four-stage keyframes each step covers several characters at once,
- * which is the "in chunks" look. And a width animation can only reveal one line,
- * while `pandas numpy scikit-learn tensorflow` needs three at this card's width.
+ * overflow-hidden box whose width animates in `steps()`. `steps()` divides the
+ * whole animation, so with the original's four-stage keyframes each step covers
+ * several characters at once, which is the "in chunks" look. The reveal is a
+ * character counter here instead: one character per tick. The chrome, the
+ * rhythm (type, hold, erase) and the caret are the original's.
  *
- * So the reveal is a character counter here instead: one character per tick,
- * text wrapping normally, a caret that keeps blinking while it types. The
- * chrome, the rhythm (type, hold, erase) and the caret are the original's.
+ * It cycles through the packages one at a time rather than typing the whole
+ * list, so each name gets a moment on its own and the line never has to wrap.
+ * The screen reader gets the full command in one go instead, since a caret
+ * looping over four package names is decoration, not content.
+ *
+ * The command sits on its own line above the package. That is how the command
+ * would be typed anyway, and it means the card's height does not jump when
+ * `scikit-learn` follows `numpy`.
  *
  * Under `prefers-reduced-motion` the whole command is shown at once and no timer
  * ever starts.
  */
 const PROMPT = "$";
 const COMMAND = "pip install";
-const PACKAGES = "pandas numpy scikit-learn tensorflow";
 
-const TYPE_MS = 70;
-const ERASE_MS = 25;
-const HOLD_MS = 2600;
-const RESTART_MS = 700;
+/** Typed one at a time, in this order, forever. */
+const PACKAGES = ["pandas", "numpy", "scikit-learn", "tensorflow"] as const;
 
-/** Reveals `text` one character at a time, then erases it, forever. */
-function useTypewriter(text: string) {
+const TYPE_MS = 85;
+const ERASE_MS = 40;
+const HOLD_MS = 1500;
+const GAP_MS = 450;
+
+/**
+ * Types one word in, holds it, erases it, moves to the next, and wraps around.
+ *
+ * A single timeout chain rather than an interval: each phase decides its own
+ * delay, so typing, erasing and the pause between words can run at different
+ * speeds without three timers to keep in step. Returns the part of the current
+ * word typed so far.
+ */
+function useCyclingTypewriter(words: readonly string[]) {
   const reduced = useReducedMotion();
-  const [count, setCount] = useState(() => (reduced ? text.length : 0));
+  const [state, setState] = useState(() => ({ index: 0, count: reduced ? words[0].length : 0 }));
 
   useEffect(() => {
     if (reduced) {
-      setCount(text.length);
+      // One word, complete, no timers: with reduced motion nothing should be
+      // appearing and disappearing in the corner of the eye.
+      setState({ index: 0, count: words[0].length });
       return;
     }
 
-    let n = 0;
+    let index = 0;
+    let count = 0;
     let timer: number;
+    const push = () => setState({ index, count });
 
     const type = () => {
-      n += 1;
-      setCount(n);
-      timer = window.setTimeout(n < text.length ? type : hold, TYPE_MS);
+      count += 1;
+      push();
+      timer = window.setTimeout(count < words[index].length ? type : hold, TYPE_MS);
     };
     const hold = () => {
       timer = window.setTimeout(erase, HOLD_MS);
     };
     const erase = () => {
-      n -= 1;
-      setCount(n);
-      timer = window.setTimeout(n > 0 ? erase : restart, ERASE_MS);
+      count -= 1;
+      push();
+      timer = window.setTimeout(count > 0 ? erase : next, ERASE_MS);
     };
-    const restart = () => {
-      timer = window.setTimeout(type, RESTART_MS);
+    const next = () => {
+      index = (index + 1) % words.length;
+      push();
+      timer = window.setTimeout(type, GAP_MS);
     };
 
     timer = window.setTimeout(type, 600);
     return () => window.clearTimeout(timer);
-  }, [text, reduced]);
+  }, [words, reduced]);
 
-  return text.slice(0, count);
+  return words[state.index].slice(0, state.count);
 }
 
 interface TerminalCardProps {
@@ -76,7 +96,7 @@ interface TerminalCardProps {
 }
 
 export function TerminalCard({ title, className }: TerminalCardProps) {
-  const typed = useTypewriter(PACKAGES);
+  const typed = useCyclingTypewriter(PACKAGES);
 
   return (
     <div
@@ -111,19 +131,20 @@ export function TerminalCard({ title, className }: TerminalCardProps) {
             theme, so the card is not a black hole in the light hero. */}
         <div className="bg-background-alt px-2.5 py-2.5 dark:bg-[hsl(220_32%_6%)]">
           {/* The command is announced once as static text; the caret is not. */}
-          <p className="sr-only">{`${PROMPT} ${COMMAND} ${PACKAGES}`}</p>
-          <p
+          <p className="sr-only">{`${PROMPT} ${COMMAND} ${PACKAGES.join(" ")}`}</p>
+          <div
             aria-hidden="true"
-            className="whitespace-pre-wrap break-words font-mono text-[0.6875rem] leading-[1.45]"
+            className="font-mono text-[0.6875rem] leading-[1.5]"
           >
-            <span className="text-muted-foreground">{PROMPT} </span>
-            <span className="font-medium text-primary">{COMMAND} </span>
-            <span className="text-foreground">{typed}</span>
-            <span
-              className="terminal-caret ml-px inline-block h-[0.95em] w-[1px] translate-y-[2px] bg-highlight"
-              aria-hidden="true"
-            />
-          </p>
+            <p className="whitespace-nowrap">
+              <span className="text-muted-foreground">{PROMPT} </span>
+              <span className="font-medium text-primary">{COMMAND}</span>
+            </p>
+            <p className="whitespace-nowrap pl-[1.2em]">
+              <span className="text-foreground">{typed}</span>
+              <span className="terminal-caret ml-px inline-block h-[0.95em] w-[1px] translate-y-[2px] bg-highlight" />
+            </p>
+          </div>
         </div>
       </div>
     </div>
