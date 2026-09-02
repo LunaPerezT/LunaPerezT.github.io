@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ArrowLeft, ArrowRight, ExternalLink, Github, Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Github } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import {
   CATEGORY_LABELS,
@@ -204,17 +204,6 @@ export default function ProjectDetail() {
               </div>
             ))}
           </dl>
-
-          {/* The limitation sits next to the numbers, not in an appendix. */}
-          <div className="mt-8 flex gap-3 rounded-xl border border-border bg-card p-5">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-            <div>
-              <p className="eyebrow">{t("project.limitations")}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {project.caveat[language]}
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 

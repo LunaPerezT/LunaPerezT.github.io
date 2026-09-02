@@ -38,7 +38,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     "projects.subtitle": "Featured Work",
     "projects.title": "Projects",
-    "projects.description": "Nine projects, ordered by what each one proves rather than by date. Every card carries its headline number, the split it was measured on, and the limitation that comes with it.",
+    "projects.description": "Nine projects, ordered by what each one proves rather than by date. Every card carries its headline number and the split it was measured on.",
     "projects.viewDetails": "Read the case study",
     "projects.backToProjects": "Back to Projects",
     
@@ -135,7 +135,6 @@ const translations: Record<Language, Record<string, string>> = {
 
     "project.repository": "Repository",
     "project.liveDemo": "Live demo",
-    "project.limitations": "Limitations and caveats",
     "project.contents": "Contents",
     "project.stack": "Stack",
     "project.next": "Next project",
@@ -187,7 +186,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Projects
     "projects.subtitle": "Trabajo Destacado",
     "projects.title": "Proyectos",
-    "projects.description": "Nueve proyectos, ordenados por lo que demuestra cada uno y no por fecha. Cada tarjeta lleva su cifra principal, el split sobre el que se midi\u00f3 y la limitaci\u00f3n que arrastra.",
+    "projects.description": "Nueve proyectos, ordenados por lo que demuestra cada uno y no por fecha. Cada tarjeta lleva su cifra principal y el split sobre el que se midi\u00f3.",
     "projects.viewDetails": "Ver el caso",
     "projects.backToProjects": "Volver a Proyectos",
     
@@ -284,7 +283,6 @@ const translations: Record<Language, Record<string, string>> = {
 
     "project.repository": "Repositorio",
     "project.liveDemo": "Demo en vivo",
-    "project.limitations": "Limitaciones y caveats",
     "project.contents": "Contenido",
     "project.stack": "Stack",
     "project.next": "Siguiente proyecto",
