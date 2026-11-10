@@ -35,22 +35,40 @@ export interface ProjectChart {
 export const projectCharts: Record<string, ProjectChart[]> = {
   "missed-call-agent": [
     {
-      title: { en: "14 to 23 September 2026", es: "Del 14 al 23 de septiembre de 2026" },
+      title: { en: "14 September to 7 November 2026", es: "Del 14 de septiembre al 7 de noviembre de 2026" },
       caption: {
-        en: "One restaurant. All 47 calls reached the sent state with no retry. These are calls and callers, not bookings: how many conversations ended in a table is not counted.",
-        es: "Un solo restaurante. Las 47 llamadas llegaron al estado enviada sin un solo reintento. Son llamadas y personas, no reservas: cuántas conversaciones acabaron en mesa no se cuenta.",
+        en: "One restaurant, read from the production database. The 15 held back are the system's brakes at work (repeat callers, opt-outs), not failures. These are calls and callers, not bookings: how many conversations ended in a table is not counted.",
+        es: "Un solo restaurante, leído de la base de datos de producción. Las 15 retenidas son los frenos del sistema funcionando (quien vuelve a llamar, bajas), no fallos. Son llamadas y personas, no reservas: cuántas conversaciones acabaron en mesa no se cuenta.",
       },
-      max: 50,
+      max: 160,
       bars: [
         {
           label: { en: "Missed calls followed up", es: "Llamadas perdidas rescatadas" },
-          value: 47,
-          display: { en: "47", es: "47" },
+          value: 140,
+          display: { en: "140", es: "140" },
+        },
+        {
+          label: { en: "Missed calls registered", es: "Llamadas perdidas registradas" },
+          value: 157,
+          display: { en: "157", es: "157" },
+          reference: true,
         },
         {
           label: { en: "Distinct numbers", es: "Números distintos" },
-          value: 31,
-          display: { en: "31", es: "31" },
+          value: 113,
+          display: { en: "113", es: "113" },
+          reference: true,
+        },
+        {
+          label: { en: "Held back on purpose", es: "Retenidas a propósito" },
+          value: 15,
+          display: { en: "15", es: "15" },
+          reference: true,
+        },
+        {
+          label: { en: "Failed after retries", es: "Fallidas tras reintentos" },
+          value: 2,
+          display: { en: "2", es: "2" },
           reference: true,
         },
       ],
@@ -61,8 +79,8 @@ export const projectCharts: Record<string, ProjectChart[]> = {
         es: "Segundos de la llegada al servidor a la orden de envío",
       },
       caption: {
-        en: "47 real calls. The 90 s wait is deliberate, a margin for the team to call back; the rest is the minute cron. ManyChat sends no delivery receipt, so the last hop is not measured.",
-        es: "47 llamadas reales. Los 90 s de espera son a propósito, margen para que el equipo devuelva la llamada; el resto es el cron de cada minuto. ManyChat no devuelve acuse de entrega, así que el último tramo no está medido.",
+        en: "The 140 calls followed up. The 90 s wait is deliberate, a margin for the team to call back; the rest is the minute cron. ManyChat sends no delivery receipt, so the last hop is not measured.",
+        es: "Las 140 llamadas rescatadas. Los 90 s de espera son a propósito, margen para que el equipo devuelva la llamada; el resto es el cron de cada minuto. ManyChat no devuelve acuse de entrega, así que el último tramo no está medido.",
       },
       max: 180,
       bars: [
@@ -73,13 +91,18 @@ export const projectCharts: Record<string, ProjectChart[]> = {
         },
         {
           label: { en: "Mean", es: "Media" },
-          value: 120,
-          display: { en: "120 s", es: "120 s" },
+          value: 122,
+          display: { en: "122 s", es: "122 s" },
+        },
+        {
+          label: { en: "Median", es: "Mediana" },
+          value: 124,
+          display: { en: "124 s", es: "124 s" },
         },
         {
           label: { en: "Slowest", es: "Más lenta" },
-          value: 149,
-          display: { en: "149 s", es: "149 s" },
+          value: 151,
+          display: { en: "151 s", es: "151 s" },
         },
         {
           label: { en: "Courtesy wait", es: "Espera de cortesía" },

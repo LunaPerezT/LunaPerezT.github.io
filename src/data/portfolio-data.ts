@@ -115,7 +115,7 @@ export const projects: Project[] = [
       {
         value: "0.846",
         label: { en: "Dice, segmentation", es: "Dice, segmentación" },
-        note: { en: "ResUNet · IoU 0.734", es: "ResUNet · IoU 0,734" },
+        note: { en: "128 tumour slices · IoU 0.734", es: "128 cortes con tumor · IoU 0,734" },
       },
       {
         value: "0.98",
@@ -129,8 +129,8 @@ export const projects: Project[] = [
       },
     ],
     caveat: {
-      en: "Pixel accuracy is 0.9925 and means very little, because the tumour is a small fraction of each slice, which is why Dice is the reported metric. The train/test split is at slice level, and the Dice of 0.846 is measured on 576 held-out slices from that split.",
-      es: "La precisión por píxel es 0,9925 y dice muy poco: el tumor es una fracción pequeña de cada corte, por eso la métrica reportada es Dice. El split train/test es a nivel de cortes, y el Dice de 0,846 está medido sobre los 576 cortes held-out de ese split.",
+      en: "Pixel accuracy is 0.9925 and means very little, because the tumour is a small fraction of each slice, which is why Dice is the reported metric. The two models are scored on different held-out sets: macro-F1 on 576 slices from the classification split, and Dice on 128 slices from a separate split that holds only tumour-bearing slices. Both splits are at slice level.",
+      es: "La precisión por píxel es 0,9925 y dice muy poco: el tumor es una fracción pequeña de cada corte, por eso la métrica reportada es Dice. Cada modelo se evalúa sobre un conjunto held-out distinto: el macro-F1 sobre 576 cortes del split de clasificación, y el Dice sobre 128 cortes de un split aparte que solo contiene cortes con tumor. Los dos splits son a nivel de cortes.",
     },
     title: {
       en: "Brain Tumor Detection & Segmentation",
@@ -242,14 +242,14 @@ export const projects: Project[] = [
     role: { en: "Freelance, client project", es: "Freelance, proyecto para cliente" },
     metrics: [
       {
-        value: "47",
+        value: "140",
         label: { en: "missed calls followed up", es: "llamadas perdidas rescatadas" },
-        note: { en: "first ten days, 31 numbers, no retries", es: "primeros diez días, 31 números, sin reintentos" },
+        note: { en: "of 157 from 113 numbers, in eight weeks", es: "de 157, de 113 números, en ocho semanas" },
       },
       {
-        value: "120 s",
+        value: "122 s",
         label: { en: "mean, call to send order", es: "media, de la llamada a la orden de envío" },
-        note: { en: "range 92 to 149 s, 90 of them deliberate", es: "entre 92 y 149 s, 90 de ellos a propósito" },
+        note: { en: "range 92 to 151 s, 90 of them deliberate", es: "entre 92 y 151 s, 90 de ellos a propósito" },
       },
       {
         value: "0 €",
@@ -258,13 +258,13 @@ export const projects: Project[] = [
       },
     ],
     caveat: {
-      en: "Ten days at one restaurant (14 to 23 September 2026). \"Followed up\" means ManyChat accepted the send order: it returns no delivery receipt, so the last hop is unmeasured, and bookings won are not counted. The 0 € is the server only; every WhatsApp template sent outside the 24-hour window is billed.",
-      es: "Diez días en un solo restaurante (del 14 al 23 de septiembre de 2026). «Rescatada» significa que ManyChat aceptó la orden de envío: no devuelve acuse de entrega, así que el último tramo no está medido, y las reservas conseguidas no se cuentan. Los 0 € son solo el servidor; cada plantilla de WhatsApp enviada fuera de la ventana de 24 horas se paga.",
+      en: "One restaurant, 14 September to 7 November 2026. Of 157 missed calls, 140 were followed up, 15 were held back on purpose by the system's brakes (repeat callers, opt-outs) and 2 failed after their retries. \"Followed up\" means ManyChat accepted the send order: it returns no delivery receipt, so the last hop is unmeasured, and bookings won are not counted. The 0 € is the server only; every WhatsApp template sent outside the 24-hour window is billed.",
+      es: "Un solo restaurante, del 14 de septiembre al 7 de noviembre de 2026. De 157 llamadas perdidas, 140 se rescataron, 15 las retuvieron a propósito los frenos del sistema (quien vuelve a llamar, bajas) y 2 fallaron tras sus reintentos. «Rescatada» significa que ManyChat aceptó la orden de envío: no devuelve acuse de entrega, así que el último tramo no está medido, y las reservas conseguidas no se cuentan. Los 0 € son solo el servidor; cada plantilla de WhatsApp enviada fuera de la ventana de 24 horas se paga.",
     },
     techStack: ["Supabase", "TypeScript", "PostgreSQL", "pg_cron", "ManyChat", "WhatsApp Business", "MacroDroid", "Deno"],
     privateCode: {
-      en: "Built for a client, and the system handles their customers' phone numbers and conversations, so the code is not public. Happy to walk through it, and the technical report, in an interview.",
-      es: "Hecho para un cliente, y el sistema maneja los teléfonos y las conversaciones de sus clientes, así que el código no es público. Lo enseño con gusto, junto al informe técnico, en una entrevista.",
+      en: "Built for a client, and the system handles their customers' phone numbers and conversations, so the code is not public.",
+      es: "Hecho para un cliente, y el sistema maneja los teléfonos y las conversaciones de sus clientes, así que el código no es público.",
     },
     overview: {
       context: {
@@ -307,12 +307,12 @@ export const projects: Project[] = [
     },
     results: {
       metrics: {
-        en: "From 14 to 23 September 2026: 47 missed calls from 31 distinct numbers, and all 47 reached the sent state, with ManyChat accepting the send order every time and no retry needed. From the call reaching the server to the send order: 92 to 149 s, 120 s on average, of which 90 s is the deliberate wait. The phone adds 0.9 to 3.2 s before that. The minute cron ran 13,740 times without a failure. Server cost: 0 € a month on Supabase's free plan.",
-        es: "Del 14 al 23 de septiembre de 2026: 47 llamadas perdidas de 31 números distintos, y las 47 llegaron al estado enviada, con ManyChat aceptando la orden de envío todas las veces y sin un solo reintento. De la llegada de la llamada al servidor a la orden de envío: de 92 a 149 s, 120 s de media, de los que 90 s son la espera deliberada. El móvil añade de 0,9 a 3,2 s antes. El cron de cada minuto corrió 13.740 veces sin un fallo. Coste de servidor: 0 € al mes en el plan gratuito de Supabase.",
+        en: "From 14 September to 7 November 2026, read from the production database: 157 missed calls from 113 distinct numbers. 140 reached the sent state, 15 were held back on purpose by the brakes, 2 failed after their retries and none is left pending; only 2 calls needed a retry at all. From the call reaching the server to the send order: 92 to 151 s, 122 s on average and 124 s at the median, of which 90 s is the deliberate wait. The phone adds 0.9 to 3.2 s before that (measured in the first ten days). The minute cron ran 83,091 times, every run recorded as succeeded. Server cost: 0 € a month on Supabase's free plan.",
+        es: "Del 14 de septiembre al 7 de noviembre de 2026, leído de la base de datos de producción: 157 llamadas perdidas de 113 números distintos. 140 llegaron al estado enviada, 15 las retuvieron a propósito los frenos, 2 fallaron tras sus reintentos y no queda ninguna pendiente; solo 2 llamadas necesitaron algún reintento. De la llegada de la llamada al servidor a la orden de envío: de 92 a 151 s, 122 s de media y 124 s de mediana, de los que 90 s son la espera deliberada. El móvil añade de 0,9 a 3,2 s antes (medido en los diez primeros días). El cron de cada minuto corrió 83.091 veces, todas registradas como correctas. Coste de servidor: 0 € al mes en el plan gratuito de Supabase.",
       },
       outcomes: {
-        en: "No missed call in those ten days went without a follow-up, nobody received the message twice, and nobody on the team had to watch the phone. Requests reach the team by email already structured as date, time, party size and name. The handover includes a technical report of every component, written so the restaurant can maintain it.",
-        es: "Ninguna llamada perdida de esos diez días se quedó sin rescate, nadie recibió el mensaje dos veces y nadie del equipo tuvo que estar pendiente del móvil. Las solicitudes llegan al equipo por correo ya ordenadas: fecha, hora, personas y nombre. La entrega incluye un informe técnico de cada componente, escrito para que el restaurante pueda mantenerlo.",
+        en: "Over eight weeks, 140 of 157 missed calls got a WhatsApp follow-up without anyone on the team watching the phone, and the brakes held back the 15 that should not get one. Requests reach the team by email already structured as date, time, party size and name. The handover includes a technical report of every component, written so the restaurant can maintain it.",
+        es: "En ocho semanas, 140 de 157 llamadas perdidas recibieron un WhatsApp sin que nadie del equipo estuviera pendiente del móvil, y los frenos retuvieron las 15 que no debían recibirlo. Las solicitudes llegan al equipo por correo ya ordenadas: fecha, hora, personas y nombre. La entrega incluye un informe técnico de cada componente, escrito para que el restaurante pueda mantenerlo.",
       },
       visualizations: {
         en: "Measured timeline of a missed call, the component map and the ManyChat flow graph, in the private technical report.",
