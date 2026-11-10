@@ -27,7 +27,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.welcome": "Welcome to my portfolio",
     "hero.title1": "Data Scientist &",
     "hero.title2": "AI Engineer",
-    "hero.summary": "Data Scientist and AI Engineer working across the full pipeline, from ingestion to deployment. Most of my work sits in medical and health AI, with a recurring interest in what a model\u2019s output should actually be used for, and in evaluation that survives scrutiny.",
+    "hero.summary": "Data Scientist and AI Engineer working across the full pipeline, from ingestion to deployment, on problems from very different domains: health, mobility, retail and education. I build machine learning and deep learning models and, increasingly, generative AI systems: LLM agents connected to real data through MCP, with the guarantees written in code rather than in the prompt. What ties it together is one question: what will a model\u2019s output actually be used for, and how do you evaluate it so the answer survives scrutiny.",
     "hero.viewProjects": "View Projects",
     "hero.contact": "Contact",
     "hero.stat.projects": "Featured Projects",
@@ -67,7 +67,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Skills
     "skills.subtitle": "Technical Expertise",
     "skills.title": "Skills",
-    "skills.description": "Nine groups, drawn from what the projects on this page actually required, from cost-derived decision rules to Spark pipelines and clinical terminology.",
+    "skills.description": "Nine groups, drawn from what the projects on this page actually required, from cost-derived decision rules and Spark pipelines to LLM agents. In generative AI, RAG, LangChain and LangGraph come from the recent training listed under Education rather than from a project here.",
     
     // Tools
     "tools.subtitle": "Tech Stack",
@@ -77,20 +77,20 @@ const translations: Record<Language, Record<string, string>> = {
     // Certifications
     "certifications.subtitle": "Training & credentials",
     "certifications.title": "Education & Certifications",
-    "certifications.description": "Where the training came from, and the certifications behind it, from a data science bootcamp to Azure data engineering and clinical terminology standards.",
+    "certifications.description": "Where the training came from, and the certifications behind it: a data science bootcamp, Azure data engineering, LLM agents and MCP, and clinical terminology standards.",
     
     // About
     "about.subtitle": "Get to Know Me",
     "about.title": "About Me",
-    "about.bio1": "I'm a Data Scientist with a strong foundation in Artificial Intelligence, data analytics, and computational modeling, originally shaped through my background in science and research. Over time, I've transitioned my analytical and experimental mindset into the tech field, where I design data-driven solutions that transform complex information into actionable insights.",
-    "about.bio2": "I have experience working across the full data pipeline, from data acquisition, cleaning, and exploration to building, validating, and deploying predictive models. My focus is on leveraging machine learning and statistical methods to uncover patterns, optimize processes, and support strategic decisions.",
-    "about.bio3": "What defines my approach is a balance between technical precision and creativity. I'm passionate about connecting raw data with real-world impact, collaborating with cross-functional teams, and communicating insights in a way that drives innovation.",
-    "about.value1.title": "Impact-Driven",
-    "about.value1.description": "I focus on solving real problems with measurable outcomes, not just building technology for its own sake.",
-    "about.value2.title": "Continuous Learner",
-    "about.value2.description": "The field evolves rapidly. I stay current through research papers, courses, and hands-on experimentation.",
-    "about.value3.title": "Full-Stack ML Mindset",
-    "about.value3.description": "From data engineering to model deployment, I understand the entire ML lifecycle and build end-to-end solutions.",
+    "about.bio1": "I came to data science from biomedical research. After a degree in biochemistry and a master\u2019s in neuroscience, I worked as a predoctoral researcher at CSIC, and that is where I learned to design the experiment before believing the result. Today I bring that habit to data and AI problems in any domain: health, mobility, retail or education.",
+    "about.bio2": "I work across the whole pipeline: ingestion and distributed processing with Spark, classical machine learning, deep learning on signals and images, time-series forecasting and deployment. Alongside that I build generative AI applications. I have worked on an LLM agent that answers questions over a database through MCP, running a local model on Ollama, and I am extending that work towards RAG and multi-agent workflows with LangChain and LangGraph.",
+    "about.bio3": "Whatever the technique, the question is the same: what will someone do with this output? That is why I choose metrics for the decision they feed, compare against honest baselines and keep each result\u2019s limitations next to the number. And I care as much about explaining a model to the people who will use it as about building it.",
+    "about.value1.title": "Versatile by design",
+    "about.value1.description": "Tables, signals, images, time series or text: I pick the tool for the problem, not the problem for the tool.",
+    "about.value2.title": "Generative AI, engineered",
+    "about.value2.description": "LLMs are powerful and unpredictable, so the guarantees live in code: validators, least privilege, and local models when the data must not leave the machine.",
+    "about.value3.title": "Learning by building",
+    "about.value3.description": "The field moves fast. I keep up through courses and papers, but it only counts once it runs. The most recent: MCP, and agents with LangChain and LangGraph.",
     
     // Contact
     "contact.subtitle": "Let's Connect",
@@ -157,7 +157,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.featured.subtitle": "124k heartbeats, a Spark pipeline and a residual 1-D CNN",
     "about.card.eyebrow": "Open to work",
     "about.card.title": "Data Scientist & AI Engineer",
-    "about.card.body": "Madrid. Medical and health AI, from data to deployment.",
+    "about.card.body": "Madrid. Data science, machine learning and generative AI, from data to deployment.",
     "about.card.cta": "Get in touch",
   },
   es: {
@@ -175,7 +175,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.welcome": "Bienvenido/a a mi portfolio",
     "hero.title1": "Data Scientist &",
     "hero.title2": "AI Engineer",
-    "hero.summary": "Data Scientist y AI Engineer que trabaja en todo el pipeline, desde la ingesta hasta el despliegue. La mayor parte de mi trabajo est\u00e1 en IA m\u00e9dica y de salud, con un inter\u00e9s recurrente en para qu\u00e9 deber\u00eda usarse de verdad la salida de un modelo, y en evaluaciones que aguantan el escrutinio.",
+    "hero.summary": "Data Scientist y AI Engineer: trabajo en todo el pipeline, de la ingesta al despliegue, sobre problemas de dominios muy distintos: salud, movilidad, retail o educaci\u00f3n. Construyo modelos de machine learning y deep learning y, cada vez m\u00e1s, sistemas de IA generativa: agentes LLM conectados a datos reales mediante MCP, con las garant\u00edas escritas en c\u00f3digo y no en el prompt. Lo que lo une todo es una pregunta: para qu\u00e9 se va a usar de verdad la salida de un modelo, y c\u00f3mo evaluarlo para que la respuesta aguante el escrutinio.",
     "hero.viewProjects": "Ver Proyectos",
     "hero.contact": "Contacto",
     "hero.stat.projects": "Proyectos Destacados",
@@ -215,7 +215,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Skills
     "skills.subtitle": "Experiencia Técnica",
     "skills.title": "Habilidades",
-    "skills.description": "Nueve bloques, sacados de lo que han exigido de verdad los proyectos de esta página, desde reglas de decisión por coste hasta pipelines de Spark y terminología cl\u00ednica.",
+    "skills.description": "Nueve bloques, sacados de lo que han exigido de verdad los proyectos de esta p\u00e1gina, desde reglas de decisi\u00f3n por coste y pipelines de Spark hasta agentes LLM. En IA generativa, RAG, LangChain y LangGraph vienen de la formaci\u00f3n reciente que aparece en Formaci\u00f3n, no de un proyecto de esta p\u00e1gina.",
     
     // Tools
     "tools.subtitle": "Stack Tecnológico",
@@ -225,20 +225,20 @@ const translations: Record<Language, Record<string, string>> = {
     // Certifications
     "certifications.subtitle": "Formación y credenciales",
     "certifications.title": "Formación y Certificaciones",
-    "certifications.description": "De dónde viene la formación y qué certificaciones la respaldan, desde un bootcamp de data science hasta ingeniería de datos en Azure y estándares de terminología clínica.",
+    "certifications.description": "De d\u00f3nde viene la formaci\u00f3n y qu\u00e9 certificaciones la respaldan: un bootcamp de data science, ingenier\u00eda de datos en Azure, agentes LLM y MCP, y est\u00e1ndares de terminolog\u00eda cl\u00ednica.",
     
     // About
     "about.subtitle": "Conóceme",
     "about.title": "Sobre Mí",
-    "about.bio1": "Soy una Data Scientist con una sólida formación en Inteligencia Artificial, análisis de datos y modelado computacional, formada originalmente en ciencia e investigación. Con el tiempo, he trasladado mi mentalidad analítica y experimental al campo tecnológico, donde diseño soluciones basadas en datos que transforman información compleja en insights accionables.",
-    "about.bio2": "Tengo experiencia trabajando en todo el pipeline de datos, desde la adquisición, limpieza y exploración de datos hasta la construcción, validación y despliegue de modelos predictivos. Mi enfoque está en aprovechar métodos de machine learning y estadísticos para descubrir patrones, optimizar procesos y apoyar decisiones estratégicas.",
-    "about.bio3": "Lo que define mi enfoque es un equilibrio entre precisión técnica y creatividad. Me apasiona conectar datos en bruto con impacto en el mundo real, colaborar con equipos multidisciplinarios y comunicar insights de manera que impulsen la innovación.",
-    "about.value1.title": "Orientada al Impacto",
-    "about.value1.description": "Me enfoco en resolver problemas reales con resultados medibles, no solo en construir tecnología por sí misma.",
-    "about.value2.title": "Aprendizaje Continuo",
-    "about.value2.description": "El campo evoluciona rápidamente. Me mantengo actualizada a través de papers, cursos y experimentación práctica.",
-    "about.value3.title": "Mentalidad Full-Stack ML",
-    "about.value3.description": "Desde ingeniería de datos hasta despliegue de modelos, entiendo todo el ciclo de vida de ML y construyo soluciones end-to-end.",
+    "about.bio1": "Llegu\u00e9 a la ciencia de datos desde la investigaci\u00f3n biom\u00e9dica. Tras el grado en Bioqu\u00edmica y el m\u00e1ster en Neurociencias trabaj\u00e9 como investigadora predoctoral en el CSIC, y all\u00ed aprend\u00ed a dise\u00f1ar el experimento antes de creerme el resultado. Hoy llevo esa costumbre a problemas de datos e IA de cualquier dominio: salud, movilidad, retail o educaci\u00f3n.",
+    "about.bio2": "Trabajo en todo el pipeline: ingesta y procesamiento distribuido con Spark, machine learning cl\u00e1sico, deep learning sobre se\u00f1ales e im\u00e1genes, forecasting de series temporales y despliegue. En paralelo desarrollo aplicaciones de IA generativa: he trabajado en un agente LLM que responde preguntas sobre una base de datos a trav\u00e9s de MCP, con un modelo local en Ollama, y estoy ampliando ese trabajo hacia RAG y flujos multi-agente con LangChain y LangGraph.",
+    "about.bio3": "Sea cual sea la t\u00e9cnica, la pregunta es la misma: \u00bfqu\u00e9 va a hacer alguien con esta salida? Por eso elijo la m\u00e9trica seg\u00fan la decisi\u00f3n que alimenta, comparo contra baselines honestos y dejo las limitaciones de cada resultado junto a la cifra. Y me importa tanto explicar un modelo a quien lo va a usar como construirlo.",
+    "about.value1.title": "Vers\u00e1til por dise\u00f1o",
+    "about.value1.description": "Tablas, se\u00f1ales, im\u00e1genes, series temporales o texto: elijo la herramienta por el problema, no el problema por la herramienta.",
+    "about.value2.title": "IA generativa con ingenier\u00eda",
+    "about.value2.description": "Los LLMs son potentes e impredecibles, as\u00ed que las garant\u00edas viven en el c\u00f3digo: validadores, m\u00ednimo privilegio y modelos locales cuando los datos no deben salir de la m\u00e1quina.",
+    "about.value3.title": "Aprender construyendo",
+    "about.value3.description": "El campo avanza r\u00e1pido. Me mantengo al d\u00eda con cursos y papers, pero solo cuenta cuando funciona. Lo m\u00e1s reciente: MCP y agentes con LangChain y LangGraph.",
     
     // Contact
     "contact.subtitle": "Conectemos",
@@ -305,7 +305,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.featured.subtitle": "124.000 latidos, un pipeline Spark y una CNN 1-D residual",
     "about.card.eyebrow": "Disponible",
     "about.card.title": "Data Scientist & AI Engineer",
-    "about.card.body": "Madrid. IA médica y de salud, de los datos al despliegue.",
+    "about.card.body": "Madrid. Data science, machine learning e IA generativa, de los datos al despliegue.",
     "about.card.cta": "Hablemos",
   },
 };

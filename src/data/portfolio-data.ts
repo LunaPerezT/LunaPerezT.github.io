@@ -1182,8 +1182,11 @@ export interface SkillGroup {
 }
 
 /**
- * Each group lists what the nine projects actually demonstrate. Nothing here is
- * aspirational: if a skill appears, a project on this site shows it being used.
+ * Each group lists what the nine projects actually demonstrate. The one exception
+ * is generative AI, where RAG, LangChain, LangGraph and multi-agent systems are
+ * backed by the two completed 2026 courses listed under Education, not by a
+ * project here; skills.description says so on the page. Never attach them to a
+ * project card.
  */
 export const skills: Record<string, SkillGroup> = {
   experimentDesign: {
@@ -1276,6 +1279,40 @@ export const skills: Record<string, SkillGroup> = {
       ],
     },
   },
+  generativeAi: {
+    en: "Generative & Agentic AI",
+    es: "IA Generativa y Agéntica",
+    items: {
+      en: [
+        "LLM applications",
+        "Prompt engineering",
+        "MCP",
+        "Local LLMs (Ollama)",
+        "Text-to-SQL",
+        "Guardrails in code",
+        "Prompt-injection defence",
+        "RAG",
+        "LangChain",
+        "LangGraph",
+        "Multi-agent systems",
+        "NLP",
+      ],
+      es: [
+        "Aplicaciones con LLMs",
+        "Ingeniería de prompts",
+        "MCP",
+        "LLMs en local (Ollama)",
+        "Text-to-SQL",
+        "Guardrails en código",
+        "Defensa ante prompt injection",
+        "RAG",
+        "LangChain",
+        "LangGraph",
+        "Sistemas multi-agente",
+        "NLP",
+      ],
+    },
+  },
   timeSeries: {
     en: "Time Series & Forecasting",
     es: "Series Temporales y Forecasting",
@@ -1361,32 +1398,6 @@ export const skills: Record<string, SkillGroup> = {
         "MLflow",
         "pytest",
         "Reproducibilidad",
-      ],
-    },
-  },
-  agenticAi: {
-    en: "Agentic AI & LLMs",
-    es: "IA Agéntica y LLMs",
-    items: {
-      en: [
-        "MCP",
-        "Ollama",
-        "Local LLMs",
-        "Text-to-SQL",
-        "Schema introspection",
-        "Query validation",
-        "Prompt-injection defence",
-        "NLP",
-      ],
-      es: [
-        "MCP",
-        "Ollama",
-        "LLMs en local",
-        "Text-to-SQL",
-        "Introspección de esquema",
-        "Validación de consultas",
-        "Defensa ante prompt injection",
-        "NLP",
       ],
     },
   },

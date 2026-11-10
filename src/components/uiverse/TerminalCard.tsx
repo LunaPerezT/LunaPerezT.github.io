@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
  *
  * The command sits on its own line above the package. That is how the command
  * would be typed anyway, and it means the card's height does not jump when
- * `scikit-learn` follows `numpy`.
+ * `scikit-learn` follows `pandas`.
  *
  * Under `prefers-reduced-motion` the whole command is shown at once and no timer
  * ever starts.
@@ -31,7 +31,7 @@ const PROMPT = "$";
 const COMMAND = "pip install";
 
 /** Typed one at a time, in this order, forever. */
-const PACKAGES = ["pandas", "numpy", "scikit-learn", "tensorflow"] as const;
+const PACKAGES = ["pandas", "scikit-learn", "torch", "langchain"] as const;
 
 const TYPE_MS = 85;
 const ERASE_MS = 40;

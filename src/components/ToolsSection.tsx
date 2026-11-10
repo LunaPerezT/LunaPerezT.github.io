@@ -60,8 +60,8 @@ const toolCategories: Record<string, { en: string; es: string; tools: Tool[] }> 
     ],
   },
   agenticAi: {
-    en: "Agentic AI & LLM Frameworks",
-    es: "IA Agéntica y Frameworks LLM",
+    en: "Generative & Agentic AI",
+    es: "IA Generativa y Agéntica",
     tools: [
       { name: "MCP Protocol", brand: "modelcontextprotocol" },
       { name: "Ollama", brand: "ollama" },
