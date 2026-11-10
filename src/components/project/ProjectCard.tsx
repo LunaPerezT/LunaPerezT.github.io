@@ -212,6 +212,78 @@ function Metrics({ count = 3, layout = "row" }: MetricsProps) {
   );
 }
 
+/* ---------------------------------------------------------------- Tags --- */
+
+function Tags({ limit = 5 }: { limit?: number }) {
+  const { project } = useProjectCard("Tags");
+  const shown = project.techStack.slice(0, limit);
+  const rest = project.techStack.length - shown.length;
+
+  return (
+    <ul className="flex flex-wrap gap-1.5">
+      {shown.map((tech) => (
+        <li key={tech} className="tag">
+          {tech}
+        </li>
+      ))}
+      {rest > 0 && <li className="tag text-muted-foreground">+{rest}</li>}
+    </ul>
+  );
+}
+
+/* ------------------------------------------------------------- Actions --- */
+
+function Actions() {
+  const { project, language, href } = useProjectCard("Actions");
+  const caseStudy = language === "es" ? "Ver el caso" : "Read the case study";
+  const repoLabel =
+    language === "es"
+      ? `Repositorio de ${project.title.es} en GitHub`
+      : `${project.title.en} repository on GitHub`;
+  const demoLabel =
+    language === "es"
+      ? `Demo en vivo de ${project.title.es}`
+      : `Live demo of ${project.title.en}`;
+
+  return (
+    <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
+      <Link
+        to={href}
+        className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary-strong"
+        tabIndex={-1}
+        aria-hidden="true"
+      >
+        {caseStudy}
+        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </Link>
+
+      {/* Above the stretched link so these stay independently clickable. */}
+      <div className="relative z-10 ml-auto flex items-center gap-1">
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={repoLabel}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+        >
+          <Github className="h-4 w-4" aria-hidden="true" />
+        </a>
+        {project.demoUrl && (
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={demoLabel}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+          >
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------------------------------------- Glyph --- */
 
 function Glyph({ className }: { className?: string }) {
