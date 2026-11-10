@@ -66,6 +66,18 @@ const PATHS: Record<GlyphKind, React.ReactNode> = {
       <path pathLength={1} d="M66 4 V58" strokeDasharray="3 4" opacity="0.5" />
     </>
   ),
+  // A phone, a missed call travelling out, and the chat bubble that answers it.
+  call: (
+    <>
+      <rect pathLength={1} x="10" y="8" width="26" height="48" rx="5" />
+      <path pathLength={1} d="M19 14 H27" />
+      <path pathLength={1} d="M38 32 C50 22 56 22 66 28" strokeDasharray="4 4" />
+      <path pathLength={1} d="M70 12 H114 Q122 12 122 20 V36 Q122 44 114 44 H84 L74 52 V44 Q66 44 66 36 V20 Q66 12 70 12Z" />
+      <circle pathLength={1} cx="80" cy="28" r="2" fill="currentColor" stroke="none" />
+      <circle pathLength={1} cx="94" cy="28" r="2" fill="currentColor" stroke="none" />
+      <circle pathLength={1} cx="108" cy="28" r="2" fill="currentColor" stroke="none" />
+    </>
+  ),
   // A prompt, a generated statement, a returned table.
   query: (
     <>

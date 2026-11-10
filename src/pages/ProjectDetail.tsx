@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ArrowLeft, ArrowRight, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Github, Lock } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import {
   CATEGORY_LABELS,
@@ -159,27 +159,40 @@ export default function ProjectDetail() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-strong"
-            >
-              <Github className="h-4 w-4" aria-hidden="true" />
-              {t("project.repository")}
-            </a>
-            {project.demoUrl && (
+            {project.githubUrl ? (
               <a
-                href={project.demoUrl}
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-strong"
+              >
+                <Github className="h-4 w-4" aria-hidden="true" />
+                {t("project.repository")}
+              </a>
+            ) : (
+              <span className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-dashed border-border-strong px-5 text-sm font-medium text-muted-foreground">
+                <Lock className="h-4 w-4" aria-hidden="true" />
+                {t("project.privateCode")}
+              </span>
+            )}
+            {project.demos?.map((demo) => (
+              <a
+                key={demo.url}
+                href={demo.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-5 text-sm font-medium transition-colors hover:border-border-strong"
               >
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                {t("project.liveDemo")}
+                {demo.label ? demo.label[language] : t("project.liveDemo")}
               </a>
-            )}
+            ))}
           </div>
+          {project.privateCode && (
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {project.privateCode[language]}
+            </p>
+          )}
         </div>
       </header>
 

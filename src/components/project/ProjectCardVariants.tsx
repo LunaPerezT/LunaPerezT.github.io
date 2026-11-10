@@ -6,8 +6,9 @@ import { ProjectCard } from "./ProjectCard";
  * Each composes the same parts in a different order and density, so adding a
  * fourth presentation later means adding a component, not another boolean.
  *
- * Spans are chosen so nine projects tile a six-column grid exactly:
- * 3 lead (6 each) + 3 standard (2 each) + 3 compact (2 each) = five full rows.
+ * Spans are chosen so the ten projects tile a six-column grid exactly:
+ * 4 lead (6 each) + 3 standard (2 each) + 3 compact (2 each) = six full rows.
+ * With ten projects the lead count can only be 1, 4 or 7.
  */
 
 /** Full-width, horizontal: the argument on the left, the evidence on the right. */

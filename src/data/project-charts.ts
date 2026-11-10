@@ -33,6 +33,53 @@ export interface ProjectChart {
 }
 
 export const projectCharts: Record<string, ProjectChart[]> = {
+  "missed-call-agent": [
+    {
+      title: { en: "First ten days", es: "Primeros diez días" },
+      caption: {
+        en: "One restaurant. Calls and callers, not bookings: how many conversations ended in a table is not part of these figures.",
+        es: "Un solo restaurante. Llamadas y personas, no reservas: cuántas conversaciones acabaron en mesa no forma parte de estas cifras.",
+      },
+      max: 50,
+      bars: [
+        {
+          label: { en: "Missed calls answered on WhatsApp", es: "Llamadas perdidas respondidas por WhatsApp" },
+          value: 47,
+          display: { en: "47", es: "47" },
+        },
+        {
+          label: { en: "Distinct people calling", es: "Personas distintas que llamaron" },
+          value: 31,
+          display: { en: "31", es: "31" },
+          reference: true,
+        },
+      ],
+    },
+    {
+      title: {
+        en: "Seconds from missed call to WhatsApp",
+        es: "Segundos de la llamada perdida al WhatsApp",
+      },
+      caption: {
+        en: "About two minutes end to end. The first 90 s are a deliberate courtesy wait, not processing time.",
+        es: "Unos dos minutos de principio a fin. Los primeros 90 s son una espera de cortesía deliberada, no tiempo de proceso.",
+      },
+      max: 180,
+      bars: [
+        {
+          label: { en: "Observed, approx.", es: "Observado, aprox." },
+          value: 120,
+          display: { en: "≈ 120 s", es: "≈ 120 s" },
+        },
+        {
+          label: { en: "Courtesy wait", es: "Espera de cortesía" },
+          value: 90,
+          display: { en: "90 s", es: "90 s" },
+          reference: true,
+        },
+      ],
+    },
+  ],
   "ecg-heartbeat-categorization": [
     {
       title: {

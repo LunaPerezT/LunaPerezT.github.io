@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Github, Lock } from "lucide-react";
 import {
   CATEGORY_LABELS,
   STATUS_LABELS,
@@ -240,10 +240,15 @@ function Actions() {
     language === "es"
       ? `Repositorio de ${project.title.es} en GitHub`
       : `${project.title.en} repository on GitHub`;
-  const demoLabel =
-    language === "es"
-      ? `Demo en vivo de ${project.title.es}`
-      : `Live demo of ${project.title.en}`;
+  const demoLabel = (name?: { en: string; es: string }) => {
+    const kind = name ? name[language] : language === "es" ? "Demo en vivo" : "Live demo";
+    return language === "es"
+      ? `${kind} de ${project.title.es}`
+      : `${kind} of ${project.title.en}`;
+  };
+  const privateLabel = language === "es" ? "Código privado" : "Private code";
+  const iconLink =
+    "inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground";
 
   return (
     <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
@@ -259,26 +264,39 @@ function Actions() {
 
       {/* Above the stretched link so these stay independently clickable. */}
       <div className="relative z-10 ml-auto flex items-center gap-1">
-        <a
-          href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={repoLabel}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-        >
-          <Github className="h-4 w-4" aria-hidden="true" />
-        </a>
-        {project.demoUrl && (
+        {project.githubUrl ? (
           <a
-            href={project.demoUrl}
+            href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={demoLabel}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            aria-label={repoLabel}
+            className={iconLink}
+          >
+            <Github className="h-4 w-4" aria-hidden="true" />
+          </a>
+        ) : (
+          // Not a control: says why there is no repository icon to click.
+          <span
+            title={project.privateCode?.[language]}
+            className="inline-flex h-11 items-center gap-1.5 px-2 font-mono text-[0.625rem] font-medium uppercase tracking-[0.12em] text-muted-foreground"
+          >
+            <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+            {privateLabel}
+          </span>
+        )}
+        {project.demos?.map((demo) => (
+          <a
+            key={demo.url}
+            href={demo.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={demoLabel(demo.label)}
+            title={demo.label?.[language]}
+            className={iconLink}
           >
             <ExternalLink className="h-4 w-4" aria-hidden="true" />
           </a>
-        )}
+        ))}
       </div>
     </div>
   );

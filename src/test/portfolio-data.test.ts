@@ -18,18 +18,18 @@ import { projectCharts } from "@/data/project-charts";
  * rather than shipping a half-filled card.
  */
 describe("portfolio data", () => {
-  it("exposes nine projects, each exactly once, in an explicit order", () => {
-    expect(projects).toHaveLength(9);
-    expect(orderedProjects).toHaveLength(9);
+  it("exposes ten projects, each exactly once, in an explicit order", () => {
+    expect(projects).toHaveLength(10);
+    expect(orderedProjects).toHaveLength(10);
 
     const ids = orderedProjects.map((project) => project.id);
-    expect(new Set(ids).size).toBe(9);
+    expect(new Set(ids).size).toBe(10);
     // An id missing from DISPLAY_ORDER would sort to the front with index -1.
     expect(ids[0]).toBe("ecg-heartbeat-categorization");
     expect(ids.at(-1)).toBe("educational-data-architecture");
   });
 
-  it("tiles the six-column grid exactly: 3 lead + 3 standard + 3 compact", () => {
+  it("tiles the six-column grid exactly: 4 lead + 3 standard + 3 compact", () => {
     const span = { lead: 6, standard: 2, compact: 2 } as const;
     const total = orderedProjects.reduce((sum, p) => sum + span[p.emphasis], 0);
     expect(total % 6).toBe(0);
@@ -38,7 +38,7 @@ describe("portfolio data", () => {
       acc[p.emphasis] = (acc[p.emphasis] ?? 0) + 1;
       return acc;
     }, {});
-    expect(counts).toEqual({ lead: 3, standard: 3, compact: 3 });
+    expect(counts).toEqual({ lead: 4, standard: 3, compact: 3 });
   });
 
   it.each(projects.map((p) => [p.id, p] as const))(
@@ -72,14 +72,31 @@ describe("portfolio data", () => {
         expect(CATEGORY_LABELS[category]).toBeDefined();
       }
       expect(STATUS_LABELS[project.status]).toBeDefined();
-      expect(project.githubUrl).toMatch(/^https:\/\/github\.com\//);
-      if (project.demoUrl) expect(project.demoUrl).toMatch(/^https:\/\//);
+      // Either a public repository or a stated reason there is none, never both.
+      if (project.githubUrl) {
+        expect(project.githubUrl).toMatch(/^https:\/\/github\.com\//);
+        expect(project.privateCode).toBeUndefined();
+      } else {
+        expect(project.privateCode?.en.length ?? 0).toBeGreaterThan(40);
+        expect(project.privateCode?.es.length ?? 0).toBeGreaterThan(40);
+      }
+      for (const demo of project.demos ?? []) {
+        expect(demo.url).toMatch(/^https:\/\//);
+        if (demo.label) {
+          expect(demo.label.en.trim()).not.toBe("");
+          expect(demo.label.es.trim()).not.toBe("");
+        }
+      }
+      // Two demos on one card are only distinguishable by their labels.
+      if ((project.demos?.length ?? 0) > 1) {
+        expect(project.demos!.every((demo) => demo.label)).toBe(true);
+      }
     }
   );
 
   it("marks a project as deployed only when a demo URL exists", () => {
     for (const project of projects) {
-      if (project.status === "deployed") expect(project.demoUrl).toBeTruthy();
+      if (project.status === "deployed") expect(project.demos?.length ?? 0).toBeGreaterThan(0);
     }
   });
 

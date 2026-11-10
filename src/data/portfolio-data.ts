@@ -8,8 +8,11 @@ export type ProjectCategory =
 /** Drives which explicit card component renders the project — never a boolean. */
 export type ProjectEmphasis = "lead" | "standard" | "compact";
 
-/** "deployed" means a public URL exists; "local" means it only runs locally. */
-export type ProjectStatus = "deployed" | "complete" | "local";
+/**
+ * "deployed" means a public URL exists; "local" means it only runs locally;
+ * "client" means it runs in production for a client, with no public URL.
+ */
+export type ProjectStatus = "deployed" | "complete" | "local" | "client";
 
 /** Motif drawn behind lead cards. Keys map to ProjectGlyph. */
 export type GlyphKind =
@@ -18,6 +21,7 @@ export type GlyphKind =
   | "scan"
   | "experiment"
   | "forecast"
+  | "call"
   | "query"
   | "cohort"
   | "atlas"
@@ -29,6 +33,12 @@ export interface ProjectMetric {
   label: { en: string; es: string };
   /** The condition the number only holds under. Rendered next to it, never hidden. */
   note?: { en: string; es: string };
+}
+
+/** A runnable demo. `label` names it when there is more than one, or when the platform matters. */
+export interface ProjectDemo {
+  url: string;
+  label?: { en: string; es: string };
 }
 
 export interface Project {
@@ -56,8 +66,10 @@ export interface Project {
   /** The honest limitation. Shown on the card and again on the detail page. */
   caveat: { en: string; es: string };
   techStack: string[];
-  githubUrl: string;
-  demoUrl?: string;
+  /** Absent only for private work, in which case `privateCode` says why. */
+  githubUrl?: string;
+  privateCode?: { en: string; es: string };
+  demos?: ProjectDemo[];
   images?: string[];
   overview: {
     context: { en: string; es: string };
@@ -128,9 +140,18 @@ export const projects: Project[] = [
       en: "End-to-end MLOps pipeline for glioma detection and segmentation in MRI scans. Features ResNet-50 (Classification) and ResUNet (Segmentation).",
       es: "Pipeline MLOps end-to-end para detección y segmentación de gliomas en resonancias magnéticas. Utiliza ResNet-50 (Clasificación) y ResUNet (Segmentación).",
     },
-    techStack: ["Python", "TensorFlow", "Keras", "Flask", "Streamlit", "Docker", "AWS App Runner"],
+    techStack: ["Python", "TensorFlow", "Keras", "TensorFlow.js", "Flask", "Streamlit", "Docker", "AWS App Runner"],
     githubUrl: "https://github.com/LunaPerezT/brain-tumor-detection/tree/release",
-    demoUrl: "https://braintumor-mri.streamlit.app/",
+    demos: [
+      {
+        url: "https://lunaperezt-brain-tumor-mri.static.hf.space/index.html",
+        label: { en: "In-browser demo", es: "Demo en el navegador" },
+      },
+      {
+        url: "https://braintumor-mri.streamlit.app/",
+        label: { en: "Streamlit demo", es: "Demo en Streamlit" },
+      },
+    ],
     overview: {
       context: {
         en: "End-to-end, production-oriented machine learning project for brain tumor detection and segmentation from MRI scans, with a focus on low-grade gliomas. The system covers the full ML lifecycle, from medical image preprocessing and deep learning model training to deployment and user-facing inference.",
@@ -168,7 +189,7 @@ export const projects: Project[] = [
         en: "Chose ResNet-50 for its proven performance in medical imaging. ResUNet architecture combines residual connections with U-Net's encoder-decoder structure for precise segmentation. Emphasis on separation of concerns between training, evaluation, and inference.",
         es: "Se eligió ResNet-50 por su rendimiento probado en imágenes médicas. La arquitectura ResUNet combina conexiones residuales con la estructura encoder-decoder de U-Net para segmentación precisa. Énfasis en separación de responsabilidades entre entrenamiento, evaluación e inferencia.",
       },
-      libraries: ["TensorFlow", "Keras", "OpenCV", "Flask", "Streamlit", "Docker", "AWS"],
+      libraries: ["TensorFlow", "Keras", "OpenCV", "Flask", "Streamlit", "Docker", "AWS", "TensorFlow.js", "Hugging Face Spaces"],
     },
     results: {
       metrics: {
@@ -176,8 +197,8 @@ export const projects: Project[] = [
         es: "Alta precisión de clasificación para detección de tumores. Máscaras de segmentación precisas que permiten localización exacta y estimación de volumen tumoral.",
       },
       outcomes: {
-        en: "Production-ready system deployed on AWS App Runner. Streamlit interface enables human-in-the-loop interaction for clinical validation.",
-        es: "Sistema listo para producción desplegado en AWS App Runner. La interfaz Streamlit permite interacción human-in-the-loop para validación clínica.",
+        en: "Production-ready system deployed on AWS App Runner. Streamlit interface enables human-in-the-loop interaction for clinical validation. A second, lighter demo on Hugging Face Spaces runs both models directly in the browser with TensorFlow.js (float16 weights, 52 MB), so no image leaves the visitor's device; it shows the expert mask, the model's mask and the Dice for each slice side by side.",
+        es: "Sistema listo para producción desplegado en AWS App Runner. La interfaz Streamlit permite interacción human-in-the-loop para validación clínica. Una segunda demo, más ligera, en Hugging Face Spaces ejecuta los dos modelos directamente en el navegador con TensorFlow.js (pesos float16, 52 MB), así que ninguna imagen sale del dispositivo de quien la usa; muestra en paralelo la máscara del experto, la del modelo y el Dice de cada corte.",
       },
       visualizations: {
         en: "Prediction overlays on MRI slices, segmentation masks, and performance metrics dashboards.",
@@ -196,6 +217,116 @@ export const projects: Project[] = [
       improvements: {
         en: "Implement multi-class segmentation for different tumor types. Add uncertainty quantification for clinical decision support.",
         es: "Implementar segmentación multiclase para diferentes tipos de tumor. Añadir cuantificación de incertidumbre para soporte de decisiones clínicas.",
+      },
+    },
+  },
+  {
+    id: "missed-call-agent",
+    title: {
+      en: "Missed-Call WhatsApp Agent for a Restaurant",
+      es: "Agente de WhatsApp para las llamadas perdidas de un restaurante",
+    },
+    headline: {
+      en: "Every missed call gets a WhatsApp back in about two minutes, and the AI agent that answers is forbidden from ever confirming a table.",
+      es: "Cada llamada perdida recibe un WhatsApp en unos dos minutos, y el agente de IA que contesta tiene prohibido confirmar una mesa.",
+    },
+    shortDescription: {
+      en: "Freelance automation for a restaurant: a phone app detects missed calls, a serverless backend on Supabase follows up on WhatsApp from the restaurant's own number, and an AI agent takes the request and hands it to the team.",
+      es: "Automatización freelance para un restaurante: una app en el móvil detecta las llamadas perdidas, un backend serverless en Supabase responde por WhatsApp desde el número del propio restaurante y un agente de IA recoge la solicitud y se la pasa al equipo.",
+    },
+    categories: ["agentic-ai", "ml-engineering"],
+    emphasis: "lead",
+    status: "client",
+    glyph: "call",
+    period: "2026",
+    role: { en: "Freelance, client project", es: "Freelance, proyecto para cliente" },
+    metrics: [
+      {
+        value: "47",
+        label: { en: "missed calls answered", es: "llamadas perdidas respondidas" },
+        note: { en: "first ten days, from 31 people", es: "primeros diez días, de 31 personas" },
+      },
+      {
+        value: "2 min",
+        label: { en: "from missed call to WhatsApp", es: "de la llamada perdida al WhatsApp" },
+        note: { en: "approx., including a 90 s courtesy wait", es: "aprox., con 90 s de espera de cortesía" },
+      },
+      {
+        value: "0 €",
+        label: { en: "fixed server cost", es: "coste fijo de servidor" },
+        note: { en: "serverless backend on Supabase", es: "backend serverless en Supabase" },
+      },
+    ],
+    caveat: {
+      en: "Ten days at a single restaurant. The figures count calls answered, not bookings won: how many of those WhatsApps ended in a table is not part of them. The 0 € is the fixed server cost only; anything billed per use sits outside it.",
+      es: "Diez días en un solo restaurante. Las cifras cuentan llamadas respondidas, no reservas conseguidas: cuántos de esos WhatsApp acabaron en mesa no forma parte de ellas. Los 0 € son solo el coste fijo de servidor; lo que se cobre por uso queda fuera.",
+    },
+    techStack: ["Supabase", "Serverless", "WhatsApp", "LLM agent", "Context engineering", "Mobile app"],
+    privateCode: {
+      en: "Built for a client, and the conversations hold their customers' personal data, so the code is not public. Happy to walk through it in an interview.",
+      es: "Hecho para un cliente, y las conversaciones contienen datos personales de sus clientes, así que el código no es público. Lo enseño con gusto en una entrevista.",
+    },
+    overview: {
+      context: {
+        en: "A freelance commission from a restaurant. Friday, 21:47, the dining room is full, the phone rings and nobody can pick it up. That call was often a booking.",
+        es: "Un encargo freelance de un restaurante. Viernes, 21:47, el comedor lleno, suena el teléfono y nadie puede cogerlo. Esa llamada, muchas veces, era una reserva.",
+      },
+      problem: {
+        en: "Calls missed during service are lost bookings, but the only people who could return them are the ones serving tables. Whatever fixed it had to work with nobody watching the phone, and from the restaurant's own number.",
+        es: "Las llamadas que se pierden durante el servicio son reservas perdidas, pero quienes podrían devolverlas son los mismos que están sirviendo mesas. La solución tenía que funcionar sin nadie pendiente del móvil, y desde el número del propio restaurante.",
+      },
+      objective: {
+        en: "Reply to every missed call on WhatsApp automatically, collect what the caller wants, and hand it to a person who confirms.",
+        es: "Responder por WhatsApp a cada llamada perdida de forma automática, recoger lo que quiere quien llamó y pasárselo a una persona que lo confirme.",
+      },
+    },
+    dataArchitecture: {
+      dataSources: {
+        en: "Missed-call events from the restaurant's phone and the WhatsApp conversations that follow. Both are customers' personal data, which is why the code and the conversations stay private.",
+        es: "Los eventos de llamada perdida del teléfono del restaurante y las conversaciones de WhatsApp que vienen después. Ambos son datos personales de sus clientes, y por eso el código y las conversaciones son privados.",
+      },
+      pipeline: {
+        en: "Missed call → phone app → serverless backend (Supabase) → 90 s courtesy wait → WhatsApp from the restaurant's number → AI agent, if the person replies → request collected → team alerted → a person confirms",
+        es: "Llamada perdida → app en el móvil → backend serverless (Supabase) → 90 s de cortesía → WhatsApp desde el número del restaurante → agente de IA, si la persona contesta → solicitud recogida → aviso al equipo → una persona confirma",
+      },
+      diagrams: {
+        en: "The agent's conversation is designed as a graph of flows, with context engineering deciding what the model sees at each step.",
+        es: "La conversación del agente está diseñada como un grafo de flujos, con ingeniería del contexto que decide qué ve el modelo en cada paso.",
+      },
+    },
+    modeling: {
+      algorithms: {
+        en: "An AI agent takes over the conversation only if the person replies. It collects four fields (date, time, party size and name) and alerts the team, who confirm.",
+        es: "Un agente de IA toma la conversación solo si la persona contesta. Recoge cuatro datos (fecha, hora, número de personas y nombre) y avisa al equipo, que es quien confirma.",
+      },
+      decisions: {
+        en: "The design started from what the agent is forbidden to do rather than from what it can do: it never confirms a booking and never promises a table, because it cannot see availability, and a person always confirms. An agent that invents availability is worse than no agent at all. The 90-second wait before writing is a deliberate courtesy, not a delay.",
+        es: "El diseño partió de lo que el agente tiene prohibido y no de lo que sabe hacer: nunca confirma una reserva ni promete una mesa, porque no ve la disponibilidad, y siempre confirma una persona. Un agente que se inventa disponibilidad es peor que no tener agente. Los 90 segundos antes de escribir son cortesía deliberada, no un retraso.",
+      },
+      libraries: ["Supabase", "WhatsApp", "LLM agent"],
+    },
+    results: {
+      metrics: {
+        en: "First ten days: 47 missed calls from 31 people, every one answered with a WhatsApp in about two minutes, 90 s of which is the deliberate wait. Fixed server cost: 0 €.",
+        es: "Primeros diez días: 47 llamadas perdidas de 31 personas, todas con un WhatsApp de vuelta en unos dos minutos, de los que 90 s son la espera deliberada. Coste fijo de servidor: 0 €.",
+      },
+      outcomes: {
+        en: "No missed call in those ten days went unanswered, and nobody on the team had to watch the phone. Requests reach the team already structured as date, time, party size and name.",
+        es: "Ninguna llamada perdida de esos diez días se quedó sin respuesta, y nadie del equipo tuvo que estar pendiente del móvil. Las solicitudes llegan al equipo ya ordenadas: fecha, hora, personas y nombre.",
+      },
+    },
+    learnings: {
+      challenges: {
+        en: "Making an agent genuinely useful while guaranteeing it never commits the restaurant to something only a person can decide.",
+        es: "Que el agente fuera útil de verdad y, a la vez, garantizar que nunca compromete al restaurante en algo que solo puede decidir una persona.",
+      },
+      learned: {
+        en: "The hardest part was not the technical one but designing the agent: what it is not allowed to do matters more than what it can do.",
+        es: "Lo que más me enseñó no fue la parte técnica, sino diseñar el agente: importa más lo que tiene prohibido que lo que sabe hacer.",
+      },
+      improvements: {
+        en: "Measure how many of those conversations turn into confirmed bookings, which is the number that actually prices the automation.",
+        es: "Medir cuántas de esas conversaciones acaban en reservas confirmadas, que es la cifra que de verdad pone precio a la automatización.",
       },
     },
   },
@@ -367,7 +498,7 @@ export const projects: Project[] = [
     },
     techStack: ["Python", "Pandas", "NumPy", "Plotly", "Seaborn", "Matplotlib", "Streamlit"],
     githubUrl: "https://github.com/LunaPerezT/Mental-Health-EDA-Webpage",
-    demoUrl: "https://mental-health-eda-webpage.streamlit.app/",
+    demos: [{ url: "https://mental-health-eda-webpage.streamlit.app/" }],
     overview: {
       context: {
         en: "Comprehensive Exploratory Data Analysis (EDA) and interactive web application to visualize and analyze three decades of global mental health data (1990-2019). Focuses on identifying patterns in prevalence, disease burden, and regional disparities.",
@@ -482,7 +613,7 @@ export const projects: Project[] = [
     },
     techStack: ["Python", "Scikit-learn", "Pandas", "Streamlit", "Machine Learning"],
     githubUrl: "https://github.com/LunaPerezT/Parkinson-s-Disease-Predictive-ML-Model.git",
-    demoUrl: "https://parkinsons-disease-ml-predictive-model-webpage.streamlit.app/",
+    demos: [{ url: "https://parkinsons-disease-ml-predictive-model-webpage.streamlit.app/" }],
     overview: {
       context: {
         en: "Machine Learning model to predict the likelihood of Parkinson's disease using clinical, demographic, lifestyle, and symptom-related factors. Designed to support earlier detection and understanding of disease progression variables.",
@@ -1145,6 +1276,7 @@ const DISPLAY_ORDER = [
   "ecg-heartbeat-categorization",
   "cabify-route-divergence",
   "brain-tumor-detection",
+  "missed-call-agent",
   "cabify-experiment-design",
   "time-series-forecasting",
   "text-to-sql-agent",
@@ -1172,6 +1304,7 @@ export const STATUS_LABELS: Record<ProjectStatus, { en: string; es: string }> = 
   deployed: { en: "Live demo", es: "Demo en vivo" },
   complete: { en: "Complete", es: "Completo" },
   local: { en: "Runs locally", es: "Solo en local" },
+  client: { en: "In use by a client", es: "En uso por un cliente" },
 };
 
 export interface SkillGroup {
