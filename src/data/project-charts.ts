@@ -35,20 +35,20 @@ export interface ProjectChart {
 export const projectCharts: Record<string, ProjectChart[]> = {
   "missed-call-agent": [
     {
-      title: { en: "First ten days", es: "Primeros diez días" },
+      title: { en: "14 to 23 September 2026", es: "Del 14 al 23 de septiembre de 2026" },
       caption: {
-        en: "One restaurant. Calls and callers, not bookings: how many conversations ended in a table is not part of these figures.",
-        es: "Un solo restaurante. Llamadas y personas, no reservas: cuántas conversaciones acabaron en mesa no forma parte de estas cifras.",
+        en: "One restaurant. All 47 calls reached the sent state with no retry. These are calls and callers, not bookings: how many conversations ended in a table is not counted.",
+        es: "Un solo restaurante. Las 47 llamadas llegaron al estado enviada sin un solo reintento. Son llamadas y personas, no reservas: cuántas conversaciones acabaron en mesa no se cuenta.",
       },
       max: 50,
       bars: [
         {
-          label: { en: "Missed calls answered on WhatsApp", es: "Llamadas perdidas respondidas por WhatsApp" },
+          label: { en: "Missed calls followed up", es: "Llamadas perdidas rescatadas" },
           value: 47,
           display: { en: "47", es: "47" },
         },
         {
-          label: { en: "Distinct people calling", es: "Personas distintas que llamaron" },
+          label: { en: "Distinct numbers", es: "Números distintos" },
           value: 31,
           display: { en: "31", es: "31" },
           reference: true,
@@ -57,19 +57,29 @@ export const projectCharts: Record<string, ProjectChart[]> = {
     },
     {
       title: {
-        en: "Seconds from missed call to WhatsApp",
-        es: "Segundos de la llamada perdida al WhatsApp",
+        en: "Seconds from the call reaching the server to the send order",
+        es: "Segundos de la llegada al servidor a la orden de envío",
       },
       caption: {
-        en: "About two minutes end to end. The first 90 s are a deliberate courtesy wait, not processing time.",
-        es: "Unos dos minutos de principio a fin. Los primeros 90 s son una espera de cortesía deliberada, no tiempo de proceso.",
+        en: "47 real calls. The 90 s wait is deliberate, a margin for the team to call back; the rest is the minute cron. ManyChat sends no delivery receipt, so the last hop is not measured.",
+        es: "47 llamadas reales. Los 90 s de espera son a propósito, margen para que el equipo devuelva la llamada; el resto es el cron de cada minuto. ManyChat no devuelve acuse de entrega, así que el último tramo no está medido.",
       },
       max: 180,
       bars: [
         {
-          label: { en: "Observed, approx.", es: "Observado, aprox." },
+          label: { en: "Fastest", es: "Más rápida" },
+          value: 92,
+          display: { en: "92 s", es: "92 s" },
+        },
+        {
+          label: { en: "Mean", es: "Media" },
           value: 120,
-          display: { en: "≈ 120 s", es: "≈ 120 s" },
+          display: { en: "120 s", es: "120 s" },
+        },
+        {
+          label: { en: "Slowest", es: "Más lenta" },
+          value: 149,
+          display: { en: "149 s", es: "149 s" },
         },
         {
           label: { en: "Courtesy wait", es: "Espera de cortesía" },

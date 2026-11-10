@@ -227,12 +227,12 @@ export const projects: Project[] = [
       es: "Agente de WhatsApp para las llamadas perdidas de un restaurante",
     },
     headline: {
-      en: "Every missed call gets a WhatsApp back in about two minutes, and the AI agent that answers is forbidden from ever confirming a table.",
-      es: "Cada llamada perdida recibe un WhatsApp en unos dos minutos, y el agente de IA que contesta tiene prohibido confirmar una mesa.",
+      en: "Every missed call gets a WhatsApp about two minutes later, from the restaurant's own number, and the AI agent that picks up the conversation is forbidden from confirming a table.",
+      es: "Cada llamada perdida recibe un WhatsApp unos dos minutos después, desde el número del propio restaurante, y el agente de IA que sigue la conversación tiene prohibido confirmar una mesa.",
     },
     shortDescription: {
-      en: "Freelance automation for a restaurant: a phone app detects missed calls, a serverless backend on Supabase follows up on WhatsApp from the restaurant's own number, and an AI agent takes the request and hands it to the team.",
-      es: "Automatización freelance para un restaurante: una app en el móvil detecta las llamadas perdidas, un backend serverless en Supabase responde por WhatsApp desde el número del propio restaurante y un agente de IA recoge la solicitud y se la pasa al equipo.",
+      en: "Freelance automation for a restaurant in Madrid: an Android phone reports each missed call to a serverless backend on Supabase, which queues it, waits, and has ManyChat send a WhatsApp; if the person replies, an AI agent collects the request and emails the team.",
+      es: "Automatización freelance para un restaurante de Madrid: un móvil Android avisa de cada llamada perdida a un backend serverless en Supabase, que la encola, espera y hace que ManyChat envíe un WhatsApp; si la persona contesta, un agente de IA recoge la solicitud y avisa al equipo por correo.",
     },
     categories: ["agentic-ai", "ml-engineering"],
     emphasis: "lead",
@@ -243,90 +243,94 @@ export const projects: Project[] = [
     metrics: [
       {
         value: "47",
-        label: { en: "missed calls answered", es: "llamadas perdidas respondidas" },
-        note: { en: "first ten days, from 31 people", es: "primeros diez días, de 31 personas" },
+        label: { en: "missed calls followed up", es: "llamadas perdidas rescatadas" },
+        note: { en: "first ten days, 31 numbers, no retries", es: "primeros diez días, 31 números, sin reintentos" },
       },
       {
-        value: "2 min",
-        label: { en: "from missed call to WhatsApp", es: "de la llamada perdida al WhatsApp" },
-        note: { en: "approx., including a 90 s courtesy wait", es: "aprox., con 90 s de espera de cortesía" },
+        value: "120 s",
+        label: { en: "mean, call to send order", es: "media, de la llamada a la orden de envío" },
+        note: { en: "range 92 to 149 s, 90 of them deliberate", es: "entre 92 y 149 s, 90 de ellos a propósito" },
       },
       {
         value: "0 €",
-        label: { en: "fixed server cost", es: "coste fijo de servidor" },
-        note: { en: "serverless backend on Supabase", es: "backend serverless en Supabase" },
+        label: { en: "monthly server cost", es: "coste mensual de servidor" },
+        note: { en: "Supabase Free; each template is paid", es: "Supabase Free; cada plantilla se paga" },
       },
     ],
     caveat: {
-      en: "Ten days at a single restaurant. The figures count calls answered, not bookings won: how many of those WhatsApps ended in a table is not part of them. The 0 € is the fixed server cost only; anything billed per use sits outside it.",
-      es: "Diez días en un solo restaurante. Las cifras cuentan llamadas respondidas, no reservas conseguidas: cuántos de esos WhatsApp acabaron en mesa no forma parte de ellas. Los 0 € son solo el coste fijo de servidor; lo que se cobre por uso queda fuera.",
+      en: "Ten days at one restaurant (14 to 23 September 2026). \"Followed up\" means ManyChat accepted the send order: it returns no delivery receipt, so the last hop is unmeasured, and bookings won are not counted. The 0 € is the server only; every WhatsApp template sent outside the 24-hour window is billed.",
+      es: "Diez días en un solo restaurante (del 14 al 23 de septiembre de 2026). «Rescatada» significa que ManyChat aceptó la orden de envío: no devuelve acuse de entrega, así que el último tramo no está medido, y las reservas conseguidas no se cuentan. Los 0 € son solo el servidor; cada plantilla de WhatsApp enviada fuera de la ventana de 24 horas se paga.",
     },
-    techStack: ["Supabase", "Serverless", "WhatsApp", "LLM agent", "Context engineering", "Mobile app"],
+    techStack: ["Supabase", "TypeScript", "PostgreSQL", "pg_cron", "ManyChat", "WhatsApp Business", "MacroDroid", "Deno"],
     privateCode: {
-      en: "Built for a client, and the conversations hold their customers' personal data, so the code is not public. Happy to walk through it in an interview.",
-      es: "Hecho para un cliente, y las conversaciones contienen datos personales de sus clientes, así que el código no es público. Lo enseño con gusto en una entrevista.",
+      en: "Built for a client, and the system handles their customers' phone numbers and conversations, so the code is not public. Happy to walk through it, and the technical report, in an interview.",
+      es: "Hecho para un cliente, y el sistema maneja los teléfonos y las conversaciones de sus clientes, así que el código no es público. Lo enseño con gusto, junto al informe técnico, en una entrevista.",
     },
     overview: {
       context: {
-        en: "A freelance commission from a restaurant. Friday, 21:47, the dining room is full, the phone rings and nobody can pick it up. That call was often a booking.",
-        es: "Un encargo freelance de un restaurante. Viernes, 21:47, el comedor lleno, suena el teléfono y nadie puede cogerlo. Esa llamada, muchas veces, era una reserva.",
+        en: "A freelance commission from a restaurant in Madrid. Friday, 21:47, the dining room is full, the phone rings and nobody can pick it up. That call was often a booking.",
+        es: "Un encargo freelance de un restaurante de Madrid. Viernes, 21:47, el comedor lleno, suena el teléfono y nadie puede cogerlo. Esa llamada, muchas veces, era una reserva.",
       },
       problem: {
-        en: "Calls missed during service are lost bookings, but the only people who could return them are the ones serving tables. Whatever fixed it had to work with nobody watching the phone, and from the restaurant's own number.",
-        es: "Las llamadas que se pierden durante el servicio son reservas perdidas, pero quienes podrían devolverlas son los mismos que están sirviendo mesas. La solución tenía que funcionar sin nadie pendiente del móvil, y desde el número del propio restaurante.",
+        en: "Calls missed during service are lost bookings, but the only people who could return them are the ones serving tables. The fix had to work with nobody watching the phone, write from the restaurant's own WhatsApp number, and never message the same person twice for one call.",
+        es: "Las llamadas que se pierden durante el servicio son reservas perdidas, pero quienes podrían devolverlas son los mismos que están sirviendo mesas. La solución tenía que funcionar sin nadie pendiente del móvil, escribir desde el WhatsApp del propio restaurante y no escribir nunca dos veces a la misma persona por una sola llamada.",
       },
       objective: {
-        en: "Reply to every missed call on WhatsApp automatically, collect what the caller wants, and hand it to a person who confirms.",
-        es: "Responder por WhatsApp a cada llamada perdida de forma automática, recoger lo que quiere quien llamó y pasárselo a una persona que lo confirme.",
+        en: "Follow up every missed call on WhatsApp automatically, give the team a margin to call back first, and hand whatever the caller asks for to a person who confirms it.",
+        es: "Rescatar cada llamada perdida por WhatsApp de forma automática, dejar al equipo un margen para devolver la llamada antes, y pasar lo que pida quien llamó a una persona que lo confirme.",
       },
     },
     dataArchitecture: {
       dataSources: {
-        en: "Missed-call events from the restaurant's phone and the WhatsApp conversations that follow. Both are customers' personal data, which is why the code and the conversations stay private.",
-        es: "Los eventos de llamada perdida del teléfono del restaurante y las conversaciones de WhatsApp que vienen después. Ambos son datos personales de sus clientes, y por eso el código y las conversaciones son privados.",
+        en: "Missed-call events from the restaurant's Android phone (MacroDroid), plus the operator's missed-call SMS when the phone was off, which the phone forwards once it is back on. Phone numbers are personal data: the project runs in the EU region (Paris), keeps the raw payload as GDPR evidence and purges calls older than twelve months every night.",
+        es: "Los eventos de llamada perdida del móvil Android del restaurante (MacroDroid), más el SMS de llamadas perdidas del operador cuando el móvil estaba apagado, que el móvil reenvía al encenderse. Los teléfonos son datos personales: el proyecto vive en la región de la UE (París), guarda el payload crudo como evidencia para el RGPD y borra cada noche las llamadas de más de doce meses.",
       },
       pipeline: {
-        en: "Missed call → phone app → serverless backend (Supabase) → 90 s courtesy wait → WhatsApp from the restaurant's number → AI agent, if the person replies → request collected → team alerted → a person confirms",
-        es: "Llamada perdida → app en el móvil → backend serverless (Supabase) → 90 s de cortesía → WhatsApp desde el número del restaurante → agente de IA, si la persona contesta → solicitud recogida → aviso al equipo → una persona confirma",
+        en: "Missed call → MacroDroid POST (about 1.6 s) → ingest-call Edge Function validates, filters and writes a pending row → 90 s courtesy wait → pg_cron wakes dispatch every minute → dispatch finds or creates the ManyChat contact and applies the trigger tag → ManyChat sends the WhatsApp → if the person replies, the AI agent collects the request → team alerted by email → a person confirms",
+        es: "Llamada perdida → POST de MacroDroid (≈ 1,6 s) → la Edge Function ingest-call valida, filtra y escribe una fila pendiente → 90 s de cortesía → pg_cron despierta a dispatch cada minuto → dispatch localiza o crea el contacto en ManyChat y pone la etiqueta de disparo → ManyChat envía el WhatsApp → si la persona contesta, el agente de IA recoge la solicitud → aviso al equipo por correo → una persona confirma",
       },
       diagrams: {
-        en: "The agent's conversation is designed as a graph of flows, with context engineering deciding what the model sees at each step.",
-        es: "La conversación del agente está diseñada como un grafo de flujos, con ingeniería del contexto que decide qué ve el modelo en cada paso.",
+        en: "Postgres is the queue: three tables (calls, contacts, an exclusion list), four PL/pgSQL functions and two monitoring views. Two TypeScript Edge Functions do the work: ingest-call answers the phone at once and never talks to ManyChat, and dispatch claims up to 20 due rows per run, retries at 3, 9 and 27 minutes and marks a row failed on the fourth attempt. RLS is on with no policies on purpose, which closes the public REST API: only the Edge Functions, with the service role, touch the data, and the cron reads its credentials from Vault.",
+        es: "Postgres es la cola: tres tablas (llamadas, contactos y una lista de exclusión), cuatro funciones PL/pgSQL y dos vistas de seguimiento. Dos Edge Functions en TypeScript hacen el trabajo: ingest-call responde al móvil al instante y nunca habla con ManyChat, y dispatch reclama hasta 20 filas vencidas por vuelta, reintenta a los 3, 9 y 27 minutos y da la fila por fallida al cuarto intento. RLS está activo sin políticas a propósito, lo que cierra la API REST pública: solo las Edge Functions, con service role, tocan los datos, y el cron lee sus credenciales del Vault.",
       },
     },
     modeling: {
       algorithms: {
-        en: "An AI agent takes over the conversation only if the person replies. It collects four fields (date, time, party size and name) and alerts the team, who confirm.",
-        es: "Un agente de IA toma la conversación solo si la persona contesta. Recoge cuatro datos (fecha, hora, número de personas y nombre) y avisa al equipo, que es quien confirma.",
+        en: "I designed the conversation in ManyChat as a graph of three automations: one for people rescued after a missed call, one for people who write on their own, and a gatekeeper that only lets a message through if it opens a new conversation, so nobody gets the greeting twice. Each menu option (new booking, change, cancellation, events, other) goes to an AI step that shares a single agent context, which I wrote, and ends in an email to two people on the team. Each path is hardened against the failures the technical report lists: repeated greetings, a misconfigured trigger that reports success and sends nothing, and contacts the API cannot find.",
+        es: "Diseñé la conversación en ManyChat como un grafo de tres automatizaciones: una para quien recibe el rescate tras una llamada perdida, otra para quien escribe por su cuenta, y un portero que solo deja pasar un mensaje si abre conversación nueva, para que nadie reciba el saludo dos veces. Cada opción del menú (nueva reserva, modificar, cancelar, eventos, otra consulta) pasa a un paso de IA que comparte un único contexto de agente, escrito por mí, y termina en un correo a dos personas del equipo. Cada recorrido está blindado frente a los fallos que recoge el informe técnico: saludos repetidos, un disparador mal montado que responde «éxito» y no envía nada, y contactos que la API no encuentra.",
       },
       decisions: {
-        en: "The design started from what the agent is forbidden to do rather than from what it can do: it never confirms a booking and never promises a table, because it cannot see availability, and a person always confirms. An agent that invents availability is worse than no agent at all. The 90-second wait before writing is a deliberate courtesy, not a delay.",
-        es: "El diseño partió de lo que el agente tiene prohibido y no de lo que sabe hacer: nunca confirma una reserva ni promete una mesa, porque no ve la disponibilidad, y siempre confirma una persona. Un agente que se inventa disponibilidad es peor que no tener agente. Los 90 segundos antes de escribir son cortesía deliberada, no un retraso.",
+        en: "I wrote the agent context starting from what is forbidden rather than from what the agent can do: it never says there is a table or that a booking is made, because it cannot see availability, and a person always confirms. It asks only for what is missing (date, time, party size, name), offers only the slots the restaurant accepts, says a slot does not take requests rather than \"no availability\", and does not invent prices, deposits or capacity: it points to the restaurant's phone and email. An agent that invents availability is worse than no agent. The context keeps evolving with the restaurant: the latest addition is its pet policy. On the backend, the phone sends two webhooks per call a second apart, so registration takes a per-number advisory lock and checks the exclusion list, opt-outs and a ten-minute window in one transaction; a unique key catches the same webhook delivered twice. A six-hour anti-repetition brake and the 24-hour WhatsApp window (free message if open, paid template if closed) keep cost and annoyance down.",
+        es: "Escribí el contexto del agente partiendo de lo que tiene prohibido y no de lo que sabe hacer: nunca dice que hay mesa ni que la reserva está hecha, porque no ve la disponibilidad, y siempre confirma una persona. Pide solo lo que falta (fecha, hora, personas, nombre), ofrece solo las horas que el restaurante admite, dice que una hora no admite solicitudes en lugar de «no hay disponibilidad», y no inventa precios, fianzas ni aforo: remite al teléfono y al correo del restaurante. Un agente que se inventa disponibilidad es peor que no tener agente. El contexto sigue evolucionando con el restaurante: lo último que se ha añadido es su política con las mascotas. En el backend, el móvil manda dos webhooks por llamada separados un segundo, así que el registro toma un cerrojo por número y comprueba lista de exclusión, bajas y una ventana de diez minutos en una sola transacción; una clave única caza el mismo webhook entregado dos veces. Un freno antirrepetición de seis horas y la ventana de 24 horas de WhatsApp (mensaje gratis si está abierta, plantilla de pago si está cerrada) contienen el coste y la insistencia.",
       },
-      libraries: ["Supabase", "WhatsApp", "LLM agent"],
+      libraries: ["Supabase Edge Functions", "Deno", "TypeScript", "PostgreSQL", "PL/pgSQL", "pg_cron", "pg_net", "Supabase Vault", "ManyChat API", "WhatsApp Business", "MacroDroid"],
     },
     results: {
       metrics: {
-        en: "First ten days: 47 missed calls from 31 people, every one answered with a WhatsApp in about two minutes, 90 s of which is the deliberate wait. Fixed server cost: 0 €.",
-        es: "Primeros diez días: 47 llamadas perdidas de 31 personas, todas con un WhatsApp de vuelta en unos dos minutos, de los que 90 s son la espera deliberada. Coste fijo de servidor: 0 €.",
+        en: "From 14 to 23 September 2026: 47 missed calls from 31 distinct numbers, and all 47 reached the sent state, with ManyChat accepting the send order every time and no retry needed. From the call reaching the server to the send order: 92 to 149 s, 120 s on average, of which 90 s is the deliberate wait. The phone adds 0.9 to 3.2 s before that. The minute cron ran 13,740 times without a failure. Server cost: 0 € a month on Supabase's free plan.",
+        es: "Del 14 al 23 de septiembre de 2026: 47 llamadas perdidas de 31 números distintos, y las 47 llegaron al estado enviada, con ManyChat aceptando la orden de envío todas las veces y sin un solo reintento. De la llegada de la llamada al servidor a la orden de envío: de 92 a 149 s, 120 s de media, de los que 90 s son la espera deliberada. El móvil añade de 0,9 a 3,2 s antes. El cron de cada minuto corrió 13.740 veces sin un fallo. Coste de servidor: 0 € al mes en el plan gratuito de Supabase.",
       },
       outcomes: {
-        en: "No missed call in those ten days went unanswered, and nobody on the team had to watch the phone. Requests reach the team already structured as date, time, party size and name.",
-        es: "Ninguna llamada perdida de esos diez días se quedó sin respuesta, y nadie del equipo tuvo que estar pendiente del móvil. Las solicitudes llegan al equipo ya ordenadas: fecha, hora, personas y nombre.",
+        en: "No missed call in those ten days went without a follow-up, nobody received the message twice, and nobody on the team had to watch the phone. Requests reach the team by email already structured as date, time, party size and name. The handover includes a technical report of every component, written so the restaurant can maintain it.",
+        es: "Ninguna llamada perdida de esos diez días se quedó sin rescate, nadie recibió el mensaje dos veces y nadie del equipo tuvo que estar pendiente del móvil. Las solicitudes llegan al equipo por correo ya ordenadas: fecha, hora, personas y nombre. La entrega incluye un informe técnico de cada componente, escrito para que el restaurante pueda mantenerlo.",
+      },
+      visualizations: {
+        en: "Measured timeline of a missed call, the component map and the ManyChat flow graph, in the private technical report.",
+        es: "Recorrido de una llamada con tiempos medidos, mapa de componentes y grafo de flujos de ManyChat, en el informe técnico privado.",
       },
     },
     learnings: {
       challenges: {
-        en: "Making an agent genuinely useful while guaranteeing it never commits the restaurant to something only a person can decide.",
-        es: "Que el agente fuera útil de verdad y, a la vez, garantizar que nunca compromete al restaurante en algo que solo puede decidir una persona.",
+        en: "Silent failures. The phone bridge is the most fragile piece and nothing alerts when it stops; if the cron stops, calls keep queuing but nothing goes out; and a misconfigured ManyChat automation answers \"success\" and sends nothing. Each of those needed its own way to be noticed.",
+        es: "Los fallos silenciosos. El puente del móvil es la pieza más frágil y nada avisa cuando se para; si el cron se detiene, las llamadas se siguen encolando pero no sale nada; y una automatización de ManyChat mal montada responde «éxito» y no envía nada. Cada uno necesitó su propia forma de detectarse.",
       },
       learned: {
         en: "The hardest part was not the technical one but designing the agent: what it is not allowed to do matters more than what it can do.",
         es: "Lo que más me enseñó no fue la parte técnica, sino diseñar el agente: importa más lo que tiene prohibido que lo que sabe hacer.",
       },
       improvements: {
-        en: "Measure how many of those conversations turn into confirmed bookings, which is the number that actually prices the automation.",
-        es: "Medir cuántas de esas conversaciones acaban en reservas confirmadas, que es la cifra que de verdad pone precio a la automatización.",
+        en: "Move the number to the WhatsApp Cloud API, which would also let missed WhatsApp calls be rescued, free of charge inside the 24-hour window. Replace the phone bridge with a VoIP switchboard (the Zadarma and Twilio adapters are already in ingest-call). Measure how many conversations become confirmed bookings, which is the number that actually prices the automation.",
+        es: "Migrar el número a la WhatsApp Cloud API, que permitiría rescatar también las llamadas perdidas de WhatsApp, gratis dentro de la ventana de 24 horas. Sustituir el puente del móvil por una centralita VoIP (los adaptadores de Zadarma y Twilio ya están en ingest-call). Medir cuántas conversaciones acaban en reservas confirmadas, que es la cifra que de verdad pone precio a la automatización.",
       },
     },
   },
